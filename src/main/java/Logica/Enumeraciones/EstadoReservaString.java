@@ -1,5 +1,5 @@
 package Logica.Enumeraciones;
 
-public enum EstadoReserva {
+public enum EstadoReservaString {
     COMPLETADO, PENDIENTE, CANCELADO;
 }
