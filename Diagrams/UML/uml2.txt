@@ -1,29 +1,133 @@
-Public Enum Materias{
+﻿Public Enum Materias{
   MATEMATICAS, LENGUAJE, HISTORIA, QUIMICA, INGLES, FISICA
 }
+Public Enum Bloques {
+  BLOQUE_8( LT(8,0), LT(9,0) ),
+  BLOQUE_9( LT(9,0), LT(10,0) ),
+  BLOQUE_10( LT(10,0), LT(11,0) ),
+  BLOQUE_11( LT(11,0), LT(12,0) ),
+  BLOQUE_12( LT(12,0), LT(13,0) ),
+  BLOQUE_13( LT(13,0), LT(14,0) ),
+  BLOQUE_14( LT(14,0), LT(15,0) ),
+  BLOQUE_15( LT(15,0), LT(16,0) ),
+  BLOQUE_16( LT(16,0), LT(17,0) ),
+  BLOQUE_17( LT(17,0), LT(18,0) ),
+  BLOQUE_18( LT(18,0), LT(19,0) ),
+  BLOQUE_19( LT(19,0), LT(20,0) );
 
-Public class Sistema() <<Singleton>> <<Fecade>>{
+  -inicio : LocalTime
+  -final : localTime
+
+  +Bloques(inicio : LocalTime , final : LocalTime)
+  +getInicio()	  : LocalTime
+  +getFinal()  	  : LocalTime
+ 
+Public Enum Dias {
+  LUNES, MARTES, MIERCOLES, JUEVES, VIERNES
+} 
+
+Public class Sistema <<Singleton>> <<Fecade>>{
  -instancia : Sistema
- -listaTutores: List<Tutor>
- -listaEstudiantes: List<Estudiante>
- -listaClases : List<Clase>
-
- +
+ -gestorTutor : GestorTutor
+ -gestorEstudiante: GestorEstudiante
+ -gestorLista : GestorLista
 
 
 
+Interface Gestor {
+ Registrar();
+ modificar();
+ eliminar();
+ 
+public class GestorLista extends Gestor{
+ -Static listaReservaCompletas : List<Reserva>
+ -Static listaReservaPendiente : List<Reserva>
+ -Satatic listaReservaCancelada : List<Reserva>
+ 
+ +registrar(tutor, materia, fecha, tarifa)
+ +eliminar(Reserva)
+ +modificar(Reserv, tutor, materia, fecha, tarifa)
+  
+
+Public class GestorTutores extends Gestor{
+ -Static listaTutores : List<Tutor>
+ 
+ +GestorTutores()
+ +registrar(nombre, email, tarifa, disponibilidad, 
+                 materias, cupos)
+ +eliminar(tutor : Tutor)
+ +modificar(tutor, nombre, email, tarifa, disponibilidad,
+		materias, cupos)
+}
+
+Public class GestorEstudiante extends Gestor{
+ -Static listaEstudiantes : List<Estudiantes>
+ 
+ +registrar(nombre, email)
+ +eliminar(estudiante : Estudiante)
+ +modificar(estudiante : Estudiante)
 
 
 
 
+
+Public Class Horario{
+ -inicio : LocalTime
+ -final  : LocalTime
+ -dia : Dias
+ +Horario(bloque: Bloques, dia : Dias)
+ +modificarHorario(bloque : Bloques, dia: Dias)
+ +getDia : Dias
+ +getBloque : Bloques
+ 
+
+
+Public Enum EstadosReserva{
+ COMPLETADO, PENDIENTE, CANCELADO
+}
+
+Interface EstadoReserva{
+ +modificar(reserva, tutor , materia, horario, fecha=
+ +completar(Reserva)
+ +cancelar(Rerva)
+ +getEstado() : EstadosReserva
+}
+Public Class ReservaCompletada extends EstadoReserva{
+}
+Public Class ReservaPendiente extends EstadoReserva{
+}
+Public Class ReservaCancelado extends EstadoReserva{
+}
+
+Public Class Reserva{
+ -id : String
+ -tutorAsociado : Tutor
+ -materia : Materia
+ -lista : List<Estudiantes>
+ -fecha : Horario
+ -tarifa : int
+ 
+ +setEstado(estado : Estado) : void
+ +getEstado() : Estado
+ +getId() : String
+ +getTutor() : Tutor
+ +setTutor() : Void
+ +getMateria() : Materia
+ +setMateria() : Void
+ +agregarLista(Estudiante) : Void
+ +quitarLista(Estudiante) : Void
+ +getLista() : List<Estudiantes>
+ +getFecha() : Horario
+ +setFecha(Horario) : Void
+ +getTarifa() : int
+}
 
 
 Abstract Class PerfilBasico{
  -id : String
  -nombre : String
  -email : String
- 
- +PerfilBasico(nombre, email) : Void -> Generar ID solo
+} +PerfilBasico(nombre, email) : Void -> Generar ID solo
  +getId: String
  +getNombre() . String
  +setNombre() : Void
@@ -31,14 +135,36 @@ Abstract Class PerfilBasico{
  +setEmail() : Void
 
 Class Estudiante extends PerfilBasico{
- -inscritas : List<Clase>
+ -inscritas : List<reserva>
 
  +Estudiante(nombre, email) : Void
- +solicitarClase(clase: Clase) : boolean
- +cancelarClase(clase: Clase) : boolean
- +getInscritas() : List<Clase>
+ +solicitarReserva(reserva: Reserva) : boolean
+ +cancelarClase(reserva: Reserva) : boolean
+ +getInscritas() : List<Reserva>
 
 Class Tutor extends PerfilBasico{
- -
+ -tarifa : int
+ -disponibilidad : List<Horario>
+ -materias : List<Materias>
+ -cupos : int
+ -fecha  : LocalDate
+ Tutor(nombre, email, tarifa, disponibilidad, materias, cupos)
+
+ +getTarifa() : int
+ #setTarifa() : void
+ +getDisponibilidad(): List<Horario>
+ #modificarDisponibilidad(List<Horario>) : void
+ +getMaterias() : List<Materias>
+ #modificarMaterias(List<Materias>): void
+ #setCupos(cupos : int) : void
+ +getCupos() : Int
+ #...No hay agregar ni quitar, solo modificar que remplaza los
+ #...Cambios anteriores
 
 
+
+
+
+Public Class Buscador
+ --> Crear filtros por materia, nombre, tarifa, compuesto
+	
