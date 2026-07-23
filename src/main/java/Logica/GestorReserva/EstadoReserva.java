@@ -1,14 +1,12 @@
-package Logica.Gestores.Reservas;
+package Logica.GestorReserva;
 
 import Logica.Enumeraciones.Materias;
 import Logica.GestorHorarios.Horario;
-import Logica.Perfiles.Estudiante;
-import Logica.Perfiles.Tutor;
-
-import java.util.List;
+import Logica.Perfiles.GestorEstudiante.Estudiante;
+import Logica.Perfiles.GestorTutor.Tutor;
 
 public interface EstadoReserva {
-    void modificar(Reserva reserva, Tutor tutor, Materias materia, Horario horario, int tarifa, int cuposMax);
+    void modificar(Reserva reserva, Tutor tutor, Materias materia, Horario horario);
     void completar(Reserva reserva);
     void cancelar(Reserva reserva);
     EstadoReserva getEstado(Reserva reserva);

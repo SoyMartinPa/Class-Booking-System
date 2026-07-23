@@ -1,22 +1,20 @@
-package Logica.Gestores.Reservas;
+package Logica.GestorReserva;
 import Excepciones.MaxCapacityReachedException;
 import Excepciones.NoRepeatException;
 import Excepciones.RemoveException;
 import Logica.Enumeraciones.Materias;
 import Logica.GestorHorarios.Horario;
-import Logica.Perfiles.Estudiante;
-import Logica.Perfiles.Tutor;
+import Logica.Perfiles.GestorEstudiante.Estudiante;
+import Logica.Perfiles.GestorTutor.Tutor;
 
 public class ReservaPendiente implements EstadoReserva{
 
     public ReservaPendiente(){};
 
-    public void modificar(Reserva reserva, Tutor tutor, Materias materia, Horario horario, int tarifa, int cuposmax){
+    public void modificar(Reserva reserva, Tutor tutor, Materias materia, Horario horario){
         reserva.setTutorAsociado(tutor);
         reserva.setMateria(materia);
         reserva.setHorario(horario);
-        reserva.setTarifa(tarifa);
-        reserva.setCuposMax(cuposmax);
     }
     public void completar(Reserva reserva){
         reserva.setEstado(new ReservaCompletada());

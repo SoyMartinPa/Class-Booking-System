@@ -1,15 +1,13 @@
-package Logica.Gestores.Reservas;
+package Logica.GestorReserva;
 
 import Logica.Enumeraciones.Materias;
 import Logica.GestorHorarios.Horario;
-import Logica.Perfiles.Estudiante;
-import Logica.Perfiles.Tutor;
+import Logica.Perfiles.GestorEstudiante.Estudiante;
+import Logica.Perfiles.GestorTutor.Tutor;
 import java.util.List;
 import java.util.UUID;
 
 public class Reserva{
-    private int cuposMax;
-    private int tarifa;
     private String id;
     private Tutor tutorAsociado;
     private Materias materia;
@@ -33,11 +31,14 @@ public class Reserva{
     }
 
     public int getCuposMax() {
-        return cuposMax;
+        return tutorAsociado.getOferta(materia).getCuposMax();
+    }
+    public Boolean estaLlena(){
+        return (listaEstudiantes.size() >= this.getCuposMax());
     }
 
     public int getTarifa() {
-        return tarifa;
+        return tutorAsociado.getOferta(materia).getTarifa();
     }
 
     public Tutor getTutorAsociado() {
@@ -80,16 +81,8 @@ public class Reserva{
         return estado;
     }
 
-    public void setCuposMax(int cuposMax) {
-        this.cuposMax = cuposMax;
-    }
-
-    public void setTarifa(int tarifa) {
-        this.tarifa = tarifa;
-    }
-
-    public void modificar(Tutor tutor, Materias materia, Horario horario, int tarifa, int cuposMax) {
-        this.estado.modificar(this,tutor,materia,horario,tarifa,cuposMax);
+    public void modificar(Tutor tutor, Materias materia, Horario horario) {
+        this.estado.modificar(this,tutor,materia,horario);
     }
 
     public void completar() {
