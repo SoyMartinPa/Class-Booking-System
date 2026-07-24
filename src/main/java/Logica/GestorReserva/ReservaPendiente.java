@@ -8,7 +8,7 @@ import Logica.Perfiles.GestorEstudiante.Estudiante;
 import Logica.Perfiles.GestorTutor.Tutor;
 
 public class ReservaPendiente implements EstadoReserva{
-
+    public static final ReservaPendiente INSTANCIA = new ReservaPendiente();
     public ReservaPendiente(){};
 
     public void modificar(Reserva reserva, Tutor tutor, Materias materia, Horario horario){
@@ -27,21 +27,11 @@ public class ReservaPendiente implements EstadoReserva{
     public EstadoReserva getEstado(Reserva reserva){
         return reserva.getEstado();
     }
-    public void agregarListaEstudiantes(Reserva reserva, Estudiante estudiante)
-            throws MaxCapacityReachedException, NoRepeatException{
-        if (reserva.getListaEstudiantes().size() >= reserva.getCuposMax()){
-            throw new MaxCapacityReachedException("No se puede agregar al estudiante debido a un sobrecupo");
-        }
-        if (reserva.getListaEstudiantes().contains(estudiante)){
-            throw new NoRepeatException("Se intenta agregar un alumno que ya pertenece a la reserva");
-        }
+
+    public void agregarListaEstudiantes(Reserva reserva, Estudiante estudiante) {
         reserva.getListaEstudiantes().add(estudiante);
     };
-    public void quitarListaEstudiantes(Reserva reserva, Estudiante estudiante)
-            throws RemoveException {
-        if (!reserva.getListaEstudiantes().contains(estudiante)){
-            throw new RemoveException("Se intenta quitar un alumno que no pertenece a la reserva");
-        }
+    public void quitarListaEstudiantes(Reserva reserva, Estudiante estudiante){
         reserva.getListaEstudiantes().remove(estudiante);
     };
 }

@@ -6,6 +6,7 @@ import Logica.Perfiles.GestorEstudiante.Estudiante;
 import Logica.Perfiles.GestorTutor.Tutor;
 
 public class ReservaCancelada implements EstadoReserva{
+    public static final ReservaCancelada INSTANCIA = new ReservaCancelada();
 
     public ReservaCancelada(){};
 

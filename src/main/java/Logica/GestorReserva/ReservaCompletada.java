@@ -6,6 +6,7 @@ import Logica.Perfiles.GestorEstudiante.Estudiante;
 import Logica.Perfiles.GestorTutor.Tutor;
 
 public class ReservaCompletada implements EstadoReserva{
+    public static final ReservaCompletada INSTANCIA = new ReservaCompletada();
 
     public ReservaCompletada(){};
 

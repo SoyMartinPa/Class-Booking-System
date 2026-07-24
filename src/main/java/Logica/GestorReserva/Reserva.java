@@ -86,11 +86,11 @@ public class Reserva{
     }
 
     public void completar() {
-        this.estado.completar(this);
+        setEstado(ReservaCompletada.INSTANCIA);
     }
 
     public void cancelar() {
-        this.estado.cancelar(this);
+        setEstado(ReservaCancelada.INSTANCIA);
     }
 
     public EstadoReserva getEstado(Reserva reserva) {

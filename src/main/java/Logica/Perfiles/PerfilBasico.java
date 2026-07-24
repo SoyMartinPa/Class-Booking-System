@@ -2,6 +2,7 @@ package Logica.Perfiles;
 
 import Excepciones.NoRepeatException;
 import Excepciones.RemoveException;
+import Logica.GestorHorarios.Horario;
 import Logica.GestorReserva.Reserva;
 
 import java.util.ArrayList;
@@ -40,18 +41,16 @@ public abstract class PerfilBasico {
         this.email = email;
     }
 
-    public boolean reservaSeSolapa(Reserva reserva){
-        if (this.reservasActivas.contains(reserva)){
-            return false;
+    public boolean reservaSeSolapa(Horario horario){
+        if (this.reservasActivas == null) { return false;}
+        for (Reserva cadaReserva : this.reservasActivas){
+            if (cadaReserva.getHorario().equals(horario) ){ return  true;}
         }
-        for (Reserva cadaReserva : reservasActivas){
-            if (cadaReserva.getHorario().equals(reserva.getHorario())){ return  false;}
-        }
-        return true;
+        return false;
     }
 
     public void addReservaActiva(Reserva reserva) throws NoRepeatException {
-        if (!reservaSeSolapa(reserva)){
+        if (reservaSeSolapa(reserva.getHorario())){
             throw new NoRepeatException("No se puede generar esta reserva en este horario");
         }
         this.reservasActivas.add(reserva);
