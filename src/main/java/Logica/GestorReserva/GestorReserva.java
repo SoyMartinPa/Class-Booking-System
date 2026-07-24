@@ -35,8 +35,9 @@ public class GestorReserva {
         if (!tutorPuedeReservar(tutor, materia, horario)) {
             throw new IncompatibilityException("El profesor no puede reservar esa materia en ese horario");
         }
-
-        listaReservasPendientes.add(new Reserva(tutor, materia, horario));
+        Reserva nuevaReserva = new Reserva(tutor, materia, horario);
+        listaReservasPendientes.add(nuevaReserva);
+        tutor.addReservaActiva(nuevaReserva);
     }
 
     public void cancelarReserva(Reserva reserva) throws IncompatibilityException {
@@ -46,6 +47,11 @@ public class GestorReserva {
 
         this.listaReservasPendientes.remove(reserva);
         this.listaReservasCanceladas.add(reserva);
+        reserva.getTutorAsociado().quitarRerservaActiva(reserva);
+        for (Estudiante estudiante : reserva.getListaEstudiantes()){
+            estudiante.quitarRerservaActiva(reserva);
+        }
+
         reserva.cancelar();
     }
 
@@ -56,6 +62,11 @@ public class GestorReserva {
 
         this.listaReservasPendientes.remove(reserva);
         this.listaReservasCompletadas.add(reserva);
+        reserva.getTutorAsociado().quitarRerservaActiva(reserva);
+        for (Estudiante estudiante : reserva.getListaEstudiantes()){
+            estudiante.quitarRerservaActiva(reserva);
+        }
+
         reserva.completar();
     }
 
@@ -68,7 +79,7 @@ public class GestorReserva {
     }
 
     public void agregarEstudiantesReserva(Reserva reserva, Estudiante estudiante)
-            throws MaxCapacityReachedException, NoRepeatException {
+            throws MaxCapacityReachedException, NoRepeatException, IncompatibilityException{
 
         if (reserva.getListaEstudiantes().size() >= reserva.getCuposMax()) {
             throw new MaxCapacityReachedException("No se puede agregar al estudiante debido a un sobrecupo");
@@ -76,7 +87,12 @@ public class GestorReserva {
         if (reserva.getListaEstudiantes().contains(estudiante)) {
             throw new NoRepeatException("Se intenta agregar un alumno que ya pertenece a la reserva");
         }
+        if (estudiante.reservaSeSolapa(reserva.getHorario())){
+            throw new IncompatibilityException("El estudiante no puede acceder a la clase en ese horario");
+            }
+
         reserva.agregarListaEstudiantes(estudiante);
+        estudiante.addReservaActiva(reserva);
     }
 
     public void quitarEstudianteReserva(Reserva reserva, Estudiante estudiante)
@@ -86,5 +102,10 @@ public class GestorReserva {
             throw new RemoveException("Se intenta quitar un alumno que no pertenece a la reserva");
         }
         reserva.quitarListaEstudiantes(estudiante);
+        estudiante.quitarRerservaActiva(reserva);
     }
+
+
+
+
 }
