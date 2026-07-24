@@ -8,7 +8,7 @@ import Logica.Perfiles.GestorTutor.Tutor;
 public class ReservaCancelada implements EstadoReserva{
     public static final ReservaCancelada INSTANCIA = new ReservaCancelada();
 
-    public ReservaCancelada(){};
+    public ReservaCancelada(){}
 
     public void modificar(Reserva reserva, Tutor tutor, Materias materia, Horario horario)
             throws IllegalStateException {
@@ -25,11 +25,11 @@ public class ReservaCancelada implements EstadoReserva{
     public void agregarListaEstudiantes(Reserva reserva, Estudiante estudiante)
             throws IllegalStateException{
         throw new IllegalStateException("No se puede agregar estudiantes en una clase ya cancelada");
-    };
+    }
     public void quitarListaEstudiantes(Reserva reserva, Estudiante estudiante)
             throws IllegalStateException{
         throw new IllegalStateException("No se puede quitar estudiantes en una clase ya cancelada");
-    };
+    }
     public EstadoReserva getEstado(Reserva reserva){
         return reserva.getEstado();
     }

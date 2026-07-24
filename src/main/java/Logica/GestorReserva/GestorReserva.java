@@ -46,7 +46,7 @@ public class GestorReserva {
 
         this.listaReservasPendientes.remove(reserva);
         this.listaReservasCanceladas.add(reserva);
-        reserva.setEstado(ReservaCancelada.INSTANCIA);
+        reserva.cancelar();
     }
 
     public void completarReserva(Reserva reserva) throws IncompatibilityException {
@@ -56,7 +56,7 @@ public class GestorReserva {
 
         this.listaReservasPendientes.remove(reserva);
         this.listaReservasCompletadas.add(reserva);
-        reserva.setEstado(ReservaCompletada.INSTANCIA);
+        reserva.completar();
     }
 
     public void modificarReserva(Reserva reserva, Tutor tutor, Materias materia, Horario horario) {
