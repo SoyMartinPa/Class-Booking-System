@@ -5,7 +5,7 @@ import Logica.GestorReserva.Reserva;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FiltroCompuesto<T extends Reserva> implements FiltroInterface<T> {
+public class FiltroCompuesto implements FiltroInterface<Reserva> {
 
     private final List<FiltroInterface<Reserva>> listaFiltros;
 
@@ -24,10 +24,10 @@ public class FiltroCompuesto<T extends Reserva> implements FiltroInterface<T> {
     }
 
     @Override
-    public boolean esFiltrado(Reserva reserva) {
+    public boolean pasaElFiltro(Reserva reserva) {
 
         for (FiltroInterface<Reserva> filtro : listaFiltros){
-            if (!filtro.esFiltrado(reserva)) {
+            if (!filtro.pasaElFiltro(reserva)) {
                 return false;
             }
         }

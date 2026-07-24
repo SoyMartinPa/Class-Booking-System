@@ -4,10 +4,14 @@ import Excepciones.MaxCapacityReachedException;
 import Excepciones.NoRepeatException;
 import Excepciones.RemoveException;
 import Logica.Enumeraciones.Materias;
+import Logica.Filtros.FiltroInterface;
 import Logica.GestorHorarios.Horario;
 import Logica.Perfiles.GestorEstudiante.Estudiante;
 import Logica.Perfiles.GestorTutor.Tutor;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GestorReserva {
@@ -18,8 +22,16 @@ public class GestorReserva {
     public GestorReserva() {
     }
 
-    public Boolean tutorPuedeReservar(Tutor tutor, Materias materia, Horario horario) {
+    public Boolean reservaValidar(Tutor tutor, Materias materia, Horario horario){
 
+        if ( horario.getFecha().isBefore(LocalDate.now()) ){
+            return false;
+        }
+        if (horario.getFecha().equals(LocalDate.now())){
+            if (horario.getBloquehorario().getHoraInicio().isBefore(LocalTime.now())){
+                return false;
+            }
+        }
         if (tutor.reservaSeSolapa(horario)) {
             return false;
         }
@@ -27,12 +39,14 @@ public class GestorReserva {
             return false;
         }
         return true;
+
+
     }
 
     public void registrarReserva(Tutor tutor, Materias materia, Horario horario)
             throws IncompatibilityException {
 
-        if (!tutorPuedeReservar(tutor, materia, horario)) {
+        if (!reservaValidar(tutor, materia, horario)) {
             throw new IncompatibilityException("El profesor no puede reservar esa materia en ese horario");
         }
         Reserva nuevaReserva = new Reserva(tutor, materia, horario);
@@ -70,12 +84,16 @@ public class GestorReserva {
         reserva.completar();
     }
 
+
     public void modificarReserva(Reserva reserva, Tutor tutor, Materias materia, Horario horario) {
-        if (!tutorPuedeReservar(tutor, materia, horario)) {
+        if (!reservaValidar(tutor, materia, horario)) {
             throw new IncompatibilityException("El profesor no puede reservar esa materia en ese horario");
-        } else {
-            reserva.modificar(tutor, materia, horario);
         }
+        if (reserva.getListaEstudiantes().size() >= reserva.getCuposMax()){
+            throw new MaxCapacityReachedException("No se puede bajar la cantidad de cupos máximos");
+        }
+
+        reserva.modificar(tutor, materia, horario);
     }
 
     public void agregarEstudiantesReserva(Reserva reserva, Estudiante estudiante)
@@ -103,6 +121,14 @@ public class GestorReserva {
         }
         reserva.quitarListaEstudiantes(estudiante);
         estudiante.quitarRerservaActiva(reserva);
+    }
+
+    public List<Reserva> filtrador(List<Reserva> listaReserva, FiltroInterface<Reserva> filtro){
+        List<Reserva> listaFiltrada = new ArrayList<>();
+        for (Reserva r : listaReserva){
+            if (filtro.pasaElFiltro(r)){ listaFiltrada.add(r);}
+        }
+        return listaFiltrada;
     }
 
 

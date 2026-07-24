@@ -4,7 +4,7 @@ import Logica.Enumeraciones.BloquesHorarios;
 import Logica.GestorHorarios.Horario;
 import Logica.GestorReserva.Reserva;
 
-public class FiltroBloque<T extends Reserva> implements FiltroInterface<T>{
+public class FiltroBloque implements FiltroInterface<Reserva>{
     private final BloquesHorarios bloqueAFiltrar;
 
     public FiltroBloque(BloquesHorarios bloque) {
@@ -12,7 +12,7 @@ public class FiltroBloque<T extends Reserva> implements FiltroInterface<T>{
     }
 
     @Override
-    public boolean esFiltrado(Reserva reserva) {
-        return (reserva.getHorario().getBloquehorario().equals(bloqueAFiltrar));
+    public boolean pasaElFiltro(Reserva reserva) {
+        return (reserva.getHorario().getBloquehorario() == (bloqueAFiltrar));
     }
 }

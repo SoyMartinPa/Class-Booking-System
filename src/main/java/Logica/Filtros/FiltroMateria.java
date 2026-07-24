@@ -7,7 +7,7 @@ import Logica.Perfiles.PerfilBasico;
 import java.rmi.server.RemoteRef;
 import java.rmi.server.RemoteServer;
 
-public class FiltroMateria<T extends Reserva> implements FiltroInterface<T>{
+public class FiltroMateria implements FiltroInterface<Reserva>{
 
     private final Materias materiaAFiltrar;
 
@@ -16,7 +16,7 @@ public class FiltroMateria<T extends Reserva> implements FiltroInterface<T>{
     }
 
     @Override
-    public boolean esFiltrado(Reserva reserva) {
-        return (reserva.getMateria().equals(materiaAFiltrar));
+    public boolean pasaElFiltro(Reserva reserva) {
+        return (reserva.getMateria() == (materiaAFiltrar));
     }
 }

@@ -6,7 +6,7 @@ import Logica.GestorReserva.Reserva;
 
 import java.time.LocalDate;
 
-public class FiltroFecha<T extends Reserva> implements FiltroInterface<T>{
+public class FiltroFecha implements FiltroInterface<Reserva>{
     private final LocalDate fechaAFiltrar;
 
     public FiltroFecha(LocalDate fecha) {
@@ -14,7 +14,7 @@ public class FiltroFecha<T extends Reserva> implements FiltroInterface<T>{
     }
 
     @Override
-    public boolean esFiltrado(Reserva reserva) {
+    public boolean pasaElFiltro(Reserva reserva) {
         return (reserva.getHorario().getFecha().equals(fechaAFiltrar));
     }
 

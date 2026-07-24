@@ -2,7 +2,7 @@ package Logica.Filtros;
 
 import Logica.GestorReserva.Reserva;
 
-public class FiltroTarifaMax<T extends Reserva> implements FiltroInterface<T>{
+public class FiltroTarifaMax implements FiltroInterface<Reserva>{
     private final int tarifaAFiltrar;
 
     public FiltroTarifaMax(int tarifa) {
@@ -10,7 +10,7 @@ public class FiltroTarifaMax<T extends Reserva> implements FiltroInterface<T>{
     }
 
     @Override
-    public boolean esFiltrado(Reserva reserva) {
+    public boolean pasaElFiltro(Reserva reserva) {
         return (reserva.getTarifa() <= tarifaAFiltrar);
     }
 }

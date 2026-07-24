@@ -1,7 +1,7 @@
 package Logica.Filtros;
 import Logica.GestorReserva.Reserva;
 
-public class FiltroNombre<T extends Reserva> implements FiltroInterface<T> {
+public class FiltroNombre implements FiltroInterface<Reserva> {
     private final String nombreAFiltrar;
 
     public FiltroNombre(String nombre) {
@@ -9,7 +9,7 @@ public class FiltroNombre<T extends Reserva> implements FiltroInterface<T> {
     }
 
     @Override
-    public boolean esFiltrado(Reserva reserva) {
+    public boolean pasaElFiltro(Reserva reserva) {
         return (reserva.getTutorAsociado().getNombre().equals(nombreAFiltrar));
     }
 }
