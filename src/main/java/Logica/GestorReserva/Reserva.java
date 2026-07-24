@@ -4,6 +4,8 @@ import Logica.Enumeraciones.Materias;
 import Logica.GestorHorarios.Horario;
 import Logica.Perfiles.GestorEstudiante.Estudiante;
 import Logica.Perfiles.GestorTutor.Tutor;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,7 +13,7 @@ public class Reserva{
     private String id;
     private Tutor tutorAsociado;
     private Materias materia;
-    private List<Estudiante> listaEstudiantes = null;
+    private List<Estudiante> listaEstudiantes = new ArrayList<>();
     private Horario horario;
     private EstadoReserva estado;
 

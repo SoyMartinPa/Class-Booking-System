@@ -1,6 +1,5 @@
 package Logica.Perfiles.GestorEstudiante;
 
-import Excepciones.IncompatibilityException;
 import Excepciones.RemoveException;
 import Logica.GestorReserva.Reserva;
 import Logica.Perfiles.GestorBasico;
@@ -21,14 +20,20 @@ public class GestorEstudiante extends GestorBasico {
     }
 
     public void eliminar(Estudiante estudiante){
+        List<Reserva> listaTemporal = new ArrayList<>(estudiante.getReservasActivas());
 
         if (!lista.contains(estudiante)){
-            throw new RemoveException("Se intenta elimnar un estudiante no registrado");
+            throw new RemoveException("Se intenta eliminar un estudiante no registrado");
         }
-        for(Reserva reservasActivas : estudiante.getReservasActivas()){
+        
+        for(Reserva reservasActivas : listaTemporal){
             estudiante.quitarRerservaActiva(reservasActivas);
             reservasActivas.quitarListaEstudiantes(estudiante);
         }
+
+
+
+
         lista.remove(estudiante);
 
         estudiante = null;

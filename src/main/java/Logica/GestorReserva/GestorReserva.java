@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GestorReserva {
-    private static List<Reserva> listaReservasPendientes;
-    private static List<Reserva> listaReservasCompletadas;
-    private static List<Reserva> listaReservasCanceladas;
+    private  List<Reserva> listaReservasPendientes;
+    private List<Reserva> listaReservasCompletadas;
+    private List<Reserva> listaReservasCanceladas;
 
     public GestorReserva() {
     }
@@ -89,11 +89,12 @@ public class GestorReserva {
         if (!reservaValidar(tutor, materia, horario)) {
             throw new IncompatibilityException("El profesor no puede reservar esa materia en ese horario");
         }
-        if (reserva.getListaEstudiantes().size() >= reserva.getCuposMax()){
-            throw new MaxCapacityReachedException("No se puede bajar la cantidad de cupos máximos");
+        if (reserva.getListaEstudiantes().size() > tutor.getOferta(materia).getCuposMax()) {
+            throw new MaxCapacityReachedException("El nuevo tutor tiene menos cupos que estudiantes actuales");
         }
-
+        reserva.getTutorAsociado().quitarRerservaActiva(reserva);
         reserva.modificar(tutor, materia, horario);
+        tutor.addReservaActiva(reserva);
     }
 
     public void agregarEstudiantesReserva(Reserva reserva, Estudiante estudiante)
@@ -131,7 +132,14 @@ public class GestorReserva {
         return listaFiltrada;
     }
 
+    public List<Reserva> getListaReservasPendientes() {
+        return listaReservasPendientes;
+    }
 
-
-
+    public List<Reserva> getListaReservasCompletadas() {
+        return listaReservasCompletadas;
+    }
+    public List<Reserva> getListaReservasCanceladas() {
+        return listaReservasCanceladas;
+    }
 }

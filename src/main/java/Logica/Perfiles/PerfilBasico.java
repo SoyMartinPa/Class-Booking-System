@@ -56,7 +56,7 @@ public abstract class PerfilBasico {
         this.reservasActivas.add(reserva);
     }
     public void quitarRerservaActiva(Reserva reserva) throws RemoveException {
-        if (this.reservasActivas.contains(reserva) ){
+        if (!this.reservasActivas.contains(reserva) ){
             throw new RemoveException("La reserva no existe");
         }
         this.reservasActivas.remove(reserva);

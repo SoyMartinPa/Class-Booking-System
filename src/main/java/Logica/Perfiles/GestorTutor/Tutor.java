@@ -10,7 +10,6 @@ import java.util.*;
 public class Tutor extends PerfilBasico {
     private Map<Materias, OfertaMateria> oferta;
     private Map<Dias, Set<BloquesHorarios>> disponibilidad = new EnumMap<>(Dias.class);
-    private List<Reserva> reservasActivas;
 
     Tutor(String nombre, String email) {
         super(nombre, email);
