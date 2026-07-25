@@ -1,9 +1,9 @@
-package Logica.GestorReserva;
+package Logica.Reservas;
 
 import Logica.Enumeraciones.Materias;
 import Logica.GestorHorarios.Horario;
-import Logica.Perfiles.GestorEstudiante.Estudiante;
-import Logica.Perfiles.GestorTutor.Tutor;
+import Logica.Perfiles.Estudiante.Estudiante;
+import Logica.Perfiles.Tutor.Tutor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class Reserva{
 
 
     public Reserva(Tutor tutor, Materias materia, Horario horario) {
-        UUID uuid = UUID.randomUUID();
+        UUID uuid = UUID.randomUUID(); //Podria haber otro sistema de ID más interesante
         this.id = uuid.toString();
         this.tutorAsociado = tutor;
         this.materia = materia;
@@ -95,9 +95,6 @@ public class Reserva{
         estado.cancelar(this);
     }
 
-    public EstadoReserva getEstado(Reserva reserva) {
-        return reserva.getEstado();
-    }
     protected void setEstado(EstadoReserva estado){
         this.estado = estado;
     }

@@ -1,5 +1,5 @@
 package Logica.Filtros;
-import Logica.GestorReserva.Reserva;
+import Logica.Reservas.Reserva;
 
 public class FiltroNombre implements FiltroInterface<Reserva> {
     private final String nombreAFiltrar;

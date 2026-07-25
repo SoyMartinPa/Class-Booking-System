@@ -1,11 +1,7 @@
 package Logica.Filtros;
 
 import Logica.Enumeraciones.Materias;
-import Logica.GestorReserva.Reserva;
-import Logica.Perfiles.PerfilBasico;
-
-import java.rmi.server.RemoteRef;
-import java.rmi.server.RemoteServer;
+import Logica.Reservas.Reserva;
 
 public class FiltroMateria implements FiltroInterface<Reserva>{
 

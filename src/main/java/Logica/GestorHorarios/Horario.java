@@ -1,4 +1,5 @@
 package Logica.GestorHorarios;
+import Excepciones.TimeException;
 import Logica.Enumeraciones.BloquesHorarios;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -22,15 +23,29 @@ public class Horario {
     public BloquesHorarios getBloquehorario(){
         return bloqueHorario;
     }
-    public void setBloqueHorario(BloquesHorarios bloque){
-        this.bloqueHorario = bloque;
-    }
-
     public LocalDate getFecha() {
         return fecha;
     }
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
+
+
+    public boolean horarioVigente(){
+        if (this.getFecha().isBefore(LocalDate.now()) ){
+            return false;
+        }
+        if (this.getFecha().isEqual(LocalDate.now())) {
+
+            if (this.getBloquehorario().getHoraInicio().isBefore(LocalTime.now())) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public void setHorario(Horario otroHorario) throws TimeException {
+        if (!otroHorario.horarioVigente()){
+            throw new TimeException("El horario se encuentra en el pasado");
+        }
+        this.fecha = otroHorario.getFecha();
+        this.bloqueHorario = otroHorario.getBloquehorario();
     }
 
     @Override
@@ -38,8 +53,8 @@ public class Horario {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Horario otro = (Horario) obj;
-        return this.bloqueHorario == otro.bloqueHorario
-                && this.fecha.equals(otro.fecha);
+        return ( this.bloqueHorario == otro.bloqueHorario
+                && this.fecha.equals(otro.fecha) );
     }
 
     @Override

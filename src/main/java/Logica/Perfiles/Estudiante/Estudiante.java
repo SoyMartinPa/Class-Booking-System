@@ -1,10 +1,10 @@
-package Logica.Perfiles.GestorEstudiante;
+package Logica.Perfiles.Estudiante;
 
 import Logica.Perfiles.PerfilBasico;
 
 public class Estudiante extends PerfilBasico {
 
-    Estudiante(String nombre, String email){
+    public Estudiante(String nombre, String email){
         super(nombre,email);
     }
 

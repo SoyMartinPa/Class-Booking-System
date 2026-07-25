@@ -1,9 +1,9 @@
-package Logica.GestorReserva;
+package Logica.Reservas;
 
 import Logica.Enumeraciones.Materias;
 import Logica.GestorHorarios.Horario;
-import Logica.Perfiles.GestorEstudiante.Estudiante;
-import Logica.Perfiles.GestorTutor.Tutor;
+import Logica.Perfiles.Estudiante.Estudiante;
+import Logica.Perfiles.Tutor.Tutor;
 
 public interface EstadoReserva {
     void modificar(Reserva reserva, Tutor tutor, Materias materia, Horario horario);

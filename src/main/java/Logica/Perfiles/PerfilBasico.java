@@ -1,22 +1,20 @@
 package Logica.Perfiles;
-
-import Excepciones.NoRepeatException;
-import Excepciones.RemoveException;
 import Logica.GestorHorarios.Horario;
-import Logica.GestorReserva.Reserva;
+import Logica.Reservas.Reserva;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public abstract class PerfilBasico {
-    String id;
-    String nombre;
-    String email;
-    List<Reserva> reservasActivas;
+
+    protected String id;
+    protected String nombre;
+    protected String email;
+    protected List<Reserva> reservasActivas;
 
     public PerfilBasico(String nombre, String email){
-        UUID uuid = UUID.randomUUID();
+        UUID uuid = UUID.randomUUID(); //Tal vés podría hacer que cada perfil tenga un identificador unico
         this.id = uuid.toString();
         this.nombre = nombre;
         this.email = email;
@@ -26,40 +24,29 @@ public abstract class PerfilBasico {
     public String getId() {
         return id;
     }
-
     public String getNombre() {
         return nombre;
-    }
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
     public String getEmail() {
         return email;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
     public void setEmail(String email) {
         this.email = email;
     }
 
     public boolean reservaSeSolapa(Horario horario){
-        if (this.reservasActivas == null) { return false;}
-        for (Reserva cadaReserva : this.reservasActivas){
-            if (cadaReserva.getHorario().equals(horario) ){ return  true;}
-        }
-        return false;
-    }
+        if (reservasActivas == null) { return false;}
 
-    public void addReservaActiva(Reserva reserva) throws NoRepeatException {
-        if (reservaSeSolapa(reserva.getHorario())){
-            throw new NoRepeatException("No se puede generar esta reserva en este horario");
+        for (Reserva cadaReserva : reservasActivas){
+            if (cadaReserva.getHorario().equals(horario) ){ return true;}
+            // no sería más fácil con un map?... Definitivamente, auch
         }
-        this.reservasActivas.add(reserva);
-    }
-    public void quitarRerservaActiva(Reserva reserva) throws RemoveException {
-        if (!this.reservasActivas.contains(reserva) ){
-            throw new RemoveException("La reserva no existe");
-        }
-        this.reservasActivas.remove(reserva);
+
+        return false;
     }
     public List<Reserva> getReservasActivas(){
         return reservasActivas;

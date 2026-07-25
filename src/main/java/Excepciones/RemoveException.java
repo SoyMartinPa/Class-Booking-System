@@ -1,6 +1,6 @@
 package Excepciones;
 
-public class RemoveException extends RuntimeException {
+public class RemoveException extends Exception {
     public RemoveException(String message) {
         super(message);
     }

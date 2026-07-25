@@ -1,10 +1,9 @@
 package Logica.Filtros;
 
 import Logica.Enumeraciones.BloquesHorarios;
-import Logica.GestorHorarios.Horario;
-import Logica.GestorReserva.Reserva;
+import Logica.Reservas.Reserva;
 
-public class FiltroBloque implements FiltroInterface<Reserva>{
+public class FiltroBloque implements FiltroInterface<Reserva> {
     private final BloquesHorarios bloqueAFiltrar;
 
     public FiltroBloque(BloquesHorarios bloque) {

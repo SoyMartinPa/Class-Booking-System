@@ -1,6 +1,6 @@
 package Logica.Filtros;
 
-import Logica.GestorReserva.Reserva;
+import Logica.Reservas.Reserva;
 
 public class FiltroTarifaMax implements FiltroInterface<Reserva>{
     private final int tarifaAFiltrar;

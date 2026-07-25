@@ -1,8 +1,6 @@
 package Logica.Filtros;
 
-
-import Logica.Enumeraciones.Materias;
-import Logica.GestorReserva.Reserva;
+import Logica.Reservas.Reserva;
 
 import java.time.LocalDate;
 

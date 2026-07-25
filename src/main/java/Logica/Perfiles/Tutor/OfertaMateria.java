@@ -1,4 +1,4 @@
-package Logica.Perfiles.GestorTutor;
+package Logica.Perfiles.Tutor;
 
 public class OfertaMateria{
     private int tarifa;

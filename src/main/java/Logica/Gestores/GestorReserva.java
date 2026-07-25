@@ -1,4 +1,4 @@
-package Logica.GestorReserva;
+package Logica.Gestores;
 import Excepciones.IncompatibilityException;
 import Excepciones.MaxCapacityReachedException;
 import Excepciones.NoRepeatException;
@@ -6,95 +6,98 @@ import Excepciones.RemoveException;
 import Logica.Enumeraciones.Materias;
 import Logica.Filtros.FiltroInterface;
 import Logica.GestorHorarios.Horario;
-import Logica.Perfiles.GestorEstudiante.Estudiante;
-import Logica.Perfiles.GestorTutor.Tutor;
+import Logica.Reservas.Reserva;
+import Logica.Perfiles.Estudiante.Estudiante;
+import Logica.Perfiles.Tutor.Tutor;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GestorReserva {
-    private  List<Reserva> listaReservasPendientes;
-    private List<Reserva> listaReservasCompletadas;
-    private List<Reserva> listaReservasCanceladas;
+    private final List<Reserva> listaReservasPendientes = new ArrayList<>();
+    private final List<Reserva> listaReservasCompletadas = new ArrayList<>();
+    private final List<Reserva> listaReservasCanceladas = new ArrayList<>();
 
     public GestorReserva() {
     }
 
     public Boolean reservaValidar(Tutor tutor, Materias materia, Horario horario){
 
-        if ( horario.getFecha().isBefore(LocalDate.now()) ){
-            return false;
-        }
-        if (horario.getFecha().equals(LocalDate.now())){
-            if (horario.getBloquehorario().getHoraInicio().isBefore(LocalTime.now())){
-                return false;
-            }
-        }
-        if (tutor.reservaSeSolapa(horario)) {
+        if (!horario.horarioVigente()){
             return false;
         }
         if (!tutor.dictaMateria(materia)) {
             return false;
         }
-        return true;
-
-
+        return tutor.estaDisponible(horario.getFecha(), horario.getBloquehorario());
     }
-
-    public void registrarReserva(Tutor tutor, Materias materia, Horario horario)
+    public Reserva registrarReserva(Tutor tutor, Materias materia, Horario horario)
             throws IncompatibilityException {
 
         if (!reservaValidar(tutor, materia, horario)) {
             throw new IncompatibilityException("El profesor no puede reservar esa materia en ese horario");
         }
+        if (tutor.reservaSeSolapa(horario)) {
+            throw new IncompatibilityException("Al profesor se le solapa el horario");
+        }
+
         Reserva nuevaReserva = new Reserva(tutor, materia, horario);
         listaReservasPendientes.add(nuevaReserva);
-        tutor.addReservaActiva(nuevaReserva);
+        tutor.getReservasActivas().add(nuevaReserva);
+        return nuevaReserva;
     }
 
     public void cancelarReserva(Reserva reserva) throws IncompatibilityException {
-        if (!this.listaReservasPendientes.contains(reserva)) {
+
+        if (!listaReservasPendientes.contains(reserva)) {
             throw new IncompatibilityException("La reserva no existe o ya no puede ser cancelada");
         }
 
-        this.listaReservasPendientes.remove(reserva);
-        this.listaReservasCanceladas.add(reserva);
-        reserva.getTutorAsociado().quitarRerservaActiva(reserva);
+        listaReservasPendientes.remove(reserva);
+        listaReservasCanceladas.add(reserva);
+        reserva.getTutorAsociado().getReservasActivas().remove(reserva);
         for (Estudiante estudiante : reserva.getListaEstudiantes()){
-            estudiante.quitarRerservaActiva(reserva);
+            estudiante.getReservasActivas().remove(reserva);
         }
 
         reserva.cancelar();
     }
 
     public void completarReserva(Reserva reserva) throws IncompatibilityException {
+
         if (!this.listaReservasPendientes.contains(reserva)) {
             throw new IncompatibilityException("La reserva no existe o ya no puede ser completada");
         }
 
         this.listaReservasPendientes.remove(reserva);
         this.listaReservasCompletadas.add(reserva);
-        reserva.getTutorAsociado().quitarRerservaActiva(reserva);
+        reserva.getTutorAsociado().getReservasActivas().remove(reserva);
         for (Estudiante estudiante : reserva.getListaEstudiantes()){
-            estudiante.quitarRerservaActiva(reserva);
+            estudiante.getReservasActivas().remove(reserva);
         }
-
         reserva.completar();
     }
 
 
-    public void modificarReserva(Reserva reserva, Tutor tutor, Materias materia, Horario horario) {
+    public void modificarReserva(Reserva reserva, Tutor tutor, Materias materia, Horario horario)
+            throws IncompatibilityException, MaxCapacityReachedException{
+
         if (!reservaValidar(tutor, materia, horario)) {
             throw new IncompatibilityException("El profesor no puede reservar esa materia en ese horario");
         }
         if (reserva.getListaEstudiantes().size() > tutor.getOferta(materia).getCuposMax()) {
             throw new MaxCapacityReachedException("El nuevo tutor tiene menos cupos que estudiantes actuales");
         }
-        reserva.getTutorAsociado().quitarRerservaActiva(reserva);
+        for (Reserva r : tutor.getReservasActivas()) {
+            if (r != reserva && r.getHorario().equals(horario)) {
+                throw new IncompatibilityException("El tutor ya tiene una reserva en ese horario");
+            }
+        }
+        if (reserva.getTutorAsociado() != (tutor)) {
+            reserva.getTutorAsociado().getReservasActivas().remove(reserva);
+            tutor.getReservasActivas().add(reserva);
+        }
         reserva.modificar(tutor, materia, horario);
-        tutor.addReservaActiva(reserva);
     }
 
     public void agregarEstudiantesReserva(Reserva reserva, Estudiante estudiante)
@@ -111,7 +114,7 @@ public class GestorReserva {
             }
 
         reserva.agregarListaEstudiantes(estudiante);
-        estudiante.addReservaActiva(reserva);
+        estudiante.getReservasActivas().add(reserva);
     }
 
     public void quitarEstudianteReserva(Reserva reserva, Estudiante estudiante)
@@ -121,7 +124,7 @@ public class GestorReserva {
             throw new RemoveException("Se intenta quitar un alumno que no pertenece a la reserva");
         }
         reserva.quitarListaEstudiantes(estudiante);
-        estudiante.quitarRerservaActiva(reserva);
+        estudiante.getReservasActivas().remove(reserva);
     }
 
     public List<Reserva> filtrador(List<Reserva> listaReserva, FiltroInterface<Reserva> filtro){
@@ -135,11 +138,11 @@ public class GestorReserva {
     public List<Reserva> getListaReservasPendientes() {
         return listaReservasPendientes;
     }
-
     public List<Reserva> getListaReservasCompletadas() {
         return listaReservasCompletadas;
     }
     public List<Reserva> getListaReservasCanceladas() {
         return listaReservasCanceladas;
     }
+
 }

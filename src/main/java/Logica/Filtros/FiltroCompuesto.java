@@ -1,6 +1,6 @@
 package Logica.Filtros;
 
-import Logica.GestorReserva.Reserva;
+import Logica.Reservas.Reserva;
 
 import java.util.ArrayList;
 import java.util.List;

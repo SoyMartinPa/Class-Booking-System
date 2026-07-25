@@ -1,9 +1,9 @@
-package Logica.GestorReserva;
+package Logica.Reservas;
 
 import Logica.Enumeraciones.Materias;
 import Logica.GestorHorarios.Horario;
-import Logica.Perfiles.GestorEstudiante.Estudiante;
-import Logica.Perfiles.GestorTutor.Tutor;
+import Logica.Perfiles.Estudiante.Estudiante;
+import Logica.Perfiles.Tutor.Tutor;
 
 public class ReservaCompletada implements EstadoReserva{
     public static final ReservaCompletada INSTANCIA = new ReservaCompletada();
