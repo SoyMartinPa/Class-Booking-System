@@ -1,19 +1,22 @@
 package Logica.Reservas;
-
 import Logica.Enumeraciones.Materias;
 import Logica.GestorHorarios.Horario;
 import Logica.Perfiles.Estudiante.Estudiante;
 import Logica.Perfiles.Tutor.Tutor;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Reserva que conecta un tutor con una lista de estudiantes en un determinado horario
+ * <p>Esta clase incorpora una identificación única, un tutor, una matería, una lista de
+ * estudiantes, un horario y el estado actual de la reserva</p>
+ */
 public class Reserva{
-    private String id;
+    private final String id;
     private Tutor tutorAsociado;
     private Materias materia;
-    private List<Estudiante> listaEstudiantes = new ArrayList<>();
+    private final List<Estudiante> listaEstudiantes = new ArrayList<>();
     private Horario horario;
     private EstadoReserva estado;
 
@@ -25,7 +28,6 @@ public class Reserva{
         this.materia = materia;
         this.horario = horario;
         this.estado = new ReservaPendiente();
-        //Agegar a lista pendiente
     }
 
     public String getId() {
@@ -35,6 +37,7 @@ public class Reserva{
     public int getCuposMax() {
         return tutorAsociado.getOferta(materia).getCuposMax();
     }
+
     public Boolean estaLlena(){
         return (listaEstudiantes.size() >= this.getCuposMax());
     }

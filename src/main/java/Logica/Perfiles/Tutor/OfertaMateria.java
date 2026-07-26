@@ -1,5 +1,7 @@
 package Logica.Perfiles.Tutor;
-
+/**
+ * Representa los cupos máximos y la tarifa que dispone un tutor por materia
+ */
 public class OfertaMateria{
     private int tarifa;
     private int cuposMax;

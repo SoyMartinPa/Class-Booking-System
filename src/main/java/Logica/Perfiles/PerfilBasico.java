@@ -1,10 +1,19 @@
 package Logica.Perfiles;
 import Logica.GestorHorarios.Horario;
 import Logica.Reservas.Reserva;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+
+/**
+ * Clase abstracta que representa las características comunes de los perfiles
+ * dentro del sistema.
+ *
+ * <p>Un perfil básico posee información identificatoria como nombre, correo
+ * electrónico e identificador único, además de mantener un registro de sus
+ * reservas activas.</p>
+ */
 
 public abstract class PerfilBasico {
 
@@ -12,6 +21,14 @@ public abstract class PerfilBasico {
     protected String nombre;
     protected String email;
     protected List<Reserva> reservasActivas;
+
+    /**
+     * Crea un nuevo perfil básico asignándole un identificador único generado
+     * mediante UUID e inicializando su lista de reservas activas.
+     *
+     * @param nombre nombre asociado al perfil.
+     * @param email correo electrónico asociado al perfil.
+     */
 
     public PerfilBasico(String nombre, String email){
         UUID uuid = UUID.randomUUID(); //Tal vés podría hacer que cada perfil tenga un identificador unico
@@ -38,6 +55,21 @@ public abstract class PerfilBasico {
         this.email = email;
     }
 
+    public List<Reserva> getReservasActivas(){
+        return reservasActivas;
+    }
+
+    /**
+     * Verifica si el perfil posee una reserva activa que utiliza el mismo horario
+     * recibido como parámetro.
+     *
+     * <p>Este método permite evitar que un perfil tenga reservas simultáneas
+     * en un mismo bloque horario.</p>
+     *
+     * @param horario horario que será comparado con las reservas activas.
+     * @return {@code true} si existe una reserva activa con el mismo horario,
+     *         {@code false} en caso contrario.
+     */
     public boolean reservaSeSolapa(Horario horario){
         if (reservasActivas == null) { return false;}
 
@@ -48,7 +80,5 @@ public abstract class PerfilBasico {
 
         return false;
     }
-    public List<Reserva> getReservasActivas(){
-        return reservasActivas;
-    }
+
 }

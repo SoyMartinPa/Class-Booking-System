@@ -1,10 +1,13 @@
 package Logica.Reservas;
-
 import Logica.Enumeraciones.Materias;
 import Logica.GestorHorarios.Horario;
 import Logica.Perfiles.Estudiante.Estudiante;
 import Logica.Perfiles.Tutor.Tutor;
 
+/**
+ * Define el estado cancelado de una Reserva
+ * <p>Lanza IllegalStateException cuando se intenta modificar de alguna manera</p>
+ */
 public class ReservaCancelada implements EstadoReserva{
     public static final ReservaCancelada INSTANCIA = new ReservaCancelada();
 

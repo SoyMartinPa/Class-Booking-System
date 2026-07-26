@@ -9,10 +9,18 @@ import Logica.GestorHorarios.Horario;
 import Logica.Reservas.Reserva;
 import Logica.Perfiles.Estudiante.Estudiante;
 import Logica.Perfiles.Tutor.Tutor;
-
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Gestiona el ciclo de vida de las reservas dentro del sistema.
+ *
+ * <p>Permite crear, modificar, cancelar y completar reservas, además de
+ * administrar la relación entre tutores, estudiantes y horarios.</p>
+ *
+ * <p>Las reservas son clasificadas según su estado actual en tres listas:
+ * pendientes, completadas y canceladas.</p>
+ */
 public class GestorReserva {
     private final List<Reserva> listaReservasPendientes = new ArrayList<>();
     private final List<Reserva> listaReservasCompletadas = new ArrayList<>();
@@ -20,6 +28,20 @@ public class GestorReserva {
 
     public GestorReserva() {
     }
+
+    /**
+     * Verifica si un tutor puede realizar una reserva para una materia
+     * y horario determinado.
+     *
+     * <p>Una reserva es válida cuando el horario sigue vigente, el tutor
+     * ofrece la materia solicitada y posee disponibilidad para ese bloque.</p>
+     *
+     * @param tutor tutor asociado a la reserva.
+     * @param materia materia que se desea reservar.
+     * @param horario horario solicitado.
+     * @return {@code true} si la reserva cumple todas las condiciones,
+     *         {@code false} en caso contrario.
+     */
 
     public Boolean reservaValidar(Tutor tutor, Materias materia, Horario horario){
 
@@ -31,6 +53,21 @@ public class GestorReserva {
         }
         return tutor.estaDisponible(horario.getFecha(), horario.getBloquehorario());
     }
+    /**
+     * Crea una nueva reserva pendiente y la asocia al tutor correspondiente.
+     *
+     * <p>Antes de registrar la reserva se valida que el tutor pueda impartir
+     * la materia en el horario indicado y que no tenga otra reserva en el mismo
+     * bloque horario.</p>
+     *
+     * @param tutor tutor encargado de la reserva.
+     * @param materia materia asociada a la reserva.
+     * @param horario horario de la reserva.
+     * @return reserva creada.
+     *
+     * @throws IncompatibilityException si el tutor no cumple las condiciones
+     *         necesarias para realizar la reserva.
+     */
     public Reserva registrarReserva(Tutor tutor, Materias materia, Horario horario)
             throws IncompatibilityException {
 
@@ -46,7 +83,17 @@ public class GestorReserva {
         tutor.getReservasActivas().add(nuevaReserva);
         return nuevaReserva;
     }
-
+    /**
+     * Cancela una reserva pendiente.
+     *
+     * <p>Al cancelar una reserva, esta deja de estar activa para el tutor
+     * y los estudiantes asociados, y pasa al registro de reservas canceladas.</p>
+     *
+     * @param reserva reserva que será cancelada.
+     *
+     * @throws IncompatibilityException si la reserva no existe dentro de las
+     *         reservas pendientes.
+     */
     public void cancelarReserva(Reserva reserva) throws IncompatibilityException {
 
         if (!listaReservasPendientes.contains(reserva)) {
@@ -62,7 +109,16 @@ public class GestorReserva {
 
         reserva.cancelar();
     }
-
+    /**
+     * Marca una reserva pendiente como completada.
+     *
+     * <p>La reserva deja de considerarse activa para los participantes y pasa
+     * al historial de reservas completadas.</p>
+     *
+     * @param reserva reserva que será completada.
+     *
+     * @throws IncompatibilityException si la reserva no puede ser completada.
+     */
     public void completarReserva(Reserva reserva) throws IncompatibilityException {
 
         if (!this.listaReservasPendientes.contains(reserva)) {
@@ -78,7 +134,22 @@ public class GestorReserva {
         reserva.completar();
     }
 
-
+    /**
+     * Modifica la información principal de una reserva existente.
+     *
+     * <p>Permite cambiar tutor, materia u horario siempre que las nuevas
+     * condiciones sean compatibles con las reglas del sistema.</p>
+     *
+     * @param reserva reserva que será modificada.
+     * @param tutor nuevo tutor asociado.
+     * @param materia nueva materia asociada.
+     * @param horario nuevo horario.
+     *
+     * @throws IncompatibilityException si el nuevo horario o tutor no son
+     *         compatibles con la reserva.
+     * @throws MaxCapacityReachedException si el nuevo tutor no posee suficientes
+     *         cupos para los estudiantes actuales.
+     */
     public void modificarReserva(Reserva reserva, Tutor tutor, Materias materia, Horario horario)
             throws IncompatibilityException, MaxCapacityReachedException{
 
@@ -99,7 +170,20 @@ public class GestorReserva {
         }
         reserva.modificar(tutor, materia, horario);
     }
-
+    /**
+     * Agrega un estudiante a una reserva existente.
+     *
+     * <p>El estudiante solo puede ser agregado si existe disponibilidad de
+     * cupos, no pertenece previamente a la reserva y no posee conflictos
+     * horarios.</p>
+     *
+     * @param reserva reserva a la que se agregará el estudiante.
+     * @param estudiante estudiante que será agregado.
+     *
+     * @throws MaxCapacityReachedException si la reserva alcanzó su capacidad.
+     * @throws NoRepeatException si el estudiante ya pertenece a la reserva.
+     * @throws IncompatibilityException si existe conflicto horario.
+     */
     public void agregarEstudiantesReserva(Reserva reserva, Estudiante estudiante)
             throws MaxCapacityReachedException, NoRepeatException, IncompatibilityException{
 
@@ -116,7 +200,14 @@ public class GestorReserva {
         reserva.agregarListaEstudiantes(estudiante);
         estudiante.getReservasActivas().add(reserva);
     }
-
+    /**
+     * Elimina un estudiante de una reserva.
+     *
+     * @param reserva reserva desde la cual se eliminará el estudiante.
+     * @param estudiante estudiante que será eliminado.
+     *
+     * @throws RemoveException si el estudiante no pertenece a la reserva.
+     */
     public void quitarEstudianteReserva(Reserva reserva, Estudiante estudiante)
             throws RemoveException{
 
@@ -126,7 +217,19 @@ public class GestorReserva {
         reserva.quitarListaEstudiantes(estudiante);
         estudiante.getReservasActivas().remove(reserva);
     }
-
+    /**
+     * Filtra una lista de reservas utilizando una estrategia de filtrado.
+     *
+     * <p>El criterio de filtrado es definido externamente mediante
+     * {@link FiltroInterface}, permitiendo aplicar diferentes filtros sin
+     * modificar esta clase.</p>
+     *
+     * @param listaReserva lista de reservas a filtrar.
+     * @param filtro condición que determina si una reserva debe incluirse.
+     *
+     * @return nueva lista que contiene únicamente las reservas aceptadas
+     *         por el filtro.
+     */
     public List<Reserva> filtrador(List<Reserva> listaReserva, FiltroInterface<Reserva> filtro){
         List<Reserva> listaFiltrada = new ArrayList<>();
         for (Reserva r : listaReserva){

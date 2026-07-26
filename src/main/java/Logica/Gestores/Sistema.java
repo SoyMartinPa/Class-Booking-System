@@ -13,6 +13,19 @@ import java.util.Comparator;
 import java.util.List;
 
 import static Logica.Gestores.GestorBasico.listaUsuarios;
+/**
+ * Clase principal de acceso al sistema de gestión de tutorías.
+ *
+ * <p>Centraliza la interacción entre gestores de tutores, estudiantes y
+ * reservas, permitiendo realizar operaciones como búsqueda de perfiles,
+ * administración de reservas, filtrado y consulta de calendarios.</p>
+ *
+ * <p>Utiliza el patrón Singleton para garantizar que exista una única
+ * instancia del sistema durante la ejecución del programa.</p>
+ *
+ * <p>La instancia mantiene referencias a los gestores encargados de manejar
+ * cada tipo de entidad del sistema.</p>
+ */
 
 public class Sistema {
     private static Sistema instancia;
@@ -26,13 +39,26 @@ public class Sistema {
         }
         return instancia;
     }
+    public static void resetInstancia() { //principalmente para los Test Unitarios
+        instancia = null;
+        GestorBasico.listaUsuarios.clear();
+    }
 
     private Sistema() {
         this.gestorTutores = new GestorTutor();
         this.gestorEstudiantes = new GestorEstudiante();
         this.gestorReservas = new GestorReserva();
     }
-
+    /**
+     * Elimina un tutor del sistema.
+     *
+     * <p>Antes de eliminarlo, cancela todas sus reservas activas y actualiza
+     * las relaciones existentes con los estudiantes asociados.</p>
+     *
+     * @param tutor tutor que será eliminado.
+     *
+     * @throws RemoveException si el tutor no se encuentra registrado.
+     */
     public void eliminarTutor(Tutor tutor) throws RemoveException{
 
         if (!gestorTutores.getLista().contains(tutor)) {
@@ -55,6 +81,16 @@ public class Sistema {
         gestorTutores.getLista().remove(tutor);
         listaUsuarios.remove(tutor);
     }
+    /**
+     * Elimina un estudiante del sistema.
+     *
+     * <p>Al eliminarlo, se remueve su participación en las reservas activas
+     * existentes.</p>
+     *
+     * @param estudiante estudiante que será eliminado.
+     *
+     * @throws RemoveException si el estudiante no está registrado.
+     */
     public void eliminarEstudiante(Estudiante estudiante) throws RemoveException{
         if (!gestorEstudiantes.getLista().contains(estudiante)) {
             throw new RemoveException("Se intenta eliminar un estudiante no registrado");
@@ -67,7 +103,12 @@ public class Sistema {
         gestorEstudiantes.getLista().remove(estudiante);
         listaUsuarios.remove(estudiante);
     }
-
+    /**
+     * Busca un tutor mediante su correo electrónico.
+     *
+     * @param email correo electrónico del tutor.
+     * @return tutor encontrado o {@code null} si no existe.
+     */
     public Tutor buscarTutorPorEmail(String email) {
         for (Tutor t : gestorTutores.getLista()) {
             if (t.getEmail().equals(email)) {
@@ -76,6 +117,12 @@ public class Sistema {
         }
         return null;
     }
+    /**
+     * Busca un estudiante mediante su nombre y apellido.
+     *
+     * @param nombre nombre del estudiante.
+     * @return estudiante encontrado o {@code null} si no existe.
+     */
     public Estudiante buscarEstudiantePorNombre(String nombre) {
         for (Estudiante e : gestorEstudiantes.getLista()) {
             if (e.getNombre().equals(nombre)) {
@@ -84,7 +131,12 @@ public class Sistema {
         }
         return null;
     }
-
+    /**
+     * Busca un estudiante mediante su correo electrónico.
+     *
+     * @param email correo electrónico del estudiante.
+     * @return estudiante encontrado o {@code null} si no existe.
+     */
     public Estudiante buscarEstudiantePorEmail(String email) {
         for (Estudiante e : gestorEstudiantes.getLista()) {
             if (e.getEmail().equals(email)) {
@@ -93,7 +145,27 @@ public class Sistema {
         }
         return null;
     }
-
+    /**
+     * Busca tutores que cumplen las condiciones necesarias para una reserva.
+     *
+     * <p>Un tutor es considerado compatible si:</p>
+     * <ul>
+     *     <li>Ofrece la materia solicitada.</li>
+     *     <li>Tiene disponibilidad en la fecha y bloque indicados.</li>
+     *     <li>No posee otra reserva en el mismo horario.</li>
+     *     <li>Su tarifa no supera el límite indicado, si este existe.</li>
+     * </ul>
+     *
+     * <p>Los resultados son ordenados desde la menor tarifa hasta la mayor.</p>
+     *
+     * @param materia materia requerida.
+     * @param fecha fecha de la reserva.
+     * @param bloque bloque horario requerido.
+     * @param tarifaMax tarifa máxima aceptada. Un valor menor o igual a cero
+     *                  indica que no existe límite.
+     *
+     * @return lista de tutores compatibles ordenados por tarifa.
+     */
     public List<Tutor> buscarTutoresCompatibles(Materias materia, LocalDate fecha,
                                                  BloquesHorarios bloque, int tarifaMax) {
 
@@ -127,7 +199,17 @@ public class Sistema {
         return buscarTutoresCompatibles(materia, fecha, bloque, -1);
     }
 
-
+    /**
+     * Obtiene las reservas asociadas a un tutor.
+     *
+     * <p>Permite incluir o excluir reservas pendientes dependiendo del parámetro
+     * recibido. Las reservas completadas y canceladas siempre son consideradas.</p>
+     *
+     * @param tutor tutor cuyo calendario será consultado.
+     * @param pendientes indica si deben incluirse reservas pendientes.
+     *
+     * @return lista de reservas asociadas al tutor.
+     */
     public List<Reserva> verCalendarioTutor(Tutor tutor, boolean pendientes) {
         List<Reserva> resultado = new ArrayList<>();
 
@@ -145,7 +227,14 @@ public class Sistema {
 
         return resultado;
     }
-
+    /**
+     * Obtiene las reservas asociadas a un estudiante.
+     *
+     * @param estudiante estudiante cuyo calendario será consultado.
+     * @param pendientes indica si deben incluirse reservas pendientes.
+     *
+     * @return lista de reservas donde participa el estudiante.
+     */
     public List<Reserva> verCalendarioEstudiante(Estudiante estudiante, boolean pendientes) {
         List<Reserva> resultado = new ArrayList<>();
 
@@ -163,7 +252,19 @@ public class Sistema {
         }
         return resultado;
     }
-
+    /**
+     * Filtra reservas utilizando un conjunto de criterios definidos externamente.
+     *
+     * <p>Permite seleccionar qué estados de reserva considerar y aplicar un filtro
+     * compuesto mediante {@link FiltroCompuesto}.</p>
+     *
+     * @param filtro criterio compuesto de filtrado.
+     * @param incluirPendientes indica si se incluyen reservas pendientes.
+     * @param incluirCompletadas indica si se incluyen reservas completadas.
+     * @param incluirCanceladas indica si se incluyen reservas canceladas.
+     *
+     * @return lista de reservas que cumplen los filtros.
+     */
     public List<Reserva> filtrarReservas(FiltroCompuesto filtro,
                                           boolean incluirPendientes,
                                           boolean incluirCompletadas,
@@ -180,11 +281,14 @@ public class Sistema {
         }
         return gestorReservas.filtrador(todas, filtro);
     }
-
-    public List<Reserva> filtrarReservasPendientes(FiltroCompuesto filtro) {
-        return filtrarReservas(filtro, true, false, false);
-    }
-
+    /**
+     * Busca una reserva utilizando su identificador único.
+     *
+     * <p>La búsqueda considera reservas pendientes, completadas y canceladas.</p>
+     *
+     * @param id identificador de la reserva.
+     * @return reserva encontrada o {@code null} si no existe.
+     */
     public Reserva buscarReservaPorId(String id) {
         List<Reserva> todas = new ArrayList<>();
         todas.addAll(gestorReservas.getListaReservasPendientes());

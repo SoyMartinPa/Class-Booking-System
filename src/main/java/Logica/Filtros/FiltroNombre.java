@@ -1,6 +1,8 @@
 package Logica.Filtros;
 import Logica.Reservas.Reserva;
-
+/**
+ * Filtra las reservas cuyo nombre del tutor asociado coincida con el nombre especificado.
+ */
 public class FiltroNombre implements FiltroInterface<Reserva> {
     private final String nombreAFiltrar;
 

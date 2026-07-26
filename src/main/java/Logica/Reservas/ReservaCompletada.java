@@ -1,9 +1,13 @@
 package Logica.Reservas;
-
 import Logica.Enumeraciones.Materias;
 import Logica.GestorHorarios.Horario;
 import Logica.Perfiles.Estudiante.Estudiante;
 import Logica.Perfiles.Tutor.Tutor;
+/**
+ * Define el estado completado de una Reserva
+ * <p>Lanza IllegalStateException cuando se intenta modificar de alguna manera, no obstante,
+ * se espera que el estado proximamente pueda incluir modificaciones</p>
+ */
 
 public class ReservaCompletada implements EstadoReserva{
     public static final ReservaCompletada INSTANCIA = new ReservaCompletada();

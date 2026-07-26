@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"Logica"},{"l":"Logica.Enumeraciones"},{"l":"Logica.Filtros"},{"l":"Logica.Gestores"},{"l":"Logica.GestorHorarios"},{"l":"Logica.Perfiles"},{"l":"Logica.Perfiles.Estudiante"},{"l":"Logica.Perfiles.Tutor"},{"l":"Logica.Reservas"}];updateSearchResults();

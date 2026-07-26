@@ -2,6 +2,12 @@ package Logica.Enumeraciones;
 
 import java.time.LocalTime;
 
+/**
+ * Representa los bloques horarios disponibles para las tutorías.
+ *
+ * <p>Cada bloque tiene una duración fija de una hora y se identifica
+ * por un horario de inicio y uno de término.
+ */
 public enum BloquesHorarios {
     BLOQUE1( LocalTime.of(8,0) , LocalTime.of(9,0) ),
     BLOQUE2( LocalTime.of(9,0) , LocalTime.of(10,0) ),
@@ -23,9 +29,22 @@ public enum BloquesHorarios {
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
     }
+    /**
+     * Obtiene la hora de inicio del bloque horario.
+     *
+     * @return hora en que comienza el bloque.
+     */
+
     public LocalTime getHoraInicio() {
+
         return horaInicio;
     }
+
+    /**
+     * Obtiene la hora de término del bloque horario.
+     *
+     * @return hora en que finaliza el bloque.
+     */
     public LocalTime getHoraFin() {
         return horaFin;
     }

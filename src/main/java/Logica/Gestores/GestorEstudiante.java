@@ -2,6 +2,13 @@ package Logica.Gestores;
 import Excepciones.IncompatibilityException;
 import Logica.Perfiles.Estudiante.Estudiante;
 
+/**
+ * Gestor encargado de administrar perfiles de tipo {@link Estudiante}.
+ *
+ * <p>Hereda las funcionalidades generales de validación y almacenamiento
+ * definidas por {@link GestorBasico}, especializando el proceso de registro
+ * para crear nuevos estudiantes y, futuramente, en otras cosas más.</p>
+ */
 
 public class GestorEstudiante extends GestorBasico<Estudiante> {
 

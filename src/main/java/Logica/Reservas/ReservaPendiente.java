@@ -4,6 +4,10 @@ import Logica.GestorHorarios.Horario;
 import Logica.Perfiles.Estudiante.Estudiante;
 import Logica.Perfiles.Tutor.Tutor;
 
+/**
+ * Define el estado Inicial (Pendiente) de una Reserva
+ * <p>Es el estado por defaul que sirve de puente a los demás estados</p>
+ */
 public class ReservaPendiente implements EstadoReserva{
     public static final ReservaPendiente INSTANCIA = new ReservaPendiente();
     public ReservaPendiente(){}

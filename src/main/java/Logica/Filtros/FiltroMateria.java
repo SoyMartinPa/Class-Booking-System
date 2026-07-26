@@ -1,8 +1,10 @@
 package Logica.Filtros;
-
 import Logica.Enumeraciones.Materias;
 import Logica.Reservas.Reserva;
 
+/**
+ * Filtra las reservas cuya materia coincida con la materia especificada.
+ */
 public class FiltroMateria implements FiltroInterface<Reserva>{
 
     private final Materias materiaAFiltrar;
