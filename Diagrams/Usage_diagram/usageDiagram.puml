@@ -1,0 +1,92 @@
+@startuml
+left to right direction
+
+skinparam packageStyle rectangle
+
+skinparam usecase {
+    BackgroundColor LightBlue
+    BorderColor DarkBlue
+}
+
+skinparam actor {
+    BackgroundColor LightYellow
+    BorderColor DarkBlue
+}
+
+actor "Administrador" as Admin
+
+rectangle "Sistema de Gestión de Tutorías" {
+
+    '----------------------------
+    ' Funciones Base
+    '----------------------------
+    usecase "Gestionar Tutores" as UC_GestTutores
+    usecase "Gestionar Estudiantes" as UC_GestEstudiantes
+    usecase "Agendar Clase" as UC_Agendar
+    usecase "Ver Calendario" as UC_Calendario
+
+    '----------------------------
+    ' Gestión de Tutores
+    '----------------------------
+    usecase "Registrar Tutor" as UC_RegTutor
+    usecase "Modificar Tutor" as UC_ModTutor
+    usecase "Eliminar Tutor" as UC_ElimTutor
+    usecase "Consultar Lista Tutores" as UC_ListTutores
+
+    UC_RegTutor    .up.> UC_GestTutores : <<extend>>
+    UC_ModTutor    .up.> UC_GestTutores : <<extend>>
+    UC_ElimTutor   .up.> UC_GestTutores : <<extend>>
+    UC_ListTutores .up.> UC_GestTutores : <<extend>>
+
+    usecase "Validar Dependencias Tutor\n(RemoveException)" as UC_ValElimTutor
+
+    UC_ElimTutor ..> UC_ValElimTutor : <<include>>
+
+    '----------------------------
+    ' Gestión de Estudiantes
+    '----------------------------
+    usecase "Registrar Estudiante" as UC_RegEst
+    usecase "Modificar Estudiante" as UC_ModEst
+    usecase "Eliminar Estudiante" as UC_ElimEst
+    usecase "Consultar Lista Estudiantes" as UC_ListEst
+
+    UC_RegEst   .up.> UC_GestEstudiantes : <<extend>>
+    UC_ModEst   .up.> UC_GestEstudiantes : <<extend>>
+    UC_ElimEst  .up.> UC_GestEstudiantes : <<extend>>
+    UC_ListEst  .up.> UC_GestEstudiantes : <<extend>>
+
+    usecase "Validar Dependencias Estudiante\n(RemoveException)" as UC_ValElimEst
+
+    UC_ElimEst ..> UC_ValElimEst : <<include>>
+
+    '----------------------------
+    ' Agendamiento
+    '----------------------------
+    usecase "Cancelar Reserva" as UC_CancelarRes
+    usecase "Modificar Estado Reserva" as UC_ModRes
+
+    UC_CancelarRes .up.> UC_Agendar : <<extend>>
+    UC_ModRes      .up.> UC_Agendar : <<extend>>
+
+    usecase "Validar Cupos Máximos\n(MaxCapacityReached)" as UC_ValCap
+    usecase "Validar Duplicidad de Horario\n(NoRepeatException)" as UC_ValDup
+
+    UC_Agendar ..> UC_ValCap : <<include>>
+    UC_Agendar ..> UC_ValDup : <<include>>
+
+    '----------------------------
+    ' Calendario
+    '----------------------------
+    usecase "Filtrar por Tutor" as UC_FiltroTutor
+    usecase "Filtrar por Fecha" as UC_FiltroFecha
+
+    UC_FiltroTutor .up.> UC_Calendario : <<extend>>
+    UC_FiltroFecha .up.> UC_Calendario : <<extend>>
+}
+
+Admin --> UC_GestTutores
+Admin --> UC_GestEstudiantes
+Admin --> UC_Agendar
+Admin --> UC_Calendario
+
+@enduml

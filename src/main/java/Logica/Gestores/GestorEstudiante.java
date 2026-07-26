@@ -1,6 +1,6 @@
 package Logica.Gestores;
 import Excepciones.IncompatibilityException;
-import Logica.Perfiles.Estudiante.Estudiante;
+import Logica.Perfiles.Estudiante;
 
 /**
  * Gestor encargado de administrar perfiles de tipo {@link Estudiante}.

@@ -1,4 +1,4 @@
-package Logica.GestorHorarios;
+package Logica.Reservas;
 import Excepciones.TimeException;
 import Logica.Enumeraciones.BloquesHorarios;
 import java.time.LocalDate;

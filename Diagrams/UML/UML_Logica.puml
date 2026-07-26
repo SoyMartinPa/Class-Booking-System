@@ -1,0 +1,320 @@
+@startuml ClassBookingSystem
+
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+hide empty members
+
+package "Logica.Enumeraciones" {
+  enum BloquesHorarios {
+    BLOQUE1
+    BLOQUE2
+    BLOQUE3
+    BLOQUE4
+    BLOQUE5
+    BLOQUE6
+    BLOQUE7
+    BLOQUE8
+    BLOQUE9
+    BLOQUE10
+    BLOQUE11
+    BLOQUE12
+    - horaInicio: LocalTime
+    - horaFin: LocalTime
+    + getHoraInicio(): LocalTime
+    + getHoraFin(): LocalTime
+  }
+
+  enum Dias {
+    LUNES
+    MARTES
+    MIERCOLES
+    JUEVES
+    VIERNES
+  }
+
+  enum Materias {
+    MATEMATICAS
+    LENGUAJE
+    HISTORIA
+    QUIMICA
+    INGLES
+    FISICA
+  }
+}
+
+package "Logica.Reservas" {
+  class Horario {
+    - fecha: LocalDate
+    - bloqueHorario: BloquesHorarios
+    + Horario(bloqueHorario: BloquesHorarios, fecha: LocalDate)
+    + getHoraInicio(): LocalTime
+    + getHoraFin(): LocalTime
+    + getBloquehorario(): BloquesHorarios
+    + getFecha(): LocalDate
+    + horarioVigente(): boolean
+    + setHorario(otroHorario: Horario): void
+    + equals(obj: Object): boolean
+    + hashCode(): int
+  }
+
+  interface EstadoReserva {
+    + modificar(reserva: Reserva, tutor: Tutor, materia: Materias, horario: Horario): void
+    + completar(reserva: Reserva): void
+    + cancelar(reserva: Reserva): void
+    + getEstado(reserva: Reserva): EstadoReserva
+    + agregarListaEstudiantes(reserva: Reserva, estudiante: Estudiante): void
+    + quitarListaEstudiantes(reserva: Reserva, estudiante: Estudiante): void
+  }
+
+  class Reserva {
+    - id: String
+    - tutorAsociado: Tutor
+    - materia: Materias
+    - listaEstudiantes: List<Estudiante>
+    - horario: Horario
+    - estado: EstadoReserva
+    + Reserva(tutor: Tutor, materia: Materias, horario: Horario)
+    + getId(): String
+    + getCuposMax(): int
+    + estaLlena(): Boolean
+    + getTarifa(): int
+    + getTutorAsociado(): Tutor
+    + setTutorAsociado(tutorAsociado: Tutor): void
+    + getMateria(): Materias
+    + setMateria(materia: Materias): void
+    + getListaEstudiantes(): List<Estudiante>
+    + agregarListaEstudiantes(estudiante: Estudiante): void
+    + quitarListaEstudiantes(estudiante: Estudiante): void
+    + getHorario(): Horario
+    + setHorario(horario: Horario): void
+    + getEstado(): EstadoReserva
+    + modificar(tutor: Tutor, materia: Materias, horario: Horario): void
+    + completar(): void
+    + cancelar(): void
+    # setEstado(estado: EstadoReserva): void
+  }
+
+  class ReservaPendiente {
+    + {static} INSTANCIA: ReservaPendiente
+    + ReservaPendiente()
+    + modificar(reserva: Reserva, tutor: Tutor, materia: Materias, horario: Horario): void
+    + completar(reserva: Reserva): void
+    + cancelar(reserva: Reserva): void
+    + getEstado(reserva: Reserva): EstadoReserva
+    + agregarListaEstudiantes(reserva: Reserva, estudiante: Estudiante): void
+    + quitarListaEstudiantes(reserva: Reserva, estudiante: Estudiante): void
+  }
+
+  class ReservaCompletada {
+    + {static} INSTANCIA: ReservaCompletada
+    + ReservaCompletada()
+    + modificar(reserva: Reserva, tutor: Tutor, materia: Materias, horario: Horario): void
+    + completar(reserva: Reserva): void
+    + cancelar(reserva: Reserva): void
+    + agregarListaEstudiantes(reserva: Reserva, estudiante: Estudiante): void
+    + quitarListaEstudiantes(reserva: Reserva, estudiante: Estudiante): void
+    + getEstado(reserva: Reserva): EstadoReserva
+  }
+
+  class ReservaCancelada {
+    + {static} INSTANCIA: ReservaCancelada
+    + ReservaCancelada()
+    + modificar(reserva: Reserva, tutor: Tutor, materia: Materias, horario: Horario): void
+    + completar(reserva: Reserva): void
+    + cancelar(reserva: Reserva): void
+    + agregarListaEstudiantes(reserva: Reserva, estudiante: Estudiante): void
+    + quitarListaEstudiantes(reserva: Reserva, estudiante: Estudiante): void
+    + getEstado(reserva: Reserva): EstadoReserva
+  }
+
+  ReservaPendiente ..|> EstadoReserva
+  ReservaCompletada ..|> EstadoReserva
+  ReservaCancelada ..|> EstadoReserva
+  Horario --> BloquesHorarios
+  Reserva "1" *-- "1" Horario
+  Reserva "1" o-- "1" EstadoReserva
+}
+
+package "Logica.Perfiles" {
+  abstract class PerfilBasico {
+    # id: String
+    # nombre: String
+    # email: String
+    # reservasActivas: List<Reserva>
+    + PerfilBasico(nombre: String, email: String)
+    + getId(): String
+    + getNombre(): String
+    + getEmail(): String
+    + setNombre(nombre: String): void
+    + setEmail(email: String): void
+    + getReservasActivas(): List<Reserva>
+    + reservaSeSolapa(horario: Horario): boolean
+  }
+
+  class Estudiante {
+    + Estudiante(nombre: String, email: String)
+  }
+
+  package "Tutor" {
+    class Tutor {
+      - oferta: Map<Materias, OfertaMateria>
+      - disponibilidad: Map<Dias, Set<BloquesHorarios>>
+      + Tutor(nombre: String, email: String)
+      + getOferta(materia: Materias): OfertaMateria
+      + dictaMateria(materia: Materias): boolean
+      + ofrecerMateria(materia: Materias, tarifa: int, cuposMax: int): void
+      + dejarDeOfrecer(materia: Materias): void
+      + agregarDisponibilidad(dia: Dias, bloque: BloquesHorarios): void
+      - diasDesdeFecha(fecha: LocalDate): Dias
+      + estaDisponible(fecha: LocalDate, bloque: BloquesHorarios): boolean
+    }
+
+    class OfertaMateria {
+      - tarifa: int
+      - cuposMax: int
+      + OfertaMateria(tarifa: int, cuposMax: int)
+      + getTarifa(): int
+      + setTarifa(tarifa: int): void
+      + getCuposMax(): int
+      + setCuposMax(cuposMax: int): void
+    }
+
+    Tutor "1" *-- "many" OfertaMateria : oferta
+  }
+
+  Estudiante --|> PerfilBasico
+  Tutor --|> PerfilBasico
+  PerfilBasico "1" o-- "many" Reserva : reservasActivas
+}
+
+package "Logica.Filtros" {
+  interface FiltroInterface<T> {
+    + pasaElFiltro(objeto: T): boolean
+  }
+
+  class FiltroBloque {
+    - bloqueAFiltrar: BloquesHorarios
+    + FiltroBloque(bloque: BloquesHorarios)
+    + pasaElFiltro(reserva: Reserva): boolean
+  }
+
+  class FiltroFecha {
+    - fechaAFiltrar: LocalDate
+    + FiltroFecha(fecha: LocalDate)
+    + pasaElFiltro(reserva: Reserva): boolean
+  }
+
+  class FiltroMateria {
+    - materiaAFiltrar: Materias
+    + FiltroMateria(materia: Materias)
+    + pasaElFiltro(reserva: Reserva): boolean
+  }
+
+  class FiltroNombre {
+    - nombreAFiltrar: String
+    + FiltroNombre(nombre: String)
+    + pasaElFiltro(reserva: Reserva): boolean
+  }
+
+  class FiltroTarifaMax {
+    - tarifaAFiltrar: int
+    + FiltroTarifaMax(tarifa: int)
+    + pasaElFiltro(reserva: Reserva): boolean
+  }
+
+  class FiltroCompuesto {
+    - listaFiltros: List<FiltroInterface<Reserva>>
+    + FiltroCompuesto()
+    + agregarFiltro(filtro: FiltroInterface<Reserva>): void
+    + quitarFiltro(filtro: FiltroInterface<Reserva>): void
+    + pasaElFiltro(reserva: Reserva): boolean
+  }
+
+  FiltroBloque ..|> FiltroInterface
+  FiltroFecha ..|> FiltroInterface
+  FiltroMateria ..|> FiltroInterface
+  FiltroNombre ..|> FiltroInterface
+  FiltroTarifaMax ..|> FiltroInterface
+  FiltroCompuesto ..|> FiltroInterface
+  FiltroCompuesto "1" o-- "many" FiltroInterface : listaFiltros
+}
+
+package "Logica.Gestores" {
+  abstract class GestorBasico<T> {
+    # lista: List<T>
+    # {static} listaUsuarios: List<PerfilBasico>
+    + GestorBasico()
+    # verificarNombre(nombre: String): void
+    # verificarEmail(email: String): void
+    + cambiarEmail(usuario: T, email: String): void
+    + {abstract} registrar(nombre: String, email: String): void
+    + getLista(): List<T>
+  }
+
+  class GestorEstudiante {
+    + GestorEstudiante()
+    + registrar(nombre: String, email: String): void
+  }
+
+  class GestorTutor {
+    # GestorTutor()
+    + registrar(nombre: String, email: String): void
+  }
+
+  class GestorReserva {
+    - listaReservasPendientes: List<Reserva>
+    - listaReservasCompletadas: List<Reserva>
+    - listaReservasCanceladas: List<Reserva>
+    + GestorReserva()
+    + reservaValidar(tutor: Tutor, materia: Materias, horario: Horario): Boolean
+    + registrarReserva(tutor: Tutor, materia: Materias, horario: Horario): Reserva
+    + cancelarReserva(reserva: Reserva): void
+    + completarReserva(reserva: Reserva): void
+    + modificarReserva(reserva: Reserva, tutor: Tutor, materia: Materias, horario: Horario): void
+    + agregarEstudiantesReserva(reserva: Reserva, estudiante: Estudiante): void
+    + quitarEstudianteReserva(reserva: Reserva, estudiante: Estudiante): void
+    + filtrador(listaReserva: List<Reserva>, filtro: FiltroInterface<Reserva>): List<Reserva>
+    + getListaReservasPendientes(): List<Reserva>
+    + getListaReservasCompletadas(): List<Reserva>
+    + getListaReservasCanceladas(): List<Reserva>
+  }
+
+  class Sistema <<Singleton>> <<Facade>> {
+    - {static} instancia: Sistema
+    - gestorTutores: GestorTutor
+    - gestorEstudiantes: GestorEstudiante
+    - gestorReservas: GestorReserva
+    + {static} getInstancia(): Sistema
+    + {static} resetInstancia(): void
+    - Sistema()
+    + eliminarTutor(tutor: Tutor): void
+    + eliminarEstudiante(estudiante: Estudiante): void
+    + buscarTutorPorEmail(email: String): Tutor
+    + buscarEstudiantePorNombre(nombre: String): Estudiante
+    + buscarEstudiantePorEmail(email: String): Estudiante
+    + buscarTutoresCompatibles(materia: Materias, fecha: LocalDate, bloque: BloquesHorarios, tarifaMax: int): List<Tutor>
+    + buscarTutoresCompatibles(materia: Materias, fecha: LocalDate, bloque: BloquesHorarios): List<Tutor>
+    + verCalendarioTutor(tutor: Tutor, pendientes: boolean): List<Reserva>
+    + verCalendarioEstudiante(estudiante: Estudiante, pendientes: boolean): List<Reserva>
+    + filtrarReservas(filtro: FiltroCompuesto, incluirPendientes: boolean, incluirCompletadas: boolean, incluirCanceladas: boolean): List<Reserva>
+    + buscarReservaPorId(id: String): Reserva
+    + toString(): String
+  }
+
+  GestorBasico <|-- GestorEstudiante
+  GestorBasico <|-- GestorTutor
+  GestorEstudiante "1" o-- "many" Estudiante
+  GestorTutor "1" o-- "many" Tutor
+  Sistema "1" *-- "1" GestorTutor
+  Sistema "1" *-- "1" GestorEstudiante
+  Sistema "1" *-- "1" GestorReserva
+  GestorReserva "1" ..> "many" Reserva
+  GestorReserva ..> FiltroInterface
+  Sistema ..> FiltroCompuesto
+}
+
+class Main {
+  + {static} main(args: String[]): void
+}
+
+@enduml

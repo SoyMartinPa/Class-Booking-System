@@ -1,5 +1,5 @@
 package Logica.Perfiles;
-import Logica.GestorHorarios.Horario;
+import Logica.Reservas.Horario;
 import Logica.Reservas.Reserva;
 import java.util.ArrayList;
 import java.util.List;

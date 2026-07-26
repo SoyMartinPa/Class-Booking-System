@@ -1,7 +1,6 @@
 package Logica.Reservas;
 import Logica.Enumeraciones.Materias;
-import Logica.GestorHorarios.Horario;
-import Logica.Perfiles.Estudiante.Estudiante;
+import Logica.Perfiles.Estudiante;
 import Logica.Perfiles.Tutor.Tutor;
 import java.util.ArrayList;
 import java.util.List;

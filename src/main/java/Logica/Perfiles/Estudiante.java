@@ -1,5 +1,5 @@
-package Logica.Perfiles.Estudiante;
-import Logica.Perfiles.PerfilBasico;
+package Logica.Perfiles;
+
 /**
  * Representa un Estudiante dentro del sistema.
  *
