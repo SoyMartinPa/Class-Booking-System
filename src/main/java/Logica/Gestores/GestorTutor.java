@@ -1,6 +1,7 @@
 package Logica.Gestores;
 
-import Excepciones.IncompatibilityException;
+import Excepciones.EmailException;
+import Excepciones.NoRepeatException;
 import Logica.Perfiles.Tutor.Tutor;
 /**
  * Gestor encargado de administrar perfiles de tipo {@link Tutor}.
@@ -15,7 +16,7 @@ public class GestorTutor extends GestorBasico<Tutor> {
     }
 
     @Override
-    public void registrar(String nombre, String email) throws IncompatibilityException {
+    public void registrar(String nombre, String email) throws NoRepeatException, NullPointerException, EmailException {
         verificarNombre(nombre);
         verificarEmail(email);
         Tutor nuevoTutor = new Tutor(nombre, email);

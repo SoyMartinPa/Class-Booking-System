@@ -39,13 +39,13 @@ public abstract class PerfilBasico {
     }
 
     public String getId() {
-        return id;
+        return this.id;
     }
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setNombre(String nombre) {
@@ -56,7 +56,7 @@ public abstract class PerfilBasico {
     }
 
     public List<Reserva> getReservasActivas(){
-        return reservasActivas;
+        return this.reservasActivas;
     }
 
     /**
@@ -71,9 +71,9 @@ public abstract class PerfilBasico {
      *         {@code false} en caso contrario.
      */
     public boolean reservaSeSolapa(Horario horario){
-        if (reservasActivas == null) { return false;}
+        if (this.reservasActivas == null) { return false;}
 
-        for (Reserva cadaReserva : reservasActivas){
+        for (Reserva cadaReserva : this.reservasActivas){
             if (cadaReserva.getHorario().equals(horario) ){ return true;}
             // no sería más fácil con un map?... Definitivamente, auch
         }

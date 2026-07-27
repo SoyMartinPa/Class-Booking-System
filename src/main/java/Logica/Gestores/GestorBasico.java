@@ -1,5 +1,7 @@
 package Logica.Gestores;
-import Excepciones.IncompatibilityException;
+import Excepciones.EmailException;
+import Excepciones.NameException;
+import Excepciones.NoRepeatException;
 import Logica.Perfiles.PerfilBasico;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,49 +36,66 @@ public abstract class GestorBasico<T extends PerfilBasico> {
     /**
      * Verifica que un nombre cumpla con las restricciones del sistema.
      *
-     * <p>El nombre debe contener nombre y apellido separados por un espacio,
+     * <p>El nombre debe contener nombres y apellidos separados por un espacio,
      * además de no estar registrado previamente dentro del gestor.</p>
      *
      * @param nombre nombre que será validado.
      * @throws NullPointerException si el nombre es nulo.
-     * @throws IncompatibilityException si el formato del nombre es inválido
+     * @throws NameException si el formato del nombre es inválido
      *         o ya existe un perfil con ese nombre.
      */
-    protected void verificarNombre(String nombre) throws IncompatibilityException{
-        if (nombre == null){
-            throw new NullPointerException("Nombre no pueden ser vacios");
-        }
-        if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ]+ [a-zA-ZáéíóúÁÉÍÓÚñÑ]+" )){
-            throw new IncompatibilityException("Se debe ingresar nombre y apellido");
+    protected void verificarNombre(String nombre) throws NameException, NullPointerException, NoRepeatException {
+
+        if (nombre == null) {
+            throw new NullPointerException("El nombre no puede ser nulo");
         }
 
-        for (T objeto : lista){
-            if(objeto.getNombre().equals(nombre)){
-                throw new IncompatibilityException("Nombre o email ya registrado");
+        nombre = nombre.trim();
+
+        String[] partes = nombre.split("\\s+");
+
+        if (partes.length < 3) {
+            throw new NameException(
+                    "Debe ingresar al menos un nombre y dos apellidos");
+        }
+
+        for (String parte : partes) {
+            if (!parte.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ]+")) {
+                throw new NameException("El nombre contiene caracteres inválidos");
+            }
+            if (parte.length() <= 1){
+                throw new NameException("El nombre no puede ser una letra");
+            }
+        }
+
+        for (PerfilBasico objeto : listaUsuarios) {
+            if (objeto.getNombre().equalsIgnoreCase(nombre)) {
+                throw new NoRepeatException("Nombre ya registrado");
             }
         }
     }
+
     /**
      * Verifica que un correo electrónico sea válido y no esté registrado.
      *
      * <p>La validación se realiza contra la lista global de usuarios,
      * debido a que un correo no puede pertenecer a más de un perfil.</p>
      *
-     * @param email correo electrónico que será validado.
+     * @param email correo electrónico que será validado (Solo @gmail.com valido de momento).
      * @throws NullPointerException si el correo es nulo.
-     * @throws IncompatibilityException si el formato del correo es inválido
-     *         o ya existe un usuario con ese correo.
+     * @throws EmailException si el formato del correo es inválido
+     * @throws NoRepeatException si el correo ya está registrado
      */
-    protected void verificarEmail(String email) throws IncompatibilityException{
+    protected void verificarEmail(String email) throws NoRepeatException, NullPointerException, EmailException {
         if (email == null){
             throw new NullPointerException("Email no pueden ser vacios");
         }
-        if(!email.matches("^[\\w.+-]+@[\\w-]+\\.[a-zA-Z]{2,}$")){
-            throw new IncompatibilityException("Email no valido");
+        if (!email.matches("^[\\w.+-]+@gmail\\.com$")) {
+            throw new EmailException("Solo se permiten correos Gmail");
         }
         for (PerfilBasico objeto : listaUsuarios){
             if(objeto.getEmail().equals(email)){
-                throw new IncompatibilityException("Email ya registrado");
+                throw new NoRepeatException("Email ya registrado");
             }
         }
     }
@@ -86,10 +105,10 @@ public abstract class GestorBasico<T extends PerfilBasico> {
      *
      * @param usuario perfil cuyo correo será modificado.
      * @param email nuevo correo electrónico.
-     * @throws IncompatibilityException si el correo no cumple las reglas
-     *         de validación.
+     * @throws EmailException si el correo no cumple las reglas de validación.
+     * @throws NoRepeatException si el correo ya está registrado
      */
-    public void cambiarEmail(T usuario, String email) throws IncompatibilityException{
+    public void cambiarEmail(T usuario, String email) throws NoRepeatException,NullPointerException,EmailException{
         verificarEmail(email);
         usuario.setEmail(email);
     }
@@ -102,11 +121,12 @@ public abstract class GestorBasico<T extends PerfilBasico> {
      *
      * @param nombre nombre del nuevo perfil.
      * @param email correo electrónico del nuevo perfil.
-     * @throws IncompatibilityException si los datos no cumplen las reglas
-     *         del sistema.
      */
-    public abstract void registrar(String nombre, String email) throws IncompatibilityException;
+    public abstract void registrar(String nombre, String email) throws NoRepeatException, NullPointerException, EmailException, NameException;
     public List<T> getLista() {
-        return lista;
+        return this.lista;
+    }
+    public List<PerfilBasico> getListaCompleta() {
+        return listaUsuarios;
     }
 }

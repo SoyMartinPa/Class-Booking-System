@@ -1,5 +1,7 @@
 package Logica.Gestores;
-import Excepciones.IncompatibilityException;
+import Excepciones.EmailException;
+import Excepciones.NameException;
+import Excepciones.NoRepeatException;
 import Logica.Perfiles.Estudiante;
 
 /**
@@ -17,7 +19,7 @@ public class GestorEstudiante extends GestorBasico<Estudiante> {
     }
 
     @Override
-    public void registrar(String nombre, String email) throws IncompatibilityException {
+    public void registrar(String nombre, String email) throws NullPointerException, EmailException, NameException, NoRepeatException{
         verificarNombre(nombre);
         verificarEmail(email);
         Estudiante nuevoEstudiante = new Estudiante(nombre,email);

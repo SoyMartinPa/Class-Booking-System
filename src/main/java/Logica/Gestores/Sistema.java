@@ -42,6 +42,7 @@ public class Sistema {
     public static void resetInstancia() { //principalmente para los Test Unitarios
         instancia = null;
         GestorBasico.listaUsuarios.clear();
+        
     }
 
     private Sistema() {
@@ -301,6 +302,18 @@ public class Sistema {
             }
         }
         return null;
+    }
+
+    public GestorTutor getGestorTutores() {
+        return gestorTutores;
+    }
+
+    public GestorEstudiante getGestorEstudiantes() {
+        return gestorEstudiantes;
+    }
+
+    public GestorReserva getGestorReservas() {
+        return gestorReservas;
     }
 
     public String toString() {

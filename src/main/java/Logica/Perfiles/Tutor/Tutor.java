@@ -5,6 +5,7 @@ import Logica.Enumeraciones.BloquesHorarios;
 import Logica.Enumeraciones.Dias;
 import Logica.Enumeraciones.Materias;
 import Logica.Perfiles.PerfilBasico;
+import Logica.Reservas.Horario;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -106,7 +107,7 @@ public class Tutor extends PerfilBasico {
      * @return día equivalente dentro de la enumeración {@link Dias}.
      */
 
-    private Dias diasDesdeFecha(LocalDate fecha) {
+    public Dias diasDesdeFecha(LocalDate fecha) {
         return switch (fecha.getDayOfWeek()) {
             case MONDAY -> Dias.LUNES;
             case TUESDAY -> Dias.MARTES;
@@ -129,7 +130,11 @@ public class Tutor extends PerfilBasico {
         if (!disponibilidad.containsKey(diasDesdeFecha(fecha))) {
             return false;
         }
-        return disponibilidad.get(diasDesdeFecha(fecha)).contains(bloque);
+        if (!disponibilidad.get(diasDesdeFecha(fecha)).contains(bloque)){
+            return false;
+        }
+        Horario horarioTemporal = new Horario(bloque,fecha);
+        return !this.reservaSeSolapa(horarioTemporal);
     }
 }
 
