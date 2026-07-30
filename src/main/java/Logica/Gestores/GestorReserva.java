@@ -51,7 +51,7 @@ public class GestorReserva {
         if (!tutor.dictaMateria(materia)) {
             return false;
         }
-        return tutor.estaDisponible(horario.getFecha(), horario.getBloquehorario());
+        return true;
     }
     /**
      * Crea una nueva reserva pendiente y la asocia al tutor correspondiente.
@@ -76,6 +76,9 @@ public class GestorReserva {
         }
         if (tutor.reservaSeSolapa(horario)) {
             throw new IncompatibilityException("Al profesor se le solapa el horario");
+        }
+        if (!tutor.estaDisponible(horario.getFecha(), horario.getBloquehorario())){
+            throw new IncompatibilityException("El horario ya está siendo ocupado");
         }
 
         Reserva nuevaReserva = new Reserva(tutor, materia, horario);

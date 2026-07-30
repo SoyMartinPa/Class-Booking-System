@@ -182,10 +182,11 @@ public class GestorReservaTest {
     void modificarReservaSoloMateriaHorarioIgual() throws Exception {
         Tutor tutor = crearTutorDisponible("Juan Perez Lopez", "juan@gmail.com");
         tutor.ofrecerMateria(Materias.MATEMATICAS, 2000, 5);
+        tutor.ofrecerMateria(Materias.FISICA, 2000, 5);
         Reserva reserva = gestorReserva.registrarReserva(tutor, Materias.FISICA, horarioFuturo);
         assertDoesNotThrow(() ->
                 gestorReserva.modificarReserva(reserva, tutor, Materias.MATEMATICAS, horarioFuturo));
-    } //Este genera un error, pero lo arreglo mañana
+    }
 
     @Test
     void modificarReservaNuevoTutorConMenosCuposQueEstudiantesException() throws Exception {
