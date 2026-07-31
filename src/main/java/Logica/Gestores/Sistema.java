@@ -118,6 +118,20 @@ public class Sistema {
         }
         return null;
     }
+     /**
+     * Busca un tutor mediante su correo electrónico.
+     *
+     * @param id Identificador del tutor.
+     * @return tutor encontrado o {@code null} si no existe.
+     */
+    public Tutor buscarTutorPorId(String id) {
+    for (Tutor t : gestorTutores.getLista()) {
+        if (t.getId().equals(id)) {
+            return t;
+        }
+    }
+    return null;
+    }
     /**
      * Busca un estudiante mediante su nombre y apellido.
      *
@@ -145,6 +159,22 @@ public class Sistema {
             }
         }
         return null;
+    }
+    /**
+     * Busca un estudiante mediante su correo electrónico.
+     *
+     * @param id Identificador del estudiante.
+     * @return estudiante encontrado o {@code null} si no existe.
+     */
+    public Estudiante buscarEstudiantePorId(String id) {
+    for (Estudiante e : gestorEstudiantes.getLista()) {
+        if (e.getId().equals(id)) {
+            return e;
+        }
+    }
+    return null;
+    
+    
     }
     /**
      * Busca tutores que cumplen las condiciones necesarias para una reserva.

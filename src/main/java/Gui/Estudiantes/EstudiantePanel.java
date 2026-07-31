@@ -1,12 +1,20 @@
-
 package Gui.Estudiantes;
 
-public class EstudiantePanel extends javax.swing.JPanel {
+import Gui.Main;
+import Logica.Gestores.Sistema;
+import Logica.Perfiles.Estudiante;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
+public class EstudiantePanel extends javax.swing.JPanel {
+    
+    Sistema sistema = Sistema.getInstancia();
+    List<Estudiante> listaEstudiantes = sistema.getGestorEstudiantes().getLista();
     public EstudiantePanel() {
         initComponents();
-    }
+  }
 
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -17,13 +25,14 @@ public class EstudiantePanel extends javax.swing.JPanel {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jTextField1 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        BotonEstudiantes1 = new javax.swing.JButton();
-        BotonEstudiantes2 = new javax.swing.JButton();
-        BotonEstudiantes3 = new javax.swing.JButton();
+        tabla = new javax.swing.JTable();
+        modificar = new javax.swing.JButton();
+        eliminar = new javax.swing.JButton();
+        registrar = new javax.swing.JButton();
         Filtros = new javax.swing.JComboBox<>();
         jTextField2 = new javax.swing.JTextField();
-        BotonEstudiantes4 = new javax.swing.JButton();
+        buscar = new javax.swing.JButton();
+        actualizar = new javax.swing.JButton();
 
         BotonEstudiantes.setBackground(new java.awt.Color(0, 153, 255));
         BotonEstudiantes.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
@@ -51,71 +60,80 @@ public class EstudiantePanel extends javax.swing.JPanel {
 
         setPreferredSize(new java.awt.Dimension(502, 340));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "Email", "Nº Reservas"
+                "ID", "Nombre", "Email"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
 
-        BotonEstudiantes1.setBackground(new java.awt.Color(0, 153, 255));
-        BotonEstudiantes1.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
-        BotonEstudiantes1.setForeground(new java.awt.Color(255, 255, 255));
-        BotonEstudiantes1.setText("Modificar");
-        BotonEstudiantes1.setBorder(null);
-        BotonEstudiantes1.setBorderPainted(false);
-        BotonEstudiantes1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        BotonEstudiantes1.addActionListener(this::BotonEstudiantes1ActionPerformed);
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tabla.setSurrendersFocusOnKeystroke(true);
+        jScrollPane1.setViewportView(tabla);
 
-        BotonEstudiantes2.setBackground(new java.awt.Color(0, 153, 255));
-        BotonEstudiantes2.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
-        BotonEstudiantes2.setForeground(new java.awt.Color(255, 255, 255));
-        BotonEstudiantes2.setText("Eliminar");
-        BotonEstudiantes2.setBorder(null);
-        BotonEstudiantes2.setBorderPainted(false);
-        BotonEstudiantes2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        BotonEstudiantes2.addActionListener(this::BotonEstudiantes2ActionPerformed);
+        modificar.setBackground(new java.awt.Color(0, 153, 255));
+        modificar.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
+        modificar.setForeground(new java.awt.Color(255, 255, 255));
+        modificar.setText("Modificar");
+        modificar.setBorder(null);
+        modificar.setBorderPainted(false);
+        modificar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        modificar.addActionListener(this::modificarActionPerformed);
 
-        BotonEstudiantes3.setBackground(new java.awt.Color(0, 153, 255));
-        BotonEstudiantes3.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
-        BotonEstudiantes3.setForeground(new java.awt.Color(255, 255, 255));
-        BotonEstudiantes3.setText("Registrar");
-        BotonEstudiantes3.setBorder(null);
-        BotonEstudiantes3.setBorderPainted(false);
-        BotonEstudiantes3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        BotonEstudiantes3.addActionListener(this::BotonEstudiantes3ActionPerformed);
+        eliminar.setBackground(new java.awt.Color(0, 153, 255));
+        eliminar.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
+        eliminar.setForeground(new java.awt.Color(255, 255, 255));
+        eliminar.setText("Eliminar");
+        eliminar.setBorder(null);
+        eliminar.setBorderPainted(false);
+        eliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        eliminar.addActionListener(this::eliminarActionPerformed);
+
+        registrar.setBackground(new java.awt.Color(0, 153, 255));
+        registrar.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
+        registrar.setForeground(new java.awt.Color(255, 255, 255));
+        registrar.setText("Registrar");
+        registrar.setBorder(null);
+        registrar.setBorderPainted(false);
+        registrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        registrar.addActionListener(this::registrarActionPerformed);
 
         Filtros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Nombre", "Email" }));
 
-        BotonEstudiantes4.setBackground(new java.awt.Color(0, 153, 255));
-        BotonEstudiantes4.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
-        BotonEstudiantes4.setForeground(new java.awt.Color(255, 255, 255));
-        BotonEstudiantes4.setText("Buscar");
-        BotonEstudiantes4.setBorder(null);
-        BotonEstudiantes4.setBorderPainted(false);
-        BotonEstudiantes4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        BotonEstudiantes4.addActionListener(this::BotonEstudiantes4ActionPerformed);
+        buscar.setBackground(new java.awt.Color(0, 153, 255));
+        buscar.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
+        buscar.setForeground(new java.awt.Color(255, 255, 255));
+        buscar.setText("Buscar");
+        buscar.setBorder(null);
+        buscar.setBorderPainted(false);
+        buscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        buscar.addActionListener(this::buscarActionPerformed);
+
+        actualizar.setBackground(new java.awt.Color(0, 153, 255));
+        actualizar.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
+        actualizar.setForeground(new java.awt.Color(255, 255, 255));
+        actualizar.setText("Actualizar");
+        actualizar.setBorder(null);
+        actualizar.setBorderPainted(false);
+        actualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        actualizar.addActionListener(this::actualizarActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BotonEstudiantes3, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BotonEstudiantes1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BotonEstudiantes2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -123,9 +141,18 @@ public class EstudiantePanel extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextField2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(BotonEstudiantes4, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(27, Short.MAX_VALUE))
+                                .addComponent(buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addComponent(actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(registrar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,52 +161,72 @@ public class EstudiantePanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Filtros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BotonEstudiantes4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(buscar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BotonEstudiantes1)
-                    .addComponent(BotonEstudiantes3)
-                    .addComponent(BotonEstudiantes2))
+                    .addComponent(modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(registrar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonEstudiantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEstudiantesActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_BotonEstudiantesActionPerformed
 
-    private void BotonEstudiantes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEstudiantes1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BotonEstudiantes1ActionPerformed
+    private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
+        Main.getInstance().cambiarPantalla("EstudianteModificar");
+    }//GEN-LAST:event_modificarActionPerformed
 
-    private void BotonEstudiantes2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEstudiantes2ActionPerformed
+    private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_BotonEstudiantes2ActionPerformed
+    }//GEN-LAST:event_eliminarActionPerformed
 
-    private void BotonEstudiantes3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEstudiantes3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BotonEstudiantes3ActionPerformed
+    private void registrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarActionPerformed
+        Main.getInstance().cambiarPantalla("EstudianteRegistrar");
+    }//GEN-LAST:event_registrarActionPerformed
 
-    private void BotonEstudiantes4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEstudiantes4ActionPerformed
+    private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_BotonEstudiantes4ActionPerformed
+    }//GEN-LAST:event_buscarActionPerformed
+
+    private void actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarActionPerformed
+    
+        if (listaEstudiantes != null){
+
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            modelo.setRowCount(0);
+
+            for (Estudiante estudiante : sistema.getGestorEstudiantes().getLista()){
+                String id = estudiante.getId();
+                String nombre = estudiante.getNombre();
+                String email = estudiante.getEmail();
+
+                Object[] lista = {id,nombre,email};
+                modelo.addRow(lista);
+            }
+        }
+    }//GEN-LAST:event_actualizarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonEstudiantes;
-    private javax.swing.JButton BotonEstudiantes1;
-    private javax.swing.JButton BotonEstudiantes2;
-    private javax.swing.JButton BotonEstudiantes3;
-    private javax.swing.JButton BotonEstudiantes4;
     private javax.swing.JComboBox<String> Filtros;
+    private javax.swing.JButton actualizar;
+    private javax.swing.JButton buscar;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton eliminar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JButton modificar;
+    private javax.swing.JButton registrar;
+    private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 }

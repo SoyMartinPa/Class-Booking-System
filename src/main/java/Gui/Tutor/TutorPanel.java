@@ -1,6 +1,8 @@
 
 package Gui.Tutor;
 
+import Gui.Main;
+
 public class TutorPanel extends javax.swing.JPanel {
 
     public TutorPanel() {
@@ -152,7 +154,7 @@ public class TutorPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_BotonEstudiantesActionPerformed
 
     private void BotonEstudiantes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEstudiantes1ActionPerformed
-        // TODO add your handling code here:
+        Main.getInstance().cambiarPantalla("TutorModificar");
     }//GEN-LAST:event_BotonEstudiantes1ActionPerformed
 
     private void BotonEstudiantes2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEstudiantes2ActionPerformed
@@ -160,7 +162,7 @@ public class TutorPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_BotonEstudiantes2ActionPerformed
 
     private void BotonEstudiantes3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEstudiantes3ActionPerformed
-        // TODO add your handling code here:
+        Main.getInstance().cambiarPantalla("TutorRegistrar");
     }//GEN-LAST:event_BotonEstudiantes3ActionPerformed
 
     private void BotonEstudiantes4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEstudiantes4ActionPerformed

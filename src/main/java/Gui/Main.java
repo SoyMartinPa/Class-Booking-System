@@ -1,31 +1,59 @@
 package Gui;
 
+import Gui.Estudiantes.EstudianteModificarPanel;
 import Gui.Estudiantes.EstudiantePanel;
+import Gui.Estudiantes.EstudianteRegistrarPanel;
+import Gui.Reserva.ReservaModificarPanel;
 import Gui.Reserva.ReservaPanel;
+import Gui.Reserva.ReservaRegistrarPanel;
+import Gui.Tutor.TutorModificarPanel;
 import Gui.Tutor.TutorPanel;
+import Gui.Tutor.TutorRegistrarPanel;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.CardLayout;
 
 public class Main extends javax.swing.JFrame {
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Main.class.getName());
-   
+    
     public static CardLayout cardLayout;
-
-    public Main() {
+    private static Main instance;
+    
+        private Main() { 
         initComponents();
         initPanelDinamico();
     }
-        private void initPanelDinamico(){
-        cardLayout = new CardLayout();
-        PanelDinamico.setLayout(cardLayout);
-        PanelDinamico.add(new InformacionPanel(), "Informacion");
-        PanelDinamico.add(new EstudiantePanel(), "Estudiante");
-        PanelDinamico.add(new TutorPanel(), "Tutor");
-        PanelDinamico.add(new ReservaPanel(), "Reserva");
-        cardLayout.show(PanelDinamico, "Informacion");
+
+    public static Main getInstance() {
+        if (instance == null) {
+            instance = new Main();
+        }
+        return instance;
+    }
+
+    public void cambiarPantalla(String nombre){
+        cardLayout.show(PanelDinamico, nombre);
+    }
+
+    private void initPanelDinamico(){
+    cardLayout = new CardLayout();
+    PanelDinamico.setLayout(cardLayout);
+
+    PanelDinamico.add(new EstudiantePanel(), "Estudiante");
+    PanelDinamico.add(new TutorPanel(), "Tutor");
+    PanelDinamico.add(new ReservaPanel(), "Reserva");
+    PanelDinamico.add(new InformacionPanel(), "Informacion");
+
+    PanelDinamico.add(new TutorRegistrarPanel(), "TutorRegistrar");
+    PanelDinamico.add(new TutorModificarPanel(), "TutorModificar");
+    PanelDinamico.add(new EstudianteRegistrarPanel(), "EstudianteRegistrar");
+    PanelDinamico.add(new EstudianteModificarPanel(), "EstudianteModificar");
+    PanelDinamico.add(new ReservaRegistrarPanel(), "ReservaRegistrar");
+    PanelDinamico.add(new ReservaModificarPanel(), "ReservaModificar");
+
+
+
+    cardLayout.show(PanelDinamico, "Informacion");
     }
     
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -189,7 +217,7 @@ public class Main extends javax.swing.JFrame {
             } catch (Exception ex) {
                 ex.printStackTrace();
                 }
-        java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new Main().getInstance().setVisible(true));
     }
 
 
