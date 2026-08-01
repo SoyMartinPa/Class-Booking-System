@@ -1,18 +1,36 @@
 package Gui.Estudiantes;
 
+import Excepciones.IncompatibilityException;
 import Gui.Main;
 import Logica.Gestores.Sistema;
 import Logica.Perfiles.Estudiante;
-import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class EstudiantePanel extends javax.swing.JPanel {
     
     Sistema sistema = Sistema.getInstancia();
-    List<Estudiante> listaEstudiantes = sistema.getGestorEstudiantes().getLista();
+    
     public EstudiantePanel() {
         initComponents();
-  }
+        modelo  = (DefaultTableModel) tabla.getModel();
+    }
+    
+    public void actualizar() {                                           
+
+            if (sistema.getGestorEstudiantes().getLista() != null){
+                modelo.setRowCount(0);
+
+                for (Estudiante estudiante : sistema.getGestorEstudiantes().getLista()){
+                    String id = estudiante.getId();
+                    String nombre = estudiante.getNombre();
+                    String email = estudiante.getEmail();
+
+                    Object[] lista = {id,nombre,email};
+                    modelo.addRow(lista);
+                }
+            }
+        }                                          
 
     
     @SuppressWarnings("unchecked")
@@ -30,9 +48,9 @@ public class EstudiantePanel extends javax.swing.JPanel {
         eliminar = new javax.swing.JButton();
         registrar = new javax.swing.JButton();
         Filtros = new javax.swing.JComboBox<>();
-        jTextField2 = new javax.swing.JTextField();
+        BuscarField = new javax.swing.JTextField();
         buscar = new javax.swing.JButton();
-        actualizar = new javax.swing.JButton();
+        ver = new javax.swing.JButton();
 
         BotonEstudiantes.setBackground(new java.awt.Color(0, 153, 255));
         BotonEstudiantes.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
@@ -62,7 +80,7 @@ public class EstudiantePanel extends javax.swing.JPanel {
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null}
+
             },
             new String [] {
                 "ID", "Nombre", "Email"
@@ -77,6 +95,7 @@ public class EstudiantePanel extends javax.swing.JPanel {
             }
         });
         tabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tabla.setShowGrid(true);
         tabla.setSurrendersFocusOnKeystroke(true);
         jScrollPane1.setViewportView(tabla);
 
@@ -108,6 +127,9 @@ public class EstudiantePanel extends javax.swing.JPanel {
         registrar.addActionListener(this::registrarActionPerformed);
 
         Filtros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Nombre", "Email" }));
+        Filtros.addActionListener(this::FiltrosActionPerformed);
+
+        BuscarField.addActionListener(this::BuscarFieldActionPerformed);
 
         buscar.setBackground(new java.awt.Color(0, 153, 255));
         buscar.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
@@ -118,14 +140,14 @@ public class EstudiantePanel extends javax.swing.JPanel {
         buscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         buscar.addActionListener(this::buscarActionPerformed);
 
-        actualizar.setBackground(new java.awt.Color(0, 153, 255));
-        actualizar.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
-        actualizar.setForeground(new java.awt.Color(255, 255, 255));
-        actualizar.setText("Actualizar");
-        actualizar.setBorder(null);
-        actualizar.setBorderPainted(false);
-        actualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        actualizar.addActionListener(this::actualizarActionPerformed);
+        ver.setBackground(new java.awt.Color(0, 153, 255));
+        ver.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
+        ver.setForeground(new java.awt.Color(255, 255, 255));
+        ver.setText("Ver");
+        ver.setBorder(null);
+        ver.setBorderPainted(false);
+        ver.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ver.addActionListener(this::verActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -139,13 +161,13 @@ public class EstudiantePanel extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(Filtros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField2)
+                                .addComponent(BuscarField)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(41, 41, 41)
-                        .addComponent(actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ver, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(registrar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -160,7 +182,7 @@ public class EstudiantePanel extends javax.swing.JPanel {
                 .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Filtros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BuscarField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -168,7 +190,7 @@ public class EstudiantePanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(registrar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ver, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -179,11 +201,53 @@ public class EstudiantePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_BotonEstudiantesActionPerformed
 
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
+        int fila = tabla.getSelectedRow();
+        String id = "";
+        String nombre = "";
+        String email = "";
+        
+        if (fila != -1) {
+            id = tabla.getValueAt(fila, 0).toString();
+            nombre = tabla.getValueAt(fila, 1).toString();
+            email = tabla.getValueAt(fila, 2).toString();
+        }
+        Main.getInstance().getEstudianteModificarPanel().getIdField().setText(id);
+        Main.getInstance().getEstudianteModificarPanel().getEmailField().setText(email);
+        Main.getInstance().getEstudianteModificarPanel().getNombreField().setText(nombre);
+        
         Main.getInstance().cambiarPantalla("EstudianteModificar");
+        
     }//GEN-LAST:event_modificarActionPerformed
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-        // TODO add your handling code here:
+        
+        int fila = tabla.getSelectedRow();
+        if (fila != -1) {
+            String id = tabla.getValueAt(fila, 0).toString();
+            try {
+                
+                Estudiante estudiante = sistema.buscarEstudiantePorId(id);
+                
+                int opcion = JOptionPane.showConfirmDialog(
+                        this,
+                        "¿Seguro que deseas eliminar este estudiante?",
+                        "Confirmar eliminación",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE
+                    );
+                if (opcion == JOptionPane.YES_OPTION) {
+                     sistema.eliminarEstudiante(estudiante);
+                     Main.getInstance().getEstudiantePanel().actualizar();
+                    }
+            } catch(Exception e) {
+                JOptionPane.showMessageDialog(
+                this,
+                e.getMessage(),
+                e.getClass().getSimpleName(),
+                JOptionPane.ERROR_MESSAGE
+            );
+            };
+        }
     }//GEN-LAST:event_eliminarActionPerformed
 
     private void registrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarActionPerformed
@@ -191,32 +255,68 @@ public class EstudiantePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_registrarActionPerformed
 
     private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
-        // TODO add your handling code here:
+       
+       String filtro = Filtros.getSelectedItem().toString();
+       String texto = BuscarField.getText();
+       Estudiante estudiante;
+       String id;
+       String nombre;
+       String email;
+       Object[] lista;
+       try{
+           
+        estudiante = switch (filtro) {
+            case "ID" -> sistema.buscarEstudiantePorId(texto);
+
+            case "Nombre" -> sistema.buscarEstudiantePorNombre(texto);
+
+            case "Email" -> sistema.buscarEstudiantePorEmail(texto);
+                
+            default -> throw new IncompatibilityException("Error de filtrado desconocido");
+        };
+
+        modelo.setRowCount(0);
+        id = estudiante.getId();
+        nombre = estudiante.getNombre();
+        email = estudiante.getEmail();
+        lista = new Object[]{id,nombre,email};
+        modelo.addRow(lista);
+        
+       } catch (Exception e){
+                JOptionPane.showMessageDialog(
+                this,
+                e.getMessage(),
+                e.getClass().getSimpleName(),
+                JOptionPane.ERROR_MESSAGE);
+                actualizar();
+        };
     }//GEN-LAST:event_buscarActionPerformed
 
-    private void actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarActionPerformed
-    
-        if (listaEstudiantes != null){
+    private void verActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verActionPerformed
+           int fila = tabla.getSelectedRow();
+           if (fila != -1) {
+            String id = tabla.getValueAt(fila, 0).toString();
+            Estudiante estudiante = sistema.buscarEstudiantePorId(id);
+            
+            Main.getInstance().cambiarPantalla("EstudiantePerfil");
+            Main.getInstance().getEstudiantePerfilPanel().setEstudiante(estudiante);
+            Main.getInstance().getEstudiantePerfilPanel().actualizar();
+           } 
+        }//GEN-LAST:event_verActionPerformed
 
-            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-            modelo.setRowCount(0);
+    private void BuscarFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BuscarFieldActionPerformed
 
-            for (Estudiante estudiante : sistema.getGestorEstudiantes().getLista()){
-                String id = estudiante.getId();
-                String nombre = estudiante.getNombre();
-                String email = estudiante.getEmail();
-
-                Object[] lista = {id,nombre,email};
-                modelo.addRow(lista);
-            }
-        }
-    }//GEN-LAST:event_actualizarActionPerformed
+    private void FiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FiltrosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_FiltrosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonEstudiantes;
+    private javax.swing.JTextField BuscarField;
     private javax.swing.JComboBox<String> Filtros;
-    private javax.swing.JButton actualizar;
     private javax.swing.JButton buscar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton eliminar;
@@ -224,9 +324,10 @@ public class EstudiantePanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JButton modificar;
     private javax.swing.JButton registrar;
     private javax.swing.JTable tabla;
+    private javax.swing.JButton ver;
     // End of variables declaration//GEN-END:variables
+    DefaultTableModel modelo;
 }

@@ -1,0 +1,171 @@
+package Gui.Estudiantes;
+
+import Logica.Gestores.Sistema;
+import Logica.Perfiles.Estudiante;
+import Logica.Reservas.EstadoReserva;
+import Logica.Reservas.Horario;
+import Logica.Reservas.Reserva;
+import javax.swing.table.DefaultTableModel;
+
+public class EstudiantePerfilPanel extends javax.swing.JPanel {
+    Sistema sistema = Sistema.getInstancia();
+    Estudiante estudiante;
+    
+    public EstudiantePerfilPanel() {
+        initComponents();
+    }
+
+    public Estudiante getEstudiante() {
+        return estudiante;
+    }
+
+    public void setEstudiante(Estudiante estudiante) {
+        this.estudiante = estudiante;
+    }
+    
+    
+    public void actualizar() {                                           
+
+            if (estudiante.getReservasActivas() != null){
+
+                DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+                modelo.setRowCount(0);
+
+                for (Reserva reserva : sistema.verCalendarioEstudiante(estudiante)){
+                    String id = reserva.getId();
+                    Horario horario = reserva.getHorario();
+                    EstadoReserva estado = reserva.getEstado();
+
+                    Object[] lista = {id,horario,estado};
+                    modelo.addRow(lista);
+                }
+            }
+            nombreLabel.setText("Nombre: " + estudiante.getNombre());
+            emailLabel.setText("Email: " + estudiante.getEmail());
+            idLabel.setText("ID: " + estudiante.getId());
+        }                                          
+
+    
+    
+    
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        BotonEstudiantes = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jTextField1 = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabla = new javax.swing.JTable();
+        nombreLabel = new javax.swing.JLabel();
+        idLabel = new javax.swing.JLabel();
+        emailLabel = new javax.swing.JLabel();
+
+        BotonEstudiantes.setBackground(new java.awt.Color(0, 153, 255));
+        BotonEstudiantes.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
+        BotonEstudiantes.setForeground(new java.awt.Color(255, 255, 255));
+        BotonEstudiantes.setText("Estudiantes");
+        BotonEstudiantes.setBorder(null);
+        BotonEstudiantes.setBorderPainted(false);
+        BotonEstudiantes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BotonEstudiantes.addActionListener(this::BotonEstudiantesActionPerformed);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
+        jTextField1.setText("Buscador");
+
+        setPreferredSize(new java.awt.Dimension(502, 340));
+
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ReservaID", "Fecha", "Estado"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tabla.setShowGrid(true);
+        tabla.setSurrendersFocusOnKeystroke(true);
+        jScrollPane1.setViewportView(tabla);
+
+        nombreLabel.setText("Nombre:");
+
+        idLabel.setText("ID: ");
+
+        emailLabel.setText("Email: ");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(idLabel)
+                .addGap(160, 160, 160))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(emailLabel)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nombreLabel))
+                        .addContainerGap(26, Short.MAX_VALUE))))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nombreLabel)
+                    .addComponent(idLabel))
+                .addGap(18, 18, 18)
+                .addComponent(emailLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void BotonEstudiantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEstudiantesActionPerformed
+       
+    }//GEN-LAST:event_BotonEstudiantesActionPerformed
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BotonEstudiantes;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JLabel emailLabel;
+    private javax.swing.JLabel idLabel;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel nombreLabel;
+    private javax.swing.JTable tabla;
+    // End of variables declaration//GEN-END:variables
+}

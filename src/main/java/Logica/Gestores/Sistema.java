@@ -1,4 +1,5 @@
 package Logica.Gestores;
+import Excepciones.NotFoundException;
 import Excepciones.RemoveException;
 import Logica.Enumeraciones.BloquesHorarios;
 import Logica.Enumeraciones.Materias;
@@ -108,71 +109,92 @@ public class Sistema {
      * Busca un tutor mediante su correo electrónico.
      *
      * @param email correo electrónico del tutor.
-     * @return tutor encontrado o {@code null} si no existe.
+     * @return tutor encontrado.
+     * @throws NotFoundException si el tutor no fue encontrado.
      */
-    public Tutor buscarTutorPorEmail(String email) {
+    public Tutor buscarTutorPorEmail(String email) throws NotFoundException{
         for (Tutor t : gestorTutores.getLista()) {
             if (t.getEmail().equals(email)) {
                 return t;
             }
         }
-        return null;
+        throw new NotFoundException("El email ingresado no se asocia a ningun tutor");
     }
      /**
      * Busca un tutor mediante su correo electrónico.
      *
      * @param id Identificador del tutor.
-     * @return tutor encontrado o {@code null} si no existe.
+     * @return tutor encontrado.
+      * @throws NotFoundException si el tutor no fue encontrado.
      */
-    public Tutor buscarTutorPorId(String id) {
+    public Tutor buscarTutorPorId(String id) throws NotFoundException{
     for (Tutor t : gestorTutores.getLista()) {
         if (t.getId().equals(id)) {
             return t;
         }
     }
-    return null;
+        throw new NotFoundException("El ID ingresado no se asocia a ningun tutor");
+    }
+
+    /**
+     * Busca un tutor mediante su Nombre
+     *
+     * @param nombre nombre del tutor.
+     * @return tutor encontrado
+     * @throws NotFoundException si el tutor no fue encontrado
+     */
+    public Tutor buscarTutorPorNombre(String nombre) throws NotFoundException{
+        for (Tutor t : gestorTutores.getLista()) {
+            if (t.getNombre().equals(nombre)) {
+                return t;
+            }
+        }
+        throw new NotFoundException("El nombre ingresado no se asocia a ningun tutor");
     }
     /**
      * Busca un estudiante mediante su nombre y apellido.
      *
      * @param nombre nombre del estudiante.
-     * @return estudiante encontrado o {@code null} si no existe.
+     * @return estudiante encontrado
+     * @throws NotFoundException si estudiante no encontrado
      */
-    public Estudiante buscarEstudiantePorNombre(String nombre) {
+    public Estudiante buscarEstudiantePorNombre(String nombre) throws NotFoundException{
         for (Estudiante e : gestorEstudiantes.getLista()) {
             if (e.getNombre().equals(nombre)) {
                 return e;
             }
         }
-        return null;
+        throw new NotFoundException("El nombre ingresado no se asocia a ningun estudiante");
     }
     /**
      * Busca un estudiante mediante su correo electrónico.
      *
      * @param email correo electrónico del estudiante.
-     * @return estudiante encontrado o {@code null} si no existe.
+     * @return estudiante encontrado.
+     * @throws NotFoundException si estudiante no encontrado
      */
-    public Estudiante buscarEstudiantePorEmail(String email) {
+    public Estudiante buscarEstudiantePorEmail(String email) throws NotFoundException {
         for (Estudiante e : gestorEstudiantes.getLista()) {
             if (e.getEmail().equals(email)) {
                 return e;
             }
         }
-        return null;
+        throw new NotFoundException("El email ingresado no se asocia a ningun estudiante");
     }
     /**
      * Busca un estudiante mediante su correo electrónico.
      *
      * @param id Identificador del estudiante.
-     * @return estudiante encontrado o {@code null} si no existe.
+     * @return estudiante encontrado.
+     * @throws NotFoundException si estudiante no encontrado
      */
-    public Estudiante buscarEstudiantePorId(String id) {
+    public Estudiante buscarEstudiantePorId(String id) throws NotFoundException {
     for (Estudiante e : gestorEstudiantes.getLista()) {
         if (e.getId().equals(id)) {
             return e;
         }
     }
-    return null;
+        throw new NotFoundException("El ID ingresado no se asocia a ningun estudiante");
     
     
     }
@@ -237,17 +259,14 @@ public class Sistema {
      * recibido. Las reservas completadas y canceladas siempre son consideradas.</p>
      *
      * @param tutor tutor cuyo calendario será consultado.
-     * @param pendientes indica si deben incluirse reservas pendientes.
      *
      * @return lista de reservas asociadas al tutor.
      */
-    public List<Reserva> verCalendarioTutor(Tutor tutor, boolean pendientes) {
+    public List<Reserva> verCalendarioTutor(Tutor tutor) {
         List<Reserva> resultado = new ArrayList<>();
 
-        if (pendientes) {
-            for (Reserva r : gestorReservas.getListaReservasPendientes()) {
-                if (r.getTutorAsociado() == tutor) resultado.add(r);
-            }
+        for (Reserva r : gestorReservas.getListaReservasPendientes()) {
+            if (r.getTutorAsociado() == tutor) resultado.add(r);
         }
         for (Reserva r : gestorReservas.getListaReservasCompletadas()) {
             if (r.getTutorAsociado() == tutor) resultado.add(r);
@@ -262,17 +281,14 @@ public class Sistema {
      * Obtiene las reservas asociadas a un estudiante.
      *
      * @param estudiante estudiante cuyo calendario será consultado.
-     * @param pendientes indica si deben incluirse reservas pendientes.
      *
      * @return lista de reservas donde participa el estudiante.
      */
-    public List<Reserva> verCalendarioEstudiante(Estudiante estudiante, boolean pendientes) {
+    public List<Reserva> verCalendarioEstudiante(Estudiante estudiante) {
         List<Reserva> resultado = new ArrayList<>();
 
         List<Reserva> todas = new ArrayList<>();
-        if (pendientes) {
-            todas.addAll(gestorReservas.getListaReservasPendientes());
-        }
+        todas.addAll(gestorReservas.getListaReservasPendientes());
         todas.addAll(gestorReservas.getListaReservasCompletadas());
         todas.addAll(gestorReservas.getListaReservasCanceladas());
 
@@ -284,35 +300,6 @@ public class Sistema {
         return resultado;
     }
     /**
-     * Filtra reservas utilizando un conjunto de criterios definidos externamente.
-     *
-     * <p>Permite seleccionar qué estados de reserva considerar y aplicar un filtro
-     * compuesto mediante {@link FiltroCompuesto}.</p>
-     *
-     * @param filtro criterio compuesto de filtrado.
-     * @param incluirPendientes indica si se incluyen reservas pendientes.
-     * @param incluirCompletadas indica si se incluyen reservas completadas.
-     * @param incluirCanceladas indica si se incluyen reservas canceladas.
-     *
-     * @return lista de reservas que cumplen los filtros.
-     */
-    public List<Reserva> filtrarReservas(FiltroCompuesto filtro,
-                                          boolean incluirPendientes,
-                                          boolean incluirCompletadas,
-                                          boolean incluirCanceladas) {
-        List<Reserva> todas = new ArrayList<>();
-        if (incluirPendientes) {
-            todas.addAll(gestorReservas.getListaReservasPendientes());
-        }
-        if (incluirCompletadas) {
-            todas.addAll(gestorReservas.getListaReservasCompletadas());
-        }
-        if (incluirCanceladas) {
-            todas.addAll(gestorReservas.getListaReservasCanceladas());
-        }
-        return gestorReservas.filtrador(todas, filtro);
-    }
-    /**
      * Busca una reserva utilizando su identificador único.
      *
      * <p>La búsqueda considera reservas pendientes, completadas y canceladas.</p>
@@ -320,7 +307,7 @@ public class Sistema {
      * @param id identificador de la reserva.
      * @return reserva encontrada o {@code null} si no existe.
      */
-    public Reserva buscarReservaPorId(String id) {
+    public Reserva buscarReservaPorId(String id) throws NotFoundException{
         List<Reserva> todas = new ArrayList<>();
         todas.addAll(gestorReservas.getListaReservasPendientes());
         todas.addAll(gestorReservas.getListaReservasCompletadas());
@@ -331,7 +318,7 @@ public class Sistema {
                 return r;
             }
         }
-        return null;
+        throw new NotFoundException("El ID ingresado no se asocia a ninguna Reserva");
     }
 
     public GestorTutor getGestorTutores() {

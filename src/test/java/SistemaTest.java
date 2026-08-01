@@ -163,7 +163,7 @@ public class SistemaTest {
     void verCalendarioTutorConPendientesIncluyePendientes() throws Exception {
         Tutor tutor = crearTutorDisponible("Juan Perez Lopez", "juan@gmail.com");
         Reserva reserva = sistema.getGestorReservas().registrarReserva(tutor, Materias.FISICA, horarioFuturo);
-        List<Reserva> calendario = sistema.verCalendarioTutor(tutor, true);
+        List<Reserva> calendario = sistema.verCalendarioTutor(tutor);
         assertTrue(calendario.contains(reserva));
     }
 
@@ -174,7 +174,7 @@ public class SistemaTest {
         Reserva completada = sistema.getGestorReservas().registrarReserva(tutor, Materias.FISICA, horarioFuturo2);
         sistema.getGestorReservas().completarReserva(completada);
 
-        List<Reserva> calendario = sistema.verCalendarioTutor(tutor, false);
+        List<Reserva> calendario = sistema.verCalendarioTutor(tutor);
         assertFalse(calendario.contains(pendiente));
         assertTrue(calendario.contains(completada));
     }
@@ -191,7 +191,7 @@ public class SistemaTest {
         Reserva reservaTutor1 = sistema.getGestorReservas().registrarReserva(tutor1, Materias.FISICA, horarioFuturo);
         Reserva reservaTutor2 = sistema.getGestorReservas().registrarReserva(tutor2, Materias.FISICA, horarioFuturo);
 
-        List<Reserva> calendario = sistema.verCalendarioTutor(tutor1, true);
+        List<Reserva> calendario = sistema.verCalendarioTutor(tutor1);
         assertTrue(calendario.contains(reservaTutor1));
         assertFalse(calendario.contains(reservaTutor2));
     }
@@ -202,7 +202,7 @@ public class SistemaTest {
         Estudiante estudiante = crearEstudiante("Ana Garcia Lopez", "ana@gmail.com");
         Reserva reserva = sistema.getGestorReservas().registrarReserva(tutor, Materias.FISICA, horarioFuturo);
         sistema.getGestorReservas().agregarEstudiantesReserva(reserva, estudiante);
-        List<Reserva> calendario = sistema.verCalendarioEstudiante(estudiante, true);
+        List<Reserva> calendario = sistema.verCalendarioEstudiante(estudiante);
         assertTrue(calendario.contains(reserva));
     }
 

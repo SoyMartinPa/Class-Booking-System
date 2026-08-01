@@ -3,12 +3,26 @@ package Gui.Estudiantes;
 import Logica.Gestores.Sistema;
 import Logica.Perfiles.Estudiante;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 public class EstudianteModificarPanel extends javax.swing.JPanel {
+    
     Sistema sistema = Sistema.getInstancia();
 
     public EstudianteModificarPanel() {
         initComponents();
+    }
+
+    public JTextField getIdField() {
+        return idField;
+    }
+
+    public JTextField getEmailField() {
+        return emailField;
+    }
+
+    public JTextField getNombreField() {
+        return nombreField;
     }
 
     @SuppressWarnings("unchecked")
@@ -20,7 +34,7 @@ public class EstudianteModificarPanel extends javax.swing.JPanel {
         jTable2 = new javax.swing.JTable();
         buttonGroup1 = new javax.swing.ButtonGroup();
         jTextField1 = new javax.swing.JTextField();
-        modificarField = new javax.swing.JButton();
+        modificarBoton = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         emailField = new javax.swing.JTextField();
@@ -56,14 +70,14 @@ public class EstudianteModificarPanel extends javax.swing.JPanel {
 
         setPreferredSize(new java.awt.Dimension(502, 340));
 
-        modificarField.setBackground(new java.awt.Color(0, 153, 255));
-        modificarField.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
-        modificarField.setForeground(new java.awt.Color(255, 255, 255));
-        modificarField.setText("Modificar");
-        modificarField.setBorder(null);
-        modificarField.setBorderPainted(false);
-        modificarField.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        modificarField.addActionListener(this::modificarFieldActionPerformed);
+        modificarBoton.setBackground(new java.awt.Color(0, 153, 255));
+        modificarBoton.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
+        modificarBoton.setForeground(new java.awt.Color(255, 255, 255));
+        modificarBoton.setText("Modificar");
+        modificarBoton.setBorder(null);
+        modificarBoton.setBorderPainted(false);
+        modificarBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        modificarBoton.addActionListener(this::modificarBotonActionPerformed);
 
         jLabel2.setText("Nombre:");
 
@@ -110,10 +124,11 @@ public class EstudianteModificarPanel extends javax.swing.JPanel {
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(51, 51, 51));
         jLabel1.setText("Modificar Estudiante");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -121,29 +136,27 @@ public class EstudianteModificarPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
-                        .addComponent(modificarField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(43, 43, 43)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
+                .addComponent(modificarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(17, 17, 17)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(29, 29, 29))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(modificarField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(modificarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -152,9 +165,32 @@ public class EstudianteModificarPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_BotonEstudiantesActionPerformed
 
-    private void modificarFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarFieldActionPerformed
-
-    }//GEN-LAST:event_modificarFieldActionPerformed
+    private void modificarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarBotonActionPerformed
+        String email = emailField.getText();
+        String nombre = nombreField.getText();
+        String id = idField.getText();
+        
+        try{ 
+            Estudiante estudiante = sistema.buscarEstudiantePorId(id);
+            sistema.getGestorEstudiantes().verificarNombre(nombre);
+            sistema.getGestorEstudiantes().verificarEmail(email);
+            estudiante.setEmail(email);
+            estudiante.setNombre(nombre);
+            
+            emailField.setText("");
+            nombreField.setText("");
+            idField.setText("");
+            
+        } catch(Exception e){ 
+            JOptionPane.showMessageDialog(
+            this,
+            e.getMessage(),
+            e.getClass().getSimpleName(),
+            JOptionPane.ERROR_MESSAGE
+            );
+        }   
+        
+    }//GEN-LAST:event_modificarBotonActionPerformed
 
     private void emailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailFieldActionPerformed
         // TODO add your handling code here:
@@ -182,7 +218,7 @@ public class EstudianteModificarPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JButton modificarField;
+    private javax.swing.JButton modificarBoton;
     private javax.swing.JTextField nombreField;
     // End of variables declaration//GEN-END:variables
     }

@@ -22,7 +22,7 @@ public class Reserva{
 
     public Reserva(Tutor tutor, Materias materia, Horario horario) {
         UUID uuid = UUID.randomUUID(); //Podria haber otro sistema de ID más interesante
-        this.id = uuid.toString();
+        this.id = uuid.toString().replace("-", "").substring(0,15);
         this.tutorAsociado = tutor;
         this.materia = materia;
         this.horario = horario;

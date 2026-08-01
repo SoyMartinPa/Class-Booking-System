@@ -32,7 +32,7 @@ public abstract class PerfilBasico {
 
     public PerfilBasico(String nombre, String email){
         UUID uuid = UUID.randomUUID(); //Tal vés podría hacer que cada perfil tenga un identificador unico
-        this.id = uuid.toString();
+        this.id = uuid.toString().replace("-", "").substring(0,12);
         this.nombre = nombre;
         this.email = email;
         this.reservasActivas = new ArrayList<>();

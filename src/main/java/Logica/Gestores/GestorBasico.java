@@ -44,7 +44,7 @@ public abstract class GestorBasico<T extends PerfilBasico> {
      * @throws NameException si el formato del nombre es inválido
      *         o ya existe un perfil con ese nombre.
      */
-    protected void verificarNombre(String nombre) throws NameException, NullPointerException, NoRepeatException {
+    public void verificarNombre(String nombre) throws NameException, NullPointerException, NoRepeatException {
 
         if (nombre == null) {
             throw new NullPointerException("El nombre no puede ser nulo");
@@ -86,7 +86,7 @@ public abstract class GestorBasico<T extends PerfilBasico> {
      * @throws EmailException si el formato del correo es inválido
      * @throws NoRepeatException si el correo ya está registrado
      */
-    protected void verificarEmail(String email) throws NoRepeatException, NullPointerException, EmailException {
+    public void verificarEmail(String email) throws NoRepeatException, NullPointerException, EmailException {
         if (email == null){
             throw new NullPointerException("Email no pueden ser vacios");
         }
@@ -111,6 +111,20 @@ public abstract class GestorBasico<T extends PerfilBasico> {
     public void cambiarEmail(T usuario, String email) throws NoRepeatException,NullPointerException,EmailException{
         verificarEmail(email);
         usuario.setEmail(email);
+    }
+    
+    /**
+     * Actualiza el nombre de un usuario verificando previamente
+     * que el nuevo nombre sea válido y no esté ocupado.
+     *
+     * @param usuario perfil cuyo correo será modificado.
+     * @param nombre nombre del nuevo usuario.
+     * @throws NameException si el nombre no cumple las reglas de validación.
+     * @throws NoRepeatException si el nombre ya está registrado
+     */
+    public void cambiarNombre(T usuario, String nombre) throws NoRepeatException,NullPointerException,NameException{
+    verificarNombre(nombre);
+    usuario.setNombre(nombre);
     }
 
     /**

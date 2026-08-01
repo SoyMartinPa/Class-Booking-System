@@ -2,6 +2,7 @@ package Gui;
 
 import Gui.Estudiantes.EstudianteModificarPanel;
 import Gui.Estudiantes.EstudiantePanel;
+import Gui.Estudiantes.EstudiantePerfilPanel;
 import Gui.Estudiantes.EstudianteRegistrarPanel;
 import Gui.Reserva.ReservaModificarPanel;
 import Gui.Reserva.ReservaPanel;
@@ -16,10 +17,21 @@ public class Main extends javax.swing.JFrame {
     
     public static CardLayout cardLayout;
     private static Main instance;
-    
-        private Main() { 
-        initComponents();
-        initPanelDinamico();
+    private final EstudiantePanel estudiantePanel = new EstudiantePanel();
+    private final TutorPanel tutorPanel = new TutorPanel();
+    private final ReservaPanel reservaPanel = new ReservaPanel();
+    private final InformacionPanel informacionPanel = new InformacionPanel();
+    private final TutorRegistrarPanel tutorRegistrarPanel= new TutorRegistrarPanel();
+    private final TutorModificarPanel tutorModificarPanel = new TutorModificarPanel();
+    private final EstudianteRegistrarPanel estudianteRegistrarPanel = new EstudianteRegistrarPanel();
+    private final EstudianteModificarPanel estudianteModificarPanel = new EstudianteModificarPanel();
+    private final ReservaRegistrarPanel reservaRegistrarPanel = new ReservaRegistrarPanel();
+    private final ReservaModificarPanel reservaModificarPanel = new ReservaModificarPanel();
+    private final EstudiantePerfilPanel estudiantePerfilPanel = new EstudiantePerfilPanel();
+
+    private Main() { 
+    initComponents();
+    initPanelDinamico();
     }
 
     public static Main getInstance() {
@@ -32,27 +44,71 @@ public class Main extends javax.swing.JFrame {
     public void cambiarPantalla(String nombre){
         cardLayout.show(PanelDinamico, nombre);
     }
-
+    
     private void initPanelDinamico(){
     cardLayout = new CardLayout();
     PanelDinamico.setLayout(cardLayout);
 
-    PanelDinamico.add(new EstudiantePanel(), "Estudiante");
-    PanelDinamico.add(new TutorPanel(), "Tutor");
-    PanelDinamico.add(new ReservaPanel(), "Reserva");
-    PanelDinamico.add(new InformacionPanel(), "Informacion");
-
-    PanelDinamico.add(new TutorRegistrarPanel(), "TutorRegistrar");
-    PanelDinamico.add(new TutorModificarPanel(), "TutorModificar");
-    PanelDinamico.add(new EstudianteRegistrarPanel(), "EstudianteRegistrar");
-    PanelDinamico.add(new EstudianteModificarPanel(), "EstudianteModificar");
-    PanelDinamico.add(new ReservaRegistrarPanel(), "ReservaRegistrar");
-    PanelDinamico.add(new ReservaModificarPanel(), "ReservaModificar");
-
-
+    PanelDinamico.add(estudiantePanel, "Estudiante");
+    PanelDinamico.add(tutorPanel, "Tutor");
+    PanelDinamico.add(reservaPanel, "Reserva");
+    PanelDinamico.add(informacionPanel, "Informacion");
+    PanelDinamico.add(tutorRegistrarPanel, "TutorRegistrar");
+    PanelDinamico.add(tutorModificarPanel, "TutorModificar");
+    PanelDinamico.add(estudianteRegistrarPanel, "EstudianteRegistrar");
+    PanelDinamico.add(estudianteModificarPanel, "EstudianteModificar");
+    PanelDinamico.add(reservaRegistrarPanel, "ReservaRegistrar");
+    PanelDinamico.add(reservaModificarPanel, "ReservaModificar");
+    PanelDinamico.add(estudiantePerfilPanel, "EstudiantePerfil");
 
     cardLayout.show(PanelDinamico, "Informacion");
     }
+    
+    public EstudiantePerfilPanel getEstudiantePerfilPanel() {
+        return estudiantePerfilPanel;
+    }
+
+    public EstudiantePanel getEstudiantePanel() {
+        return estudiantePanel;
+    }
+
+    public TutorPanel getTutorPanel() {
+        return tutorPanel;
+    }
+
+    public ReservaPanel getReservaPanel() {
+        return reservaPanel;
+    }
+
+    public InformacionPanel getInformacionPanel() {
+        return informacionPanel;
+    }
+
+    public TutorRegistrarPanel getTutorRegistrarPanel() {
+        return tutorRegistrarPanel;
+    }
+
+    public TutorModificarPanel getTutorModificarPanel() {
+        return tutorModificarPanel;
+    }
+
+    public EstudianteRegistrarPanel getEstudianteRegistrarPanel() {
+        return estudianteRegistrarPanel;
+    }
+
+    public EstudianteModificarPanel getEstudianteModificarPanel() {
+        return estudianteModificarPanel;
+    }
+
+    public ReservaRegistrarPanel getReservaRegistrarPanel() {
+        return reservaRegistrarPanel;
+    }
+
+    public ReservaModificarPanel getReservaModificarPanel() {
+        return reservaModificarPanel;
+    }
+    
+
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -129,7 +185,7 @@ public class Main extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(58, Short.MAX_VALUE)
                 .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(54, 54, 54))
         );
@@ -160,10 +216,10 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PanelDinamico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(184, 184, 184)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,19 +252,21 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonEstudiantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEstudiantesActionPerformed
-        cardLayout.show(PanelDinamico, "Estudiante");
+        estudiantePanel.actualizar();
+        cambiarPantalla("Estudiante");
+        
     }//GEN-LAST:event_BotonEstudiantesActionPerformed
 
     private void BotonEstudiantes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEstudiantes1ActionPerformed
-        cardLayout.show(PanelDinamico, "Informacion");
+        cambiarPantalla("Informacion");
     }//GEN-LAST:event_BotonEstudiantes1ActionPerformed
 
     private void BotonEstudiantes2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEstudiantes2ActionPerformed
-        cardLayout.show(PanelDinamico, "Reserva");
+        cambiarPantalla("Reserva");
     }//GEN-LAST:event_BotonEstudiantes2ActionPerformed
 
     private void BotonEstudiantes3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEstudiantes3ActionPerformed
-        cardLayout.show(PanelDinamico, "Tutor");
+        cambiarPantalla("Tutor");
     }//GEN-LAST:event_BotonEstudiantes3ActionPerformed
 
     public static void main(String args[]) {
@@ -217,7 +275,7 @@ public class Main extends javax.swing.JFrame {
             } catch (Exception ex) {
                 ex.printStackTrace();
                 }
-        java.awt.EventQueue.invokeLater(() -> new Main().getInstance().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> Main.getInstance().setVisible(true));
     }
 
 
