@@ -237,7 +237,7 @@ public class EstudiantePanel extends javax.swing.JPanel {
                     );
                 if (opcion == JOptionPane.YES_OPTION) {
                      sistema.eliminarEstudiante(estudiante);
-                     Main.getInstance().getEstudiantePanel().actualizar();
+                     actualizar();
                     }
             } catch(Exception e) {
                 JOptionPane.showMessageDialog(

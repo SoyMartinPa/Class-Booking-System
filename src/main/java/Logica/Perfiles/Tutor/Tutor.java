@@ -1,6 +1,7 @@
 package Logica.Perfiles.Tutor;
 import Excepciones.IncompatibilityException;
 import Excepciones.NoValidNumberException;
+import Excepciones.RemoveException;
 import Logica.Enumeraciones.BloquesHorarios;
 import Logica.Enumeraciones.Dias;
 import Logica.Enumeraciones.Materias;
@@ -29,16 +30,24 @@ import java.util.*;
  */
 
 public class Tutor extends PerfilBasico {
-    private final Map<Materias, OfertaMateria> oferta;
+    private final Map<Materias, OfertaMateria> oferta = new EnumMap<>(Materias.class);
     private final Map<Dias, Set<BloquesHorarios>> disponibilidad = new EnumMap<>(Dias.class);
 
     public Tutor(String nombre, String email) {
         super(nombre, email);
-        this.oferta = new EnumMap<>(Materias.class);
     }
+    
     public OfertaMateria getOferta(Materias materia) {
         return oferta.get(materia);
     }
+    public Map<Materias, OfertaMateria> getOfertaTotal(){
+        return oferta;
+    }
+
+    public Map<Dias, Set<BloquesHorarios>> getDisponibilidad() {
+        return disponibilidad;
+    }
+    
     /**
      * Verifica si el tutor actualmente ofrece una determinada materia.
      *
@@ -100,6 +109,24 @@ public class Tutor extends PerfilBasico {
         Set<BloquesHorarios> bloquesDelDia = disponibilidad.get(dia);
         bloquesDelDia.add(bloque);
     }
+    
+    /**
+     * Eliminaun bloque horario a la disponibilidad del tutor.
+     *
+     * <p>Si el tutor tiene disponibilidad en el dia y bloque asignado.
+     * este se eliminará.</p>
+     *
+     * @param dia día de la semana disponible.
+     * @param bloque bloque horario disponible.
+     * @throws RemoveException si no tiene disponibilidad en ese día
+     */
+    public void quitarDisponibilidad(Dias dia, BloquesHorarios bloque) throws RemoveException{
+        if (!disponibilidad.containsKey(dia)) {
+            throw new RemoveException("No existe disponibilidad en ese momento");
+        }
+        Set<BloquesHorarios> bloquesDelDia = disponibilidad.get(dia);
+        bloquesDelDia.remove(bloque);
+    }
 
     /**
      * Convierte un objeto de fecha al día de la semana utilizado por el sistema.
@@ -135,6 +162,16 @@ public class Tutor extends PerfilBasico {
         }
         Horario horarioTemporal = new Horario(bloque,fecha);
         return !this.reservaSeSolapa(horarioTemporal);
+    }
+    
+    public boolean estaDisponible(Dias dia, BloquesHorarios bloque) {
+    if (!disponibilidad.containsKey(dia)) {
+        return false;
+    }
+    if (!disponibilidad.get(dia).contains(bloque)){
+        return false;
+    }
+    return true;
     }
 }
 

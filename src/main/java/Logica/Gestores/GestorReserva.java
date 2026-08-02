@@ -77,7 +77,7 @@ public class GestorReserva {
         if (tutor.reservaSeSolapa(horario)) {
             throw new IncompatibilityException("Al profesor se le solapa el horario");
         }
-        if (!tutor.estaDisponible(horario.getFecha(), horario.getBloquehorario())){
+        if (tutor.estaDisponible(horario.getFecha(), horario.getBloquehorario())){
             throw new IncompatibilityException("El horario ya está siendo ocupado");
         }
 

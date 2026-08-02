@@ -48,5 +48,11 @@ public enum BloquesHorarios {
     public LocalTime getHoraFin() {
         return horaFin;
     }
+    
+    @Override
+    public String toString() {
+        String texto = name().substring(0,1) + name().substring(6);
+        return texto;
+    }
 }
 

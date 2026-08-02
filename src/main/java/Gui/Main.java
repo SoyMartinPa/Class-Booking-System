@@ -6,10 +6,12 @@ import Gui.Estudiantes.EstudiantePerfilPanel;
 import Gui.Estudiantes.EstudianteRegistrarPanel;
 import Gui.Reserva.ReservaModificarPanel;
 import Gui.Reserva.ReservaPanel;
+import Gui.Reserva.ReservaPerfilPanel;
 import Gui.Reserva.ReservaRegistrarPanel;
-import Gui.Tutor.TutorModificarPanel;
-import Gui.Tutor.TutorPanel;
 import Gui.Tutor.TutorRegistrarPanel;
+import Gui.Tutor.TutorPanel;
+import Gui.Tutor.TutorModificarPanel;
+import Gui.Tutor.TutorPerfilPanel;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.CardLayout;
 
@@ -21,13 +23,18 @@ public class Main extends javax.swing.JFrame {
     private final TutorPanel tutorPanel = new TutorPanel();
     private final ReservaPanel reservaPanel = new ReservaPanel();
     private final InformacionPanel informacionPanel = new InformacionPanel();
-    private final TutorRegistrarPanel tutorRegistrarPanel= new TutorRegistrarPanel();
-    private final TutorModificarPanel tutorModificarPanel = new TutorModificarPanel();
+    
+    private final TutorModificarPanel tutorModificarPanel= new TutorModificarPanel();
+    private final TutorRegistrarPanel tutorRegistrarPanel = new TutorRegistrarPanel();
     private final EstudianteRegistrarPanel estudianteRegistrarPanel = new EstudianteRegistrarPanel();
     private final EstudianteModificarPanel estudianteModificarPanel = new EstudianteModificarPanel();
     private final ReservaRegistrarPanel reservaRegistrarPanel = new ReservaRegistrarPanel();
     private final ReservaModificarPanel reservaModificarPanel = new ReservaModificarPanel();
+    
     private final EstudiantePerfilPanel estudiantePerfilPanel = new EstudiantePerfilPanel();
+    private final TutorPerfilPanel tutorPerfilPanel = new TutorPerfilPanel();
+    private final ReservaPerfilPanel reservaPerfilPanel = new ReservaPerfilPanel();
+    
 
     private Main() { 
     initComponents();
@@ -60,8 +67,18 @@ public class Main extends javax.swing.JFrame {
     PanelDinamico.add(reservaRegistrarPanel, "ReservaRegistrar");
     PanelDinamico.add(reservaModificarPanel, "ReservaModificar");
     PanelDinamico.add(estudiantePerfilPanel, "EstudiantePerfil");
+    PanelDinamico.add(tutorPerfilPanel, "TutorPerfil");
+    PanelDinamico.add(reservaPerfilPanel, "ReservaPerfil");
 
     cardLayout.show(PanelDinamico, "Informacion");
+    }
+
+    public ReservaPerfilPanel getReservaPerfilPanel() {
+        return reservaPerfilPanel;
+    }
+
+    public TutorPerfilPanel getTutorPerfilPanel() {
+        return tutorPerfilPanel;
     }
     
     public EstudiantePerfilPanel getEstudiantePerfilPanel() {
@@ -263,9 +280,11 @@ public class Main extends javax.swing.JFrame {
 
     private void BotonEstudiantes2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEstudiantes2ActionPerformed
         cambiarPantalla("Reserva");
+        reservaPanel.actualizar();
     }//GEN-LAST:event_BotonEstudiantes2ActionPerformed
 
     private void BotonEstudiantes3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEstudiantes3ActionPerformed
+        tutorPanel.actualizar();
         cambiarPantalla("Tutor");
     }//GEN-LAST:event_BotonEstudiantes3ActionPerformed
 
