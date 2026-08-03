@@ -17,4 +17,7 @@ public class FiltroBloque implements FiltroInterface<Reserva> {
     public boolean pasaElFiltro(Reserva reserva) {
         return (reserva.getHorario().getBloquehorario() == (bloqueAFiltrar));
     }
+    
+    
+    
 }

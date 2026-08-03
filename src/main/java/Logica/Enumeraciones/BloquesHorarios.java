@@ -9,18 +9,18 @@ import java.time.LocalTime;
  * por un horario de inicio y uno de término.
  */
 public enum BloquesHorarios {
-    BLOQUE1( LocalTime.of(8,0) , LocalTime.of(9,0) ),
-    BLOQUE2( LocalTime.of(9,0) , LocalTime.of(10,0) ),
-    BLOQUE3( LocalTime.of(10,0) , LocalTime.of(11,0) ),
-    BLOQUE4( LocalTime.of(11,0) , LocalTime.of(12,0) ),
-    BLOQUE5( LocalTime.of(12,0) , LocalTime.of(13,0) ),
-    BLOQUE6( LocalTime.of(13,0) , LocalTime.of(14,0) ),
-    BLOQUE7( LocalTime.of(14,0) , LocalTime.of(15,0) ),
-    BLOQUE8( LocalTime.of(15,0) , LocalTime.of(16,0) ),
-    BLOQUE9( LocalTime.of(16,0) , LocalTime.of(17,0) ),
-    BLOQUE10( LocalTime.of(17,0) , LocalTime.of(18,0) ),
-    BLOQUE11( LocalTime.of(18,0) , LocalTime.of(19,0) ),
-    BLOQUE12( LocalTime.of(19,0) , LocalTime.of(20,0) );
+    BLOQUE8_9( LocalTime.of(8,0) , LocalTime.of(9,0) ),
+    BLOQUE9_10( LocalTime.of(9,0) , LocalTime.of(10,0) ),
+    BLOQUE10_11( LocalTime.of(10,0) , LocalTime.of(11,0) ),
+    BLOQUE11_12( LocalTime.of(11,0) , LocalTime.of(12,0) ),
+    BLOQUE12_13( LocalTime.of(12,0) , LocalTime.of(13,0) ),
+    BLOQUE13_14( LocalTime.of(13,0) , LocalTime.of(14,0) ),
+    BLOQUE14_15( LocalTime.of(14,0) , LocalTime.of(15,0) ),
+    BLOQUE15_16( LocalTime.of(15,0) , LocalTime.of(16,0) ),
+    BLOQUE16_17( LocalTime.of(16,0) , LocalTime.of(17,0) ),
+    BLOQUE17_18( LocalTime.of(17,0) , LocalTime.of(18,0) ),
+    BLOQUE18_19( LocalTime.of(18,0) , LocalTime.of(19,0) ),
+    BLOQUE19_20( LocalTime.of(19,0) , LocalTime.of(20,0) );
 
     private final LocalTime horaInicio;
     private final LocalTime horaFin;

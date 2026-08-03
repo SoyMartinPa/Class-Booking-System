@@ -24,8 +24,8 @@ public class SistemaTest {
     void setUp() {
         Sistema.resetInstancia();
         sistema = Sistema.getInstancia();
-        horarioFuturo = new Horario(BloquesHorarios.BLOQUE1, LocalDate.of(3000, 12, 12));
-        horarioFuturo2 = new Horario(BloquesHorarios.BLOQUE1, LocalDate.of(3000, 12, 15));
+        horarioFuturo = new Horario(BloquesHorarios.BLOQUE8_9, LocalDate.of(3000, 12, 12));
+        horarioFuturo2 = new Horario(BloquesHorarios.BLOQUE8_9, LocalDate.of(3000, 12, 15));
     }
 
     private Tutor crearTutorDisponible(String nombre, String email) throws Exception {

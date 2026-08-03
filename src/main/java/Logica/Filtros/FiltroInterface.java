@@ -17,4 +17,7 @@ public interface FiltroInterface<T> {
      *         {@code false} en caso contrario.
      */
     boolean pasaElFiltro(T objeto);
+    
+    
+    
 }

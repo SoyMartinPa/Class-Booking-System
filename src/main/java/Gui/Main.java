@@ -142,6 +142,7 @@ public class Main extends javax.swing.JFrame {
         PanelDinamico = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(704, 450));
@@ -163,7 +164,7 @@ public class Main extends javax.swing.JFrame {
         BotonEstudiantes1.setBackground(new java.awt.Color(0, 153, 255));
         BotonEstudiantes1.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 18)); // NOI18N
         BotonEstudiantes1.setForeground(new java.awt.Color(255, 255, 255));
-        BotonEstudiantes1.setText("Informacion");
+        BotonEstudiantes1.setText("Información");
         BotonEstudiantes1.setBorder(null);
         BotonEstudiantes1.setBorderPainted(false);
         BotonEstudiantes1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));

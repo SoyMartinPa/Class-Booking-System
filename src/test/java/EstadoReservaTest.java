@@ -27,8 +27,8 @@ public class EstadoReservaTest {
         Tutor tutor = Sistema.getInstancia().buscarTutorPorEmail("juan@gmail.com");
         tutor.ofrecerMateria(Materias.FISICA, 1000, 5);
         tutor.agregarDisponibilidad(tutor.diasDesdeFecha(LocalDate.of(3000, 12, 12)),
-                BloquesHorarios.BLOQUE1);
-        Horario horario = new Horario(BloquesHorarios.BLOQUE1, LocalDate.of(3000, 12, 12));
+                BloquesHorarios.BLOQUE8_9);
+        Horario horario = new Horario(BloquesHorarios.BLOQUE8_9, LocalDate.of(3000, 12, 12));
         return gestorReserva.registrarReserva(tutor, Materias.FISICA, horario);
     }
 
@@ -39,7 +39,7 @@ public class EstadoReservaTest {
         assertThrows(IllegalStateException.class,
                 () -> reserva.modificar(reserva.getTutorAsociado(),
                         Materias.FISICA,
-                        new Horario(BloquesHorarios.BLOQUE2, LocalDate.of(3000, 12, 12))));
+                        new Horario(BloquesHorarios.BLOQUE9_10, LocalDate.of(3000, 12, 12))));
     }
     @Test
     void reservaCompletadaCancelarException() throws Exception {
@@ -62,7 +62,7 @@ public class EstadoReservaTest {
         assertThrows(IllegalStateException.class,
                 () -> reserva.modificar(reserva.getTutorAsociado(),
                         Materias.FISICA,
-                        new Horario(BloquesHorarios.BLOQUE2, LocalDate.of(3000, 12, 12))));
+                        new Horario(BloquesHorarios.BLOQUE9_10, LocalDate.of(3000, 12, 12))));
     }
 
     @Test

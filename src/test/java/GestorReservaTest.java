@@ -32,9 +32,9 @@ public class GestorReservaTest {
         gestorTutor = Sistema.getInstancia().getGestorTutores();
         gestorEstudiante = Sistema.getInstancia().getGestorEstudiantes();
         gestorReserva = Sistema.getInstancia().getGestorReservas();
-        horarioFuturo = new Horario(BloquesHorarios.BLOQUE1, LocalDate.of(3000, 12, 12));
-        horarioPasado = new Horario(BloquesHorarios.BLOQUE1, LocalDate.of(2000, 1, 1));
-        horarioFuturo2 = new Horario(BloquesHorarios.BLOQUE2, LocalDate.of(3000, 12, 12));
+        horarioFuturo = new Horario(BloquesHorarios.BLOQUE8_9, LocalDate.of(3000, 12, 12));
+        horarioPasado = new Horario(BloquesHorarios.BLOQUE8_9, LocalDate.of(2000, 1, 1));
+        horarioFuturo2 = new Horario(BloquesHorarios.BLOQUE9_10, LocalDate.of(3000, 12, 12));
     }
 
     private Tutor crearTutorDisponible(String nombre, String email) throws Exception {

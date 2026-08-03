@@ -33,19 +33,19 @@ public class InformacionPanel extends javax.swing.JPanel {
         jLabel2.setText("entre tutores y estudiantes.");
 
         jLabel3.setFont(new java.awt.Font("Dialog", 0, 13)); // NOI18N
-        jLabel3.setText("*Con esta herramienta, usted podra realizar:");
+        jLabel3.setText("Con esta herramienta, usted podra:");
 
         jLabel4.setFont(new java.awt.Font("Dialog", 0, 13)); // NOI18N
-        jLabel4.setText("* Registro y modificacion de perfiles");
+        jLabel4.setText("* Registrar y modificacar de perfiles");
 
         jLabel5.setFont(new java.awt.Font("Dialog", 0, 13)); // NOI18N
-        jLabel5.setText("* Registro de reservas personalizadas");
+        jLabel5.setText("* Registrar de reservas personalizadas");
 
         jLabel6.setFont(new java.awt.Font("Dialog", 0, 13)); // NOI18N
         jLabel6.setText("* Ver calendario de actividad entre perfiles");
 
         jLabel7.setFont(new java.awt.Font("Dialog", 0, 13)); // NOI18N
-        jLabel7.setText("* Ver y acceder a la informacion de los perfiles");
+        jLabel7.setText("* Ver y acceder a la información de los perfiles");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
