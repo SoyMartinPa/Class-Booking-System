@@ -11,7 +11,7 @@ import java.util.UUID;
  * <p>Esta clase incorpora una identificación única, un tutor, una matería, una lista de
  * estudiantes, un horario y el estado actual de la reserva</p>
  */
-public class Reserva{
+public class Reserva {
     private final String id;
     private Tutor tutorAsociado;
     private Materias materia;
@@ -22,7 +22,7 @@ public class Reserva{
 
     public Reserva(Tutor tutor, Materias materia, Horario horario) {
         UUID uuid = UUID.randomUUID(); //Podria haber otro sistema de ID más interesante
-        this.id = uuid.toString().replace("-", "").substring(0,15);
+        this.id = uuid.toString().replace("-", "").substring(0, 15);
         this.tutorAsociado = tutor;
         this.materia = materia;
         this.horario = horario;
@@ -34,15 +34,11 @@ public class Reserva{
     }
 
     public int getCuposMax() {
-        return tutorAsociado.getOferta(materia).getCuposMax();
-    }
-
-    public Boolean estaLlena(){
-        return (listaEstudiantes.size() >= this.getCuposMax());
+        return tutorAsociado.getOferta(materia).cuposMax();
     }
 
     public int getTarifa() {
-        return tutorAsociado.getOferta(materia).getTarifa();
+        return tutorAsociado.getOferta(materia).tarifa();
     }
 
     public Tutor getTutorAsociado() {

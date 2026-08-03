@@ -64,8 +64,8 @@ public class TutorPerfilPanel extends javax.swing.JPanel {
 
         for (Materias materia : tutor.getOfertaTotal().keySet()){
             OfertaMateria oferta = tutor.getOferta(materia);
-            int cupos = oferta.getCuposMax();
-            int tarifa = oferta.getTarifa();
+            int cupos = oferta.cuposMax();
+            int tarifa = oferta.tarifa();
             Object[] lista = {materia,tarifa,cupos};
             modelo.addRow(lista);
         }

@@ -75,7 +75,6 @@ public abstract class PerfilBasico {
 
         for (Reserva cadaReserva : this.reservasActivas){
             if (cadaReserva.getHorario().equals(horario) ){ return true;}
-            // no sería más fácil con un map?... Definitivamente, auch
         }
 
         return false;

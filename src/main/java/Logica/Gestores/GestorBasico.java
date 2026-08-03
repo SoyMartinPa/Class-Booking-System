@@ -43,6 +43,7 @@ public abstract class GestorBasico<T extends PerfilBasico> {
      * @throws NullPointerException si el nombre es nulo.
      * @throws NameException si el formato del nombre es inválido
      *         o ya existe un perfil con ese nombre.
+     * @throws NoRepeatException si el nombre ya fue registrado.
      */
     public void verificarNombre(String nombre) throws NameException, NullPointerException, NoRepeatException {
 
@@ -135,8 +136,11 @@ public abstract class GestorBasico<T extends PerfilBasico> {
      *
      * @param nombre nombre del nuevo perfil.
      * @param email correo electrónico del nuevo perfil.
+     * @throws NoRepeatException si se detecta un nombre o email ya registrado.
      */
     public abstract void registrar(String nombre, String email) throws NoRepeatException, NullPointerException, EmailException, NameException;
+    
+    
     public List<T> getLista() {
         return this.lista;
     }

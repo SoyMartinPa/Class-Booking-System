@@ -1,16 +1,10 @@
 package Logica.Gestores;
 import Excepciones.NotFoundException;
 import Excepciones.RemoveException;
-import Logica.Enumeraciones.BloquesHorarios;
-import Logica.Enumeraciones.Materias;
-import Logica.Filtros.*;
-import Logica.Reservas.Horario;
 import Logica.Reservas.Reserva;
 import Logica.Perfiles.Estudiante;
 import Logica.Perfiles.Tutor.Tutor;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import static Logica.Gestores.GestorBasico.listaUsuarios;
@@ -199,60 +193,6 @@ public class Sistema {
     
     }
     /**
-     * Busca tutores que cumplen las condiciones necesarias para una reserva.
-     *
-     * <p>Un tutor es considerado compatible si:</p>
-     * <ul>
-     *     <li>Ofrece la materia solicitada.</li>
-     *     <li>Tiene disponibilidad en la fecha y bloque indicados.</li>
-     *     <li>No posee otra reserva en el mismo horario.</li>
-     *     <li>Su tarifa no supera el límite indicado, si este existe.</li>
-     * </ul>
-     *
-     * <p>Los resultados son ordenados desde la menor tarifa hasta la mayor.</p>
-     *
-     * @param materia materia requerida.
-     * @param fecha fecha de la reserva.
-     * @param bloque bloque horario requerido.
-     * @param tarifaMax tarifa máxima aceptada. Un valor menor o igual a cero
-     *                  indica que no existe límite.
-     *
-     * @return lista de tutores compatibles ordenados por tarifa.
-     */
-    public List<Tutor> buscarTutoresCompatibles(Materias materia, LocalDate fecha,
-                                                 BloquesHorarios bloque, int tarifaMax) {
-
-        List<Tutor> compatibles = new ArrayList<>();
-
-        for (Tutor tutor : gestorTutores.getLista()) {
-            if (!tutor.dictaMateria(materia)) {
-                continue;
-            }
-            if (!tutor.estaDisponible(fecha, bloque)) {
-                continue;
-            }
-            if (tutor.reservaSeSolapa(new Horario(bloque, fecha))) {
-                continue;
-            }
-            int tarifa = tutor.getOferta(materia).getTarifa();
-
-            if (tarifaMax > 0 && tarifa > tarifaMax) {
-                continue;
-            }
-            compatibles.add(tutor);
-        }
-
-        compatibles.sort(Comparator.comparingInt(t -> t.getOferta(materia).getTarifa())
-        );
-        return compatibles;
-    }
-
-    public List<Tutor> buscarTutoresCompatibles(Materias materia, LocalDate fecha,
-                                                 BloquesHorarios bloque) {
-        return buscarTutoresCompatibles(materia, fecha, bloque, -1);
-    }
-
-    /**
      * Obtiene las reservas asociadas a un tutor.
      *
      * <p>Permite incluir o excluir reservas pendientes dependiendo del parámetro
@@ -265,16 +205,9 @@ public class Sistema {
     public List<Reserva> verCalendarioTutor(Tutor tutor) {
         List<Reserva> resultado = new ArrayList<>();
 
-        for (Reserva r : gestorReservas.getListaReservasPendientes()) {
+        for (Reserva r : gestorReservas.getListaReservas()) {
             if (r.getTutorAsociado() == tutor) resultado.add(r);
         }
-        for (Reserva r : gestorReservas.getListaReservasCompletadas()) {
-            if (r.getTutorAsociado() == tutor) resultado.add(r);
-        }
-        for (Reserva r : gestorReservas.getListaReservasCanceladas()) {
-            if (r.getTutorAsociado() == tutor) resultado.add(r);
-        }
-
         return resultado;
     }
     /**
@@ -286,11 +219,8 @@ public class Sistema {
      */
     public List<Reserva> verCalendarioEstudiante(Estudiante estudiante) {
         List<Reserva> resultado = new ArrayList<>();
+        List<Reserva> todas = gestorReservas.getListaReservas();
 
-        List<Reserva> todas = new ArrayList<>();
-        todas.addAll(gestorReservas.getListaReservasPendientes());
-        todas.addAll(gestorReservas.getListaReservasCompletadas());
-        todas.addAll(gestorReservas.getListaReservasCanceladas());
 
         for (Reserva r : todas) {
             if (r.getListaEstudiantes().contains(estudiante)) {
@@ -308,10 +238,7 @@ public class Sistema {
      * @return reserva encontrada o {@code null} si no existe.
      */
     public Reserva buscarReservaPorId(String id) throws NotFoundException{
-        List<Reserva> todas = new ArrayList<>();
-        todas.addAll(gestorReservas.getListaReservasPendientes());
-        todas.addAll(gestorReservas.getListaReservasCompletadas());
-        todas.addAll(gestorReservas.getListaReservasCanceladas());
+        List<Reserva> todas = gestorReservas.getListaReservas();
 
         for (Reserva r : todas) {
             if (r.getId().equals(id)) {
@@ -333,6 +260,7 @@ public class Sistema {
         return gestorReservas;
     }
 
+    @Override
     public String toString() {
 
         int totalTutores = gestorTutores.getLista().size();

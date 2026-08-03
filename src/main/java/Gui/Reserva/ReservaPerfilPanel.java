@@ -44,7 +44,7 @@ public class ReservaPerfilPanel extends javax.swing.JPanel {
             materiaLabel.setText("Materia: " + reserva.getMateria().name());
             fechaLabel.setText(
                     "Fecha :" + reserva.getHorario().getFecha().toString() 
-                            + " {" + reserva.getHorario().getBloquehorario() + "}");
+                            + " {" + reserva.getHorario().getBloqueHorario() + "}");
         }                                          
 
     

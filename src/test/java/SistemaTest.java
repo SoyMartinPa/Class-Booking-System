@@ -1,3 +1,4 @@
+import Excepciones.NotFoundException;
 import Excepciones.RemoveException;
 import Logica.Enumeraciones.BloquesHorarios;
 import Logica.Enumeraciones.Materias;
@@ -33,9 +34,9 @@ public class SistemaTest {
         Tutor tutor = sistema.buscarTutorPorEmail(email);
         tutor.ofrecerMateria(Materias.FISICA, 1000, 5);
         tutor.agregarDisponibilidad(tutor.diasDesdeFecha(horarioFuturo.getFecha()),
-                horarioFuturo.getBloquehorario());
+                horarioFuturo.getBloqueHorario());
         tutor.agregarDisponibilidad(tutor.diasDesdeFecha(horarioFuturo2.getFecha()),
-                horarioFuturo2.getBloquehorario());
+                horarioFuturo2.getBloqueHorario());
         return tutor;
     }
 
@@ -53,7 +54,7 @@ public class SistemaTest {
     }
 
     @Test
-    void eliminarTutorConReservasReservasPasanACanceladas() throws Exception {
+    void eliminarTutorConReservasPendientesPasanACanceladas() throws Exception {
         Tutor tutor = crearTutorDisponible("Juan Perez Lopez", "juan@gmail.com");
         Reserva reserva = sistema.getGestorReservas().registrarReserva(tutor, Materias.FISICA, horarioFuturo);
         sistema.eliminarTutor(tutor);
@@ -62,7 +63,7 @@ public class SistemaTest {
     }
 
     @Test
-    void eliminarTutorConReservasRstudiantePierdeReservaDeActivas() throws Exception {
+    void eliminarTutorConReservasEstudiantePierdeReservaDeActivas() throws Exception {
         Tutor tutor = crearTutorDisponible("Juan Perez Lopez", "juan@gmail.com");
         Estudiante estudiante = crearEstudiante("Ana Garcia Lopez", "ana@gmail.com");
         Reserva reserva = sistema.getGestorReservas().registrarReserva(tutor, Materias.FISICA, horarioFuturo);
@@ -102,81 +103,12 @@ public class SistemaTest {
         assertThrows(RemoveException.class, () -> sistema.eliminarEstudiante(estudianteFantasma));
     }
 
-
     @Test
-    void buscarTutoresCompatiblesTutorCompatibleAparecEnResultado() throws Exception {
-        Tutor tutor = crearTutorDisponible("Juan Perez Lopez", "juan@gmail.com");
-        List<Tutor> resultado = sistema.buscarTutoresCompatibles(
-                Materias.FISICA, horarioFuturo.getFecha(), horarioFuturo.getBloquehorario());
-        assertTrue(resultado.contains(tutor));
-    }
-
-    @Test
-    void buscarTutoresCompatiblesTutorSinMateriaNoAparece() throws Exception {
-        crearTutorDisponible("Juan Perez Lopez", "juan@gmail.com");
-        List<Tutor> resultado = sistema.buscarTutoresCompatibles(
-                Materias.MATEMATICAS, horarioFuturo.getFecha(), horarioFuturo.getBloquehorario());
-        assertTrue(resultado.isEmpty());
-    }
-
-    @Test
-    void buscarTutoresCompatiblesConTarifaMaxs() throws Exception {
-        Tutor tutorBarato = crearTutorDisponible("Juan Perez Lopez", "juan@gmail.com");
-        sistema.getGestorTutores().registrar("Ana Garcia Lopez", "ana@gmail.com");
-        Tutor tutorCaro = sistema.buscarTutorPorEmail("ana@gmail.com");
-        tutorCaro.ofrecerMateria(Materias.FISICA, 99999, 5);
-        tutorCaro.agregarDisponibilidad(tutorCaro.diasDesdeFecha(horarioFuturo.getFecha()),
-                horarioFuturo.getBloquehorario());
-
-        List<Tutor> resultado = sistema.buscarTutoresCompatibles(
-                Materias.FISICA, horarioFuturo.getFecha(), horarioFuturo.getBloquehorario(), 5000);
-
-        assertTrue(resultado.contains(tutorBarato));
-        assertFalse(resultado.contains(tutorCaro));
-    }
-
-    @Test
-    void buscarTutoresCompatiblesOrdenadosPorTarifa() throws Exception {
-        crearTutorDisponible("Juan Perez Lopez", "juan@gmail.com");
-        sistema.getGestorTutores().registrar("Ana Garcia Lopez", "ana@gmail.com");
-        Tutor tutorBarato = sistema.buscarTutorPorEmail("ana@gmail.com");
-        tutorBarato.ofrecerMateria(Materias.FISICA, 500, 5); // más barato
-        tutorBarato.agregarDisponibilidad(tutorBarato.diasDesdeFecha(horarioFuturo.getFecha()),
-                horarioFuturo.getBloquehorario());
-
-        List<Tutor> resultado = sistema.buscarTutoresCompatibles(
-                Materias.FISICA, horarioFuturo.getFecha(), horarioFuturo.getBloquehorario());
-
-        assertEquals(tutorBarato, resultado.get(0)); // el más barato primero
-    }
-
-    @Test
-    void buscarTutoresCompatiblestutorConReservaEnEseHorarioNoAparece() throws Exception {
-        Tutor tutor = crearTutorDisponible("Juan Perez Lopez", "juan@gmail.com");
-        sistema.getGestorReservas().registrarReserva(tutor, Materias.FISICA, horarioFuturo);
-        List<Tutor> resultado = sistema.buscarTutoresCompatibles(
-                Materias.FISICA, horarioFuturo.getFecha(), horarioFuturo.getBloquehorario());
-        assertFalse(resultado.contains(tutor));
-    }
-
-    @Test
-    void verCalendarioTutorConPendientesIncluyePendientes() throws Exception {
+    void verCalendarioTutorContieneReserva() throws Exception {
         Tutor tutor = crearTutorDisponible("Juan Perez Lopez", "juan@gmail.com");
         Reserva reserva = sistema.getGestorReservas().registrarReserva(tutor, Materias.FISICA, horarioFuturo);
         List<Reserva> calendario = sistema.verCalendarioTutor(tutor);
         assertTrue(calendario.contains(reserva));
-    }
-
-    @Test
-    void verCalendarioTutorSinPendientesExcluyePendientesIncluyeHistorial() throws Exception {
-        Tutor tutor = crearTutorDisponible("Juan Perez Lopez", "juan@gmail.com");
-        Reserva pendiente = sistema.getGestorReservas().registrarReserva(tutor, Materias.FISICA, horarioFuturo);
-        Reserva completada = sistema.getGestorReservas().registrarReserva(tutor, Materias.FISICA, horarioFuturo2);
-        sistema.getGestorReservas().completarReserva(completada);
-
-        List<Reserva> calendario = sistema.verCalendarioTutor(tutor);
-        assertFalse(calendario.contains(pendiente));
-        assertTrue(calendario.contains(completada));
     }
 
     @Test
@@ -186,7 +118,7 @@ public class SistemaTest {
         Tutor tutor2 = sistema.buscarTutorPorEmail("ana@gmail.com");
         tutor2.ofrecerMateria(Materias.FISICA, 1000, 5);
         tutor2.agregarDisponibilidad(tutor2.diasDesdeFecha(horarioFuturo.getFecha()),
-                horarioFuturo.getBloquehorario());
+                horarioFuturo.getBloqueHorario());
 
         Reserva reservaTutor1 = sistema.getGestorReservas().registrarReserva(tutor1, Materias.FISICA, horarioFuturo);
         Reserva reservaTutor2 = sistema.getGestorReservas().registrarReserva(tutor2, Materias.FISICA, horarioFuturo);
@@ -197,7 +129,7 @@ public class SistemaTest {
     }
 
     @Test
-    void verCalendarioEstudianteConPendientesIncluyePendientes() throws Exception {
+    void verCalendarioEstudianteConReserva() throws Exception {
         Tutor tutor = crearTutorDisponible("Juan Perez Lopez", "juan@gmail.com");
         Estudiante estudiante = crearEstudiante("Ana Garcia Lopez", "ana@gmail.com");
         Reserva reserva = sistema.getGestorReservas().registrarReserva(tutor, Materias.FISICA, horarioFuturo);
@@ -220,10 +152,17 @@ public class SistemaTest {
         sistema.getGestorReservas().completarReserva(reserva);
         assertEquals(reserva, sistema.buscarReservaPorId(reserva.getId()));
     }
+    @Test
+    void buscarReservaPorIdReservaCanceladaLaEncuentra() throws Exception {
+        Tutor tutor = crearTutorDisponible("Juan Perez Lopez", "juan@gmail.com");
+        Reserva reserva = sistema.getGestorReservas().registrarReserva(tutor, Materias.FISICA, horarioFuturo);
+        sistema.getGestorReservas().cancelarReserva(reserva);
+        assertEquals(reserva, sistema.buscarReservaPorId(reserva.getId()));
+    }
 
     @Test
-    void buscarReservaPorId_idInexistente_retornaNull() {
-        assertNull(sistema.buscarReservaPorId("id-que-no-existe"));
+    void buscarReservaPorId_idInexistente() {
+        assertThrows(NotFoundException.class, () -> sistema.buscarReservaPorId("id-que-no-existe"));
     }
 }
 

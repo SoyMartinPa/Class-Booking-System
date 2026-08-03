@@ -42,9 +42,9 @@ public class GestorReservaTest {
         Tutor tutor = Sistema.getInstancia().buscarTutorPorEmail(email);
         tutor.ofrecerMateria(Materias.FISICA, 1000, 5);
         tutor.agregarDisponibilidad(tutor.diasDesdeFecha(horarioFuturo.getFecha()),
-                horarioFuturo.getBloquehorario());
+                horarioFuturo.getBloqueHorario());
         tutor.agregarDisponibilidad(tutor.diasDesdeFecha(horarioFuturo2.getFecha()),
-                horarioFuturo2.getBloquehorario());
+                horarioFuturo2.getBloqueHorario());
         return tutor;
     }
 
@@ -195,7 +195,7 @@ public class GestorReservaTest {
         Tutor tutor2 = Sistema.getInstancia().buscarTutorPorEmail("ana@gmail.com");
         tutor2.ofrecerMateria(Materias.FISICA, 1000, 1); // solo 1 cupo
         tutor2.agregarDisponibilidad(tutor2.diasDesdeFecha(horarioFuturo.getFecha()),
-                horarioFuturo.getBloquehorario());
+                horarioFuturo.getBloqueHorario());
 
         Reserva reserva = gestorReserva.registrarReserva(tutor1, Materias.FISICA, horarioFuturo);
         gestorReserva.agregarEstudiantesReserva(reserva,
@@ -223,7 +223,7 @@ public class GestorReservaTest {
         Tutor tutor = Sistema.getInstancia().buscarTutorPorEmail("juan@gmail.com");
         tutor.ofrecerMateria(Materias.FISICA, 1000, 1); // solo 1 cupo
         tutor.agregarDisponibilidad(tutor.diasDesdeFecha(horarioFuturo.getFecha()),
-                horarioFuturo.getBloquehorario());
+                horarioFuturo.getBloqueHorario());
         Reserva reserva = gestorReserva.registrarReserva(tutor, Materias.FISICA, horarioFuturo);
         gestorReserva.agregarEstudiantesReserva(reserva,
                 crearEstudiante("Ana Garcia Lopez", "ana@gmail.com"));
@@ -238,7 +238,7 @@ public class GestorReservaTest {
         Tutor tutor = Sistema.getInstancia().buscarTutorPorEmail("juan@gmail.com");
         tutor.ofrecerMateria(Materias.FISICA, 1000, 1);
         tutor.agregarDisponibilidad(tutor.diasDesdeFecha(horarioFuturo.getFecha()),
-                horarioFuturo.getBloquehorario());
+                horarioFuturo.getBloqueHorario());
         Reserva reserva = gestorReserva.registrarReserva(tutor, Materias.FISICA, horarioFuturo);
         assertDoesNotThrow(() ->
                 gestorReserva.agregarEstudiantesReserva(reserva,
@@ -270,7 +270,7 @@ public class GestorReservaTest {
     }
 
     @Test
-    void quitarEstudianteDesapareceDeReservaYDeActivas() throws Exception {
+    void quitarEstudianteDesapareceDeReservaActivas() throws Exception {
         Tutor tutor = crearTutorDisponible("Juan Perez Lopez", "juan@gmail.com");
         Estudiante estudiante = crearEstudiante("Ana Garcia Lopez", "ana@gmail.com");
         Reserva reserva = gestorReserva.registrarReserva(tutor, Materias.FISICA, horarioFuturo);

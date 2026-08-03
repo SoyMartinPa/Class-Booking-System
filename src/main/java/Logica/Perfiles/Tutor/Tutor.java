@@ -74,7 +74,7 @@ public class Tutor extends PerfilBasico {
             throw new NoValidNumberException("La tarifa debe ser positiva");
         }
         if (cuposMax <= 0) {
-            throw new NoValidNumberException("Los cupos deben ser mayor que zero");
+            throw new NoValidNumberException("Los cupos máximos deben ser positivos");
         }
         oferta.put(materia, new OfertaMateria(tarifa, cuposMax));
     }
@@ -111,9 +111,9 @@ public class Tutor extends PerfilBasico {
     }
     
     /**
-     * Eliminaun bloque horario a la disponibilidad del tutor.
+     * Elimina un bloque horario a la disponibilidad del tutor.
      *
-     * <p>Si el tutor tiene disponibilidad en el dia y bloque asignado.
+     * <p>Si el tutor tiene disponibilidad en el día y bloque asignado
      * este se eliminará.</p>
      *
      * @param dia día de la semana disponible.
@@ -163,15 +163,21 @@ public class Tutor extends PerfilBasico {
         Horario horarioTemporal = new Horario(bloque,fecha);
         return !this.reservaSeSolapa(horarioTemporal);
     }
-    
+    /**
+     * Verifica si el tutor tiene disponibilidad para un bloque horario
+     * específico en una día determinado.
+     *
+     * @param dia día que será consultada.
+     * @param bloque bloque horario requerido.
+     * @return {@code true} si el tutor está disponible en ese horario,
+     *         {@code false} si no posee disponibilidad registrada.
+     */
     public boolean estaDisponible(Dias dia, BloquesHorarios bloque) {
     if (!disponibilidad.containsKey(dia)) {
         return false;
     }
-    if (!disponibilidad.get(dia).contains(bloque)){
-        return false;
+        return disponibilidad.get(dia).contains(bloque);
     }
-    return true;
-    }
+
 }
 

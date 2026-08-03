@@ -26,6 +26,7 @@ public class GestorReserva {
     private final List<Reserva> listaReservasCompletadas = new ArrayList<>();
     private final List<Reserva> listaReservasCanceladas = new ArrayList<>();
 
+
     public GestorReserva() {
     }
 
@@ -48,10 +49,7 @@ public class GestorReserva {
         if (!horario.horarioVigente()){
             return false;
         }
-        if (!tutor.dictaMateria(materia)) {
-            return false;
-        }
-        return true;
+        return tutor.dictaMateria(materia);
     }
     /**
      * Crea una nueva reserva pendiente y la asocia al tutor correspondiente.
@@ -77,7 +75,7 @@ public class GestorReserva {
         if (tutor.reservaSeSolapa(horario)) {
             throw new IncompatibilityException("Al profesor se le solapa el horario");
         }
-        if (tutor.estaDisponible(horario.getFecha(), horario.getBloquehorario())){
+        if (!tutor.estaDisponible(horario.getFecha(), horario.getBloqueHorario())){
             throw new IncompatibilityException("El horario ya está siendo ocupado");
         }
 
@@ -159,7 +157,7 @@ public class GestorReserva {
         if (!reservaValidar(tutor, materia, horario)) {
             throw new IncompatibilityException("El profesor no puede reservar esa materia en ese horario");
         }
-        if (reserva.getListaEstudiantes().size() > tutor.getOferta(materia).getCuposMax()) {
+        if (reserva.getListaEstudiantes().size() > tutor.getOferta(materia).cuposMax()) {
             throw new MaxCapacityReachedException("El nuevo tutor tiene menos cupos que estudiantes actuales");
         }
         for (Reserva r : tutor.getReservasActivas()) {
@@ -244,11 +242,20 @@ public class GestorReserva {
     public List<Reserva> getListaReservasPendientes() {
         return listaReservasPendientes;
     }
+
     public List<Reserva> getListaReservasCompletadas() {
         return listaReservasCompletadas;
     }
+
     public List<Reserva> getListaReservasCanceladas() {
         return listaReservasCanceladas;
     }
 
+    public List<Reserva> getListaReservas(){
+        List<Reserva> listaTotal = new ArrayList<>();
+        listaTotal.addAll(getListaReservasPendientes());
+        listaTotal.addAll(getListaReservasCanceladas());
+        listaTotal.addAll(getListaReservasCompletadas());
+        return listaTotal;
+    }
 }

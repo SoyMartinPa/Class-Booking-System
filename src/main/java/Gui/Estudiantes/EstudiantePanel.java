@@ -288,8 +288,7 @@ public class EstudiantePanel extends javax.swing.JPanel {
                 e.getMessage(),
                 e.getClass().getSimpleName(),
                 JOptionPane.ERROR_MESSAGE);
-                actualizar();
-        };
+                actualizar();        }
     }//GEN-LAST:event_buscarActionPerformed
 
     private void verActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verActionPerformed

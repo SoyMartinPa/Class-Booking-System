@@ -53,7 +53,7 @@ public class ReservaPanel extends javax.swing.JPanel {
         int tarifa = reserva.getTarifa();
         int cupos = reserva.getCuposMax() - reserva.getListaEstudiantes().size();
         LocalDate fecha = reserva.getHorario().getFecha();
-        BloquesHorarios bloque = reserva.getHorario().getBloquehorario();
+        BloquesHorarios bloque = reserva.getHorario().getBloqueHorario();
 
         Object[] list = {id,nombre,materia,tarifa,cupos,fecha,bloque};
         modelo.addRow(list);
@@ -287,7 +287,7 @@ public class ReservaPanel extends javax.swing.JPanel {
                     int tarifa = reserva.getTarifa();
                     int cupos = reserva.getCuposMax() - reserva.getListaEstudiantes().size();
                     LocalDate fecha = reserva.getHorario().getFecha();
-                    BloquesHorarios bloque = reserva.getHorario().getBloquehorario();
+                    BloquesHorarios bloque = reserva.getHorario().getBloqueHorario();
                     Object[] list = {id,nombre,materia,tarifa,cupos,fecha,bloque};
                     modelo.addRow(list);
                 }

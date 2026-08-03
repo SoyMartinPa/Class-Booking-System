@@ -1,4 +1,3 @@
-import Excepciones.IncompatibilityException;
 import Excepciones.NoValidNumberException;
 import Logica.Enumeraciones.BloquesHorarios;
 import Logica.Enumeraciones.Dias;
@@ -31,7 +30,7 @@ public class TutorTest {
 
         tutor.ofrecerMateria(materia, tarifa, cuposMax); //Puede tirar error
 
-        tutor.agregarDisponibilidad(tutor.diasDesdeFecha(horario.getFecha()), horario.getBloquehorario());
+        tutor.agregarDisponibilidad(tutor.diasDesdeFecha(horario.getFecha()), horario.getBloqueHorario());
         gestorReserva.registrarReserva(tutor, materia, horario);
     }
 
@@ -56,24 +55,24 @@ public class TutorTest {
     @Test
     void verificarTarifaZero(){
         assertThrows(NoValidNumberException.class, () ->
-                RegistrarTutorEnReserva("Prueba numero uno", "uno@gmail.com", Materias.FISICA, horarioPorDefecto, 0, 10));
+                RegistrarTutorEnReserva("Prueba numero dos", "dos@gmail.com", Materias.FISICA, horarioPorDefecto, 0, 10));
     }
     @Test
     void verificarCuposNegativos(){
         assertThrows(NoValidNumberException.class, () ->
-                RegistrarTutorEnReserva("Prueba numero uno", "uno@gmail.com", Materias.FISICA, horarioPorDefecto, 1000, -1));
+                RegistrarTutorEnReserva("Prueba numero tres", "tres@gmail.com", Materias.FISICA, horarioPorDefecto, 1000, -1));
     }
     @Test
     void verificarCuposZero(){
         assertThrows(NoValidNumberException.class, () ->
-                RegistrarTutorEnReserva("Prueba numero uno", "uno@gmail.com", Materias.FISICA, horarioPorDefecto, 1000, 0));
+                RegistrarTutorEnReserva("Prueba numero cuatro", "cuatro@gmail.com", Materias.FISICA, horarioPorDefecto, 1000, 0));
     }
     @Test
     void verificarSesolapaConSiMismo(){
 
         assertDoesNotThrow(() ->
-                RegistrarTutorEnReserva("Prueba numero uno", "uno@gmail.com", Materias.FISICA, horarioPorDefecto, 1000, 10));
-        Tutor tutor = Sistema.getInstancia().buscarTutorPorEmail("uno@gmail.com");
+                RegistrarTutorEnReserva("Prueba numero cinco", "cinco@gmail.com", Materias.FISICA, horarioPorDefecto, 1000, 10));
+        Tutor tutor = Sistema.getInstancia().buscarTutorPorEmail("cinco@gmail.com");
 
         Horario horario = new Horario(BloquesHorarios.BLOQUE8_9, LocalDate.of(3000,12,12));
 
@@ -83,8 +82,8 @@ public class TutorTest {
     @Test
     void verificarSeSolapaMismoDiaDiferenteBloque(){
         assertDoesNotThrow(() ->
-                RegistrarTutorEnReserva("Prueba numero uno", "uno@gmail.com", Materias.FISICA, horarioPorDefecto, 1000, 10));
-        Tutor tutor = Sistema.getInstancia().buscarTutorPorEmail("uno@gmail.com");
+                RegistrarTutorEnReserva("Prueba numero seis", "seis@gmail.com", Materias.FISICA, horarioPorDefecto, 1000, 10));
+        Tutor tutor = Sistema.getInstancia().buscarTutorPorEmail("seis@gmail.com");
 
         Horario horarioMismoDiaDiferenteBloque
                 = new Horario(BloquesHorarios.BLOQUE9_10, LocalDate.of(3000,12,12));
@@ -95,8 +94,8 @@ public class TutorTest {
     void verificarSeSolapaMismoBloqueDiferenteDia(){
 
         assertDoesNotThrow(() ->
-                RegistrarTutorEnReserva("Prueba numero uno", "uno@gmail.com", Materias.FISICA, horarioPorDefecto, 1000, 10));
-        Tutor tutor = Sistema.getInstancia().buscarTutorPorEmail("uno@gmail.com");
+                RegistrarTutorEnReserva("Prueba numero siete", "siete@gmail.com", Materias.FISICA, horarioPorDefecto, 1000, 10));
+        Tutor tutor = Sistema.getInstancia().buscarTutorPorEmail("siete@gmail.com");
 
         Horario horarioMismoBloqueDiferenteDia
                 = new Horario(BloquesHorarios.BLOQUE8_9, LocalDate.of(3000,12,13));
@@ -105,8 +104,8 @@ public class TutorTest {
     @Test
     void verificarSeSolapaHorarioDiferente(){
         assertDoesNotThrow(() ->
-                RegistrarTutorEnReserva("Prueba numero uno", "uno@gmail.com", Materias.FISICA, horarioPorDefecto, 1000, 10));
-        Tutor tutor = Sistema.getInstancia().buscarTutorPorEmail("uno@gmail.com");
+                RegistrarTutorEnReserva("Prueba numero ocho", "ocho@gmail.com", Materias.FISICA, horarioPorDefecto, 1000, 10));
+        Tutor tutor = Sistema.getInstancia().buscarTutorPorEmail("ocho@gmail.com");
         Horario horarioDiferente
                 = new Horario(BloquesHorarios.BLOQUE9_10, LocalDate.of(3000,12,13));
         assertFalse(tutor.reservaSeSolapa(horarioDiferente));

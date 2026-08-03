@@ -26,15 +26,19 @@ public class Horario {
     }
 
     public LocalTime getHoraInicio() {
+
         return bloqueHorario.getHoraInicio();
     }
-    public LocalTime getHoraFin() {
+    public LocalTime getHoraFin()
+    {
         return bloqueHorario.getHoraFin();
     }
-    public BloquesHorarios getBloquehorario(){
+    public BloquesHorarios getBloqueHorario(){
+
         return bloqueHorario;
     }
     public LocalDate getFecha() {
+
         return fecha;
     }
 
@@ -53,7 +57,7 @@ public class Horario {
         }
         if (this.getFecha().isEqual(LocalDate.now())) {
 
-            if (this.getBloquehorario().getHoraInicio().isBefore(LocalTime.now())) {
+            if (this.getBloqueHorario().getHoraInicio().isBefore(LocalTime.now())) {
                 return false;
             }
         }
@@ -70,7 +74,7 @@ public class Horario {
             throw new TimeException("El horario se encuentra en el pasado");
         }
         this.fecha = otroHorario.getFecha();
-        this.bloqueHorario = otroHorario.getBloquehorario();
+        this.bloqueHorario = otroHorario.getBloqueHorario();
     }
 
     @Override

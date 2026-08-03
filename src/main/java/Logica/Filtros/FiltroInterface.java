@@ -1,5 +1,7 @@
 package Logica.Filtros;
 
+import java.util.List;
+
 /**
  * Define un criterio de filtrado para objetos de un tipo determinado.
  *
@@ -17,7 +19,6 @@ public interface FiltroInterface<T> {
      *         {@code false} en caso contrario.
      */
     boolean pasaElFiltro(T objeto);
-    
     
     
 }

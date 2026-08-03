@@ -18,6 +18,7 @@ import java.awt.CardLayout;
 public class Main extends javax.swing.JFrame {
     
     public static CardLayout cardLayout;
+
     private static Main instance;
     private final EstudiantePanel estudiantePanel = new EstudiantePanel();
     private final TutorPanel tutorPanel = new TutorPanel();
@@ -85,40 +86,12 @@ public class Main extends javax.swing.JFrame {
         return estudiantePerfilPanel;
     }
 
-    public EstudiantePanel getEstudiantePanel() {
-        return estudiantePanel;
-    }
-
-    public TutorPanel getTutorPanel() {
-        return tutorPanel;
-    }
-
-    public ReservaPanel getReservaPanel() {
-        return reservaPanel;
-    }
-
-    public InformacionPanel getInformacionPanel() {
-        return informacionPanel;
-    }
-
-    public TutorRegistrarPanel getTutorRegistrarPanel() {
-        return tutorRegistrarPanel;
-    }
-
     public TutorModificarPanel getTutorModificarPanel() {
         return tutorModificarPanel;
     }
 
-    public EstudianteRegistrarPanel getEstudianteRegistrarPanel() {
-        return estudianteRegistrarPanel;
-    }
-
     public EstudianteModificarPanel getEstudianteModificarPanel() {
         return estudianteModificarPanel;
-    }
-
-    public ReservaRegistrarPanel getReservaRegistrarPanel() {
-        return reservaRegistrarPanel;
     }
 
     public ReservaModificarPanel getReservaModificarPanel() {
