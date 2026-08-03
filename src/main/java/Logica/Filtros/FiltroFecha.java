@@ -15,6 +15,7 @@ public class FiltroFecha implements FiltroInterface<Reserva>{
 
     @Override
     public boolean pasaElFiltro(Reserva reserva) {
+        if (fechaAFiltrar.isBefore(LocalDate.now())){return true;}
         return (reserva.getHorario().getFecha().equals(fechaAFiltrar));
     }
 

@@ -60,7 +60,7 @@ public class ReservaModificarPanel extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         idField = new javax.swing.JTextField();
-        registrar = new javax.swing.JButton();
+        modificarBoton = new javax.swing.JButton();
         registrarEstudianteLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         estudianteField = new javax.swing.JTextField();
@@ -103,7 +103,14 @@ public class ReservaModificarPanel extends javax.swing.JPanel {
 
         materiaCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        fechaField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        try {
+            fechaField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        fechaField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        fechaField.setText("/  /    ");
+        fechaField.setToolTipText("");
         fechaField.addActionListener(this::fechaFieldActionPerformed);
 
         bloqueCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -114,14 +121,14 @@ public class ReservaModificarPanel extends javax.swing.JPanel {
 
         idField.addActionListener(this::idFieldActionPerformed);
 
-        registrar.setBackground(new java.awt.Color(0, 153, 255));
-        registrar.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
-        registrar.setForeground(new java.awt.Color(255, 255, 255));
-        registrar.setText("Modificar");
-        registrar.setBorder(null);
-        registrar.setBorderPainted(false);
-        registrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        registrar.addActionListener(this::registrarActionPerformed);
+        modificarBoton.setBackground(new java.awt.Color(0, 153, 255));
+        modificarBoton.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
+        modificarBoton.setForeground(new java.awt.Color(255, 255, 255));
+        modificarBoton.setText("Modificar");
+        modificarBoton.setBorder(null);
+        modificarBoton.setBorderPainted(false);
+        modificarBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        modificarBoton.addActionListener(this::modificarBotonActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -149,7 +156,7 @@ public class ReservaModificarPanel extends javax.swing.JPanel {
             .addComponent(idField)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(registrar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(modificarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -176,13 +183,13 @@ public class ReservaModificarPanel extends javax.swing.JPanel {
                     .addComponent(bloqueCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(materiaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(registrar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(modificarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8))
         );
 
         registrarEstudianteLabel.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         registrarEstudianteLabel.setForeground(new java.awt.Color(51, 51, 51));
-        registrarEstudianteLabel.setText("Registrar Modificar");
+        registrarEstudianteLabel.setText("Modificar");
 
         jLabel1.setText("Estudiante nombre:");
 
@@ -246,7 +253,7 @@ public class ReservaModificarPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_BotonEstudiantesActionPerformed
 
-    private void registrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarActionPerformed
+    private void modificarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarBotonActionPerformed
         
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String id = idField.getText();
@@ -283,7 +290,7 @@ public class ReservaModificarPanel extends javax.swing.JPanel {
         
         
        }                                         
-    }//GEN-LAST:event_registrarActionPerformed
+    }//GEN-LAST:event_modificarBotonActionPerformed
 
     private void nombreFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreFieldActionPerformed
 
@@ -315,7 +322,7 @@ public class ReservaModificarPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_agregarEstudianteBotonActionPerformed
 
     private void quitarEstudianteBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitarEstudianteBotonActionPerformed
-                String nombre = estudianteField.getText();
+        String nombre = estudianteField.getText();
         try{
             String id = idField.getText();
             Reserva reserva = sistema.buscarReservaPorId(id);
@@ -355,9 +362,9 @@ public class ReservaModificarPanel extends javax.swing.JPanel {
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JComboBox<String> materiaCombo;
+    private javax.swing.JButton modificarBoton;
     private javax.swing.JTextField nombreField;
     private javax.swing.JButton quitarEstudianteBoton;
-    private javax.swing.JButton registrar;
     private javax.swing.JLabel registrarEstudianteLabel;
     // End of variables declaration//GEN-END:variables
 

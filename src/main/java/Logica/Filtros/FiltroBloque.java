@@ -2,7 +2,6 @@ package Logica.Filtros;
 import Logica.Enumeraciones.BloquesHorarios;
 import Logica.Reservas.Reserva;
 
-import java.util.List;
 
 /**
  * Filtra las reservas cuyo bloque horario coincide con el bloque especificado.
@@ -17,6 +16,7 @@ public class FiltroBloque implements FiltroInterface<Reserva> {
 
     @Override
     public boolean pasaElFiltro(Reserva reserva) {
+        if (bloqueAFiltrar == null){return true;}        
         return (reserva.getHorario().getBloqueHorario() == (bloqueAFiltrar));
     }
 

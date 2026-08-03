@@ -304,7 +304,7 @@ public class TutorPanel extends javax.swing.JPanel {
             
             Main.getInstance().cambiarPantalla("TutorPerfil");
             Main.getInstance().getTutorPerfilPanel().setTutor(tutor);
-            Main.getInstance().getTutorPerfilPanel().actualizar();
+            Main.getInstance().getTutorPerfilPanel().actualizarReservas();
            } 
         }//GEN-LAST:event_verActionPerformed
 

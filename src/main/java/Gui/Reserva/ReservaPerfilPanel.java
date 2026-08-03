@@ -1,14 +1,10 @@
 package Gui.Reserva;
 
-import Logica.Gestores.Sistema;
 import Logica.Perfiles.Estudiante;
-import Logica.Reservas.EstadoReserva;
-import Logica.Reservas.Horario;
 import Logica.Reservas.Reserva;
 import javax.swing.table.DefaultTableModel;
 
 public class ReservaPerfilPanel extends javax.swing.JPanel {
-    Sistema sistema = Sistema.getInstancia();
     Reserva reserva;
     
     public ReservaPerfilPanel() {
@@ -26,25 +22,24 @@ public class ReservaPerfilPanel extends javax.swing.JPanel {
     
     public void actualizar() {                                           
 
-            if (sistema!= null){
 
-                DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-                modelo.setRowCount(0);
+    DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+    modelo.setRowCount(0);
 
-                for (Estudiante estudiante : reserva.getListaEstudiantes()){
-                    String id = estudiante.getId();
-                    String email = estudiante.getEmail();
+    for (Estudiante estudiante : reserva.getListaEstudiantes()){
+        String id = estudiante.getId();
+        String email = estudiante.getEmail();
 
-                    Object[] lista = {id,email};
-                    modelo.addRow(lista);
-                }
-            }
-            nombreLabel.setText("Nombre: " + reserva.getTutorAsociado().getNombre());
-            idLabel.setText("ID: " + reserva.getId());
-            materiaLabel.setText("Materia: " + reserva.getMateria().name());
-            fechaLabel.setText(
-                    "Fecha :" + reserva.getHorario().getFecha().toString() 
-                            + " {" + reserva.getHorario().getBloqueHorario() + "}");
+        Object[] lista = {id,email};
+        modelo.addRow(lista);
+    }
+    
+    nombreLabel.setText("Nombre: " + reserva.getTutorAsociado().getNombre());
+    idLabel.setText("ID: " + reserva.getId());
+    materiaLabel.setText("Materia: " + reserva.getMateria().name());
+    fechaLabel.setText(
+            "Fecha :" + reserva.getHorario().getFecha().toString() 
+                    + " {" + reserva.getHorario().getBloqueHorario() + "}");
         }                                          
 
     
@@ -129,16 +124,18 @@ public class ReservaPerfilPanel extends javax.swing.JPanel {
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nombreLabel))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(26, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(nombreLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(idLabel)
+                        .addGap(154, 154, 154))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(fechaLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(materiaLabel)
-                            .addComponent(idLabel)))))
+                        .addComponent(materiaLabel)
+                        .addGap(127, 127, 127))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

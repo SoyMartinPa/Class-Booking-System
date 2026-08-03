@@ -23,9 +23,9 @@ public class TutorRegistrarPanel extends javax.swing.JPanel {
         jTextField1 = new javax.swing.JTextField();
         registrar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        nombreLabel = new javax.swing.JLabel();
         emailField = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        emailLabel = new javax.swing.JLabel();
         nombreField = new javax.swing.JTextField();
         registrarEstudianteLabel = new javax.swing.JLabel();
 
@@ -64,11 +64,11 @@ public class TutorRegistrarPanel extends javax.swing.JPanel {
         registrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         registrar.addActionListener(this::registrarActionPerformed);
 
-        jLabel2.setText("Nombre:");
+        nombreLabel.setText("Nombre:");
 
         emailField.addActionListener(this::emailFieldActionPerformed);
 
-        jLabel3.setText("Email: ");
+        emailLabel.setText("Email: ");
 
         nombreField.addActionListener(this::nombreFieldActionPerformed);
 
@@ -80,19 +80,19 @@ public class TutorRegistrarPanel extends javax.swing.JPanel {
             .addComponent(emailField, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                    .addComponent(nombreLabel)
+                    .addComponent(emailLabel))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(41, 41, 41)
-                .addComponent(jLabel2)
+                .addComponent(nombreLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(nombreField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3)
+                .addComponent(emailLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(109, Short.MAX_VALUE))
@@ -169,13 +169,13 @@ public class TutorRegistrarPanel extends javax.swing.JPanel {
     private javax.swing.JButton BotonEstudiantes;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextField emailField;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel emailLabel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField nombreField;
+    private javax.swing.JLabel nombreLabel;
     private javax.swing.JButton registrar;
     private javax.swing.JLabel registrarEstudianteLabel;
     // End of variables declaration//GEN-END:variables

@@ -28,7 +28,7 @@ public class TutorPerfilPanel extends javax.swing.JPanel {
     }
     
     
-    public void actualizar() {                                                                                
+    public void actualizarReservas() {                                                                                
 
     DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
 
@@ -49,6 +49,7 @@ public class TutorPerfilPanel extends javax.swing.JPanel {
     nombreLabel.setText("Nombre: " + tutor.getNombre());
     emailLabel.setText("Email: " + tutor.getEmail());
     idLabel.setText("ID: " + tutor.getId());
+    
     tabla.setModel(modelo);
     
     }
@@ -247,7 +248,7 @@ public class TutorPerfilPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_BotonEstudiantesActionPerformed
 
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
-        actualizar();
+        actualizarReservas();
     }//GEN-LAST:event_modificarActionPerformed
 
     private void modificar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificar1ActionPerformed

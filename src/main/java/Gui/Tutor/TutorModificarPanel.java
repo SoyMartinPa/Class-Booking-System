@@ -1,4 +1,5 @@
 package Gui.Tutor;
+import Excepciones.IncompatibilityException;
 import Excepciones.NoRepeatException;
 import Excepciones.NotFoundException;
 import Logica.Enumeraciones.BloquesHorarios;
@@ -16,9 +17,18 @@ public class TutorModificarPanel extends javax.swing.JPanel {
     
     public TutorModificarPanel() {
         initComponents();
-        materiaCombo.setModel(new DefaultComboBoxModel(Materias.values()) );
-        diaCombo.setModel(new DefaultComboBoxModel(Dias.values()) );
-        bloqueCombo.setModel(new DefaultComboBoxModel(BloquesHorarios.values()) );
+        
+        materiaCombo.setModel(crearModeloCombo(Materias.values()) );
+        diaCombo.setModel(crearModeloCombo(Dias.values() ) );
+        bloqueCombo.setModel(crearModeloCombo(BloquesHorarios.values()) );
+    }
+    
+    private <T> DefaultComboBoxModel<T> crearModeloCombo(T[] valores) {
+    T[] opciones = java.util.Arrays.copyOf(valores, valores.length + 1);
+    System.arraycopy(opciones, 0, opciones, 1, valores.length);
+    opciones[0] = null;
+
+    return new DefaultComboBoxModel<>(opciones);
     }
 
     public JTextField getEmailField() {
@@ -51,7 +61,7 @@ public class TutorModificarPanel extends javax.swing.JPanel {
         nombreField = new javax.swing.JTextField();
         idField = new javax.swing.JTextField();
         idLabel = new javax.swing.JLabel();
-        registrar2 = new javax.swing.JButton();
+        modificarBoton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         materiaLabel = new javax.swing.JLabel();
         tarifaLabel = new javax.swing.JLabel();
@@ -125,14 +135,14 @@ public class TutorModificarPanel extends javax.swing.JPanel {
 
         idLabel.setText("ID: ");
 
-        registrar2.setBackground(new java.awt.Color(0, 153, 255));
-        registrar2.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
-        registrar2.setForeground(new java.awt.Color(255, 255, 255));
-        registrar2.setText("Modificar");
-        registrar2.setBorder(null);
-        registrar2.setBorderPainted(false);
-        registrar2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        registrar2.addActionListener(this::registrar2ActionPerformed);
+        modificarBoton.setBackground(new java.awt.Color(0, 153, 255));
+        modificarBoton.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
+        modificarBoton.setForeground(new java.awt.Color(255, 255, 255));
+        modificarBoton.setText("Modificar");
+        modificarBoton.setBorder(null);
+        modificarBoton.setBorderPainted(false);
+        modificarBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        modificarBoton.addActionListener(this::modificarBotonActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -148,7 +158,7 @@ public class TutorModificarPanel extends javax.swing.JPanel {
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
                             .addComponent(idLabel)
-                            .addComponent(registrar2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(modificarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -168,7 +178,7 @@ public class TutorModificarPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(registrar2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(modificarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41))
         );
 
@@ -198,23 +208,25 @@ public class TutorModificarPanel extends javax.swing.JPanel {
         jLabel6.setText("Dia");
         jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 141, -1, -1));
 
-        diaCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel2.add(diaCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 138, 75, -1));
 
         jLabel7.setText("Bloque");
         jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 177, -1, -1));
 
-        bloqueCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         bloqueCombo.addActionListener(this::bloqueComboActionPerformed);
         jPanel2.add(bloqueCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 174, -1, -1));
 
         Quitar2.setText("Quitar");
         Quitar2.addActionListener(this::Quitar2ActionPerformed);
         jPanel2.add(Quitar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(138, 174, 76, -1));
+
+        tarifaSpiner.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 50));
         jPanel2.add(tarifaSpiner, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 42, 75, -1));
 
         cuposLabel.setText("Cupos");
         jPanel2.add(cuposLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 81, -1, -1));
+
+        cuposSpiner.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         jPanel2.add(cuposSpiner, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 78, 75, -1));
 
         registrarEstudianteLabel.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
@@ -286,11 +298,13 @@ public class TutorModificarPanel extends javax.swing.JPanel {
         
         try{
             Tutor tutor = sistema.buscarTutorPorId(id);
+            if (materia == null){throw new IncompatibilityException("Seleccione una materia valida");}
             
             if (!tutor.dictaMateria(materia)) {
                 tutor.ofrecerMateria(materia,tarifa,cupos);
                 tarifaSpiner.setValue(0);
                 cuposSpiner.setValue(0);
+                materiaCombo.setSelectedIndex(0);
             }
             else {
                 
@@ -321,21 +335,29 @@ public class TutorModificarPanel extends javax.swing.JPanel {
         
     }//GEN-LAST:event_Agregar1ActionPerformed
 
-    private void registrar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrar2ActionPerformed
+    private void modificarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarBotonActionPerformed
         String email = emailField.getText();
         String nombre = nombreField.getText();
         String id = idField.getText();
         
         try{ 
-            Tutor tutor = sistema.buscarTutorPorId(id);
-            sistema.getGestorTutores().verificarNombre(nombre);
-            sistema.getGestorTutores().verificarEmail(email);
-            tutor.setEmail(email);
-            tutor.setNombre(nombre);
             
-            emailField.setText("");
+            Tutor tutor = sistema.buscarTutorPorId(id);
+            
+            if (!tutor.getNombre().equals(nombre) && !tutor.getEmail().equals(email)){
+                
+            sistema.getGestorTutores().cambiarNombre(tutor, nombre);
             nombreField.setText("");
-            idField.setText("");
+            emailField.setText("");;
+            idField.setText("");}
+            
+            else if (!tutor.getNombre().equals(nombre)){
+                 sistema.getGestorTutores().cambiarNombre(tutor, nombre);
+                 nombreField.setText("");}
+            else if (!tutor.getEmail().equals(email)){
+                 sistema.getGestorTutores().cambiarEmail(tutor, email);
+                 emailField.setText("");}
+
             
         } catch(Exception e){ 
             JOptionPane.showMessageDialog(
@@ -345,7 +367,7 @@ public class TutorModificarPanel extends javax.swing.JPanel {
             JOptionPane.ERROR_MESSAGE
             );
         }   
-    }//GEN-LAST:event_registrar2ActionPerformed
+    }//GEN-LAST:event_modificarBotonActionPerformed
 
     private void materiaComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_materiaComboActionPerformed
         // TODO add your handling code here:
@@ -362,7 +384,7 @@ public class TutorModificarPanel extends javax.swing.JPanel {
         
         try{
             Tutor tutor = sistema.buscarTutorPorId(id);
-            
+            if (materia == null){throw new IncompatibilityException("Seleccione una materia valida");}
             if (tutor.dictaMateria(materia)) {
                 opcion = JOptionPane.showConfirmDialog(
                         this,
@@ -375,6 +397,7 @@ public class TutorModificarPanel extends javax.swing.JPanel {
                     tutor.dejarDeOfrecer(materia); 
                     tarifaSpiner.setValue(0);
                     cuposSpiner.setValue(0);
+                    materiaCombo.setSelectedIndex(0);
                      }
             }
             else {
@@ -397,6 +420,9 @@ public class TutorModificarPanel extends javax.swing.JPanel {
 
         
         try{
+            if (dia == null){throw new IncompatibilityException("Seleccione un dia valido");}
+            if (bloque == null){throw new IncompatibilityException("Seleccione un bloque valido");}
+            
             Tutor tutor = sistema.buscarTutorPorId(id);
             if (!tutor.estaDisponible(dia,bloque)) {
                 tutor.agregarDisponibilidad(dia,bloque);
@@ -435,8 +461,8 @@ public class TutorModificarPanel extends javax.swing.JPanel {
                 
                 if (opcion == JOptionPane.YES_OPTION){
                     tutor.quitarDisponibilidad(dia,bloque); 
-                    tarifaSpiner.setValue(0);
-                    cuposSpiner.setValue(0);
+                    diaCombo.setSelectedIndex(0);
+                    bloqueCombo.setSelectedIndex(0);
                      }
             }
             else {
@@ -459,11 +485,11 @@ public class TutorModificarPanel extends javax.swing.JPanel {
     private javax.swing.JButton BotonEstudiantes;
     private javax.swing.JButton Quitar1;
     private javax.swing.JButton Quitar2;
-    private javax.swing.JComboBox<String> bloqueCombo;
+    private javax.swing.JComboBox<BloquesHorarios> bloqueCombo;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel cuposLabel;
     private javax.swing.JSpinner cuposSpiner;
-    private javax.swing.JComboBox<String> diaCombo;
+    private javax.swing.JComboBox<Dias> diaCombo;
     private javax.swing.JTextField emailField;
     private javax.swing.JTextField idField;
     private javax.swing.JLabel idLabel;
@@ -476,12 +502,12 @@ public class TutorModificarPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JComboBox<String> materiaCombo;
+    private javax.swing.JComboBox<Materias> materiaCombo;
     private javax.swing.JLabel materiaLabel;
+    private javax.swing.JButton modificarBoton;
     private javax.swing.JTextField nombreField;
     private javax.swing.JButton registrar;
     private javax.swing.JButton registrar1;
-    private javax.swing.JButton registrar2;
     private javax.swing.JLabel registrarEstudianteLabel;
     private javax.swing.JLabel tarifaLabel;
     private javax.swing.JSpinner tarifaSpiner;

@@ -1,5 +1,6 @@
 package Gui.Reserva;
 
+import Excepciones.TimeException;
 import Logica.Enumeraciones.BloquesHorarios;
 import Logica.Enumeraciones.Materias;
 import Logica.Gestores.Sistema;
@@ -40,7 +41,7 @@ public class ReservaRegistrarPanel extends javax.swing.JPanel {
         materiaCombo = new javax.swing.JComboBox<>();
         bloqueCombo = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        fechaField = new javax.swing.JTextField();
+        fechaField = new javax.swing.JFormattedTextField();
         registrarEstudianteLabel = new javax.swing.JLabel();
 
         BotonEstudiantes.setBackground(new java.awt.Color(0, 153, 255));
@@ -92,6 +93,12 @@ public class ReservaRegistrarPanel extends javax.swing.JPanel {
 
         jLabel5.setText("Bloque: ");
 
+        try {
+            fechaField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        fechaField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         fechaField.addActionListener(this::fechaFieldActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -108,7 +115,7 @@ public class ReservaRegistrarPanel extends javax.swing.JPanel {
                     .addComponent(jLabel5)
                     .addComponent(bloqueCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(fechaField, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+            .addComponent(fechaField)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,6 +188,8 @@ public class ReservaRegistrarPanel extends javax.swing.JPanel {
             Tutor tutor = sistema.buscarTutorPorNombre(nombre);
             LocalDate fecha = LocalDate.parse(fechaField.getText().trim(), formato);
             Horario horario = new Horario(bloque,fecha);
+            if (!horario.horarioVigente()){throw new TimeException("El horario ya pasó");}
+            
             sistema.getGestorReservas().registrarReserva(tutor,materia,horario);
             nombreField.setText("");
             fechaField.setText("");
@@ -219,7 +228,7 @@ public class ReservaRegistrarPanel extends javax.swing.JPanel {
     private javax.swing.JButton BotonEstudiantes;
     private javax.swing.JComboBox<String> bloqueCombo;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JTextField fechaField;
+    private javax.swing.JFormattedTextField fechaField;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

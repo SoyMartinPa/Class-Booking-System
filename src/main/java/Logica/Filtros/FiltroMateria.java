@@ -15,6 +15,7 @@ public class FiltroMateria implements FiltroInterface<Reserva>{
 
     @Override
     public boolean pasaElFiltro(Reserva reserva) {
+        if (materiaAFiltrar == null){return true;}
         return (reserva.getMateria() == (materiaAFiltrar));
     }
 }

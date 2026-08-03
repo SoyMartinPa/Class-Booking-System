@@ -172,14 +172,20 @@ public class EstudianteModificarPanel extends javax.swing.JPanel {
         
         try{ 
             Estudiante estudiante = sistema.buscarEstudiantePorId(id);
-            sistema.getGestorEstudiantes().verificarNombre(nombre);
-            sistema.getGestorEstudiantes().verificarEmail(email);
-            estudiante.setEmail(email);
-            estudiante.setNombre(nombre);
             
-            emailField.setText("");
+            if (!estudiante.getNombre().equals(nombre) && !estudiante.getEmail().equals(email)){
+                
+            sistema.getGestorEstudiantes().cambiarNombre(estudiante, nombre);
             nombreField.setText("");
-            idField.setText("");
+            emailField.setText("");;
+            idField.setText("");}
+            
+            else if (!estudiante.getNombre().equals(nombre)){
+                 sistema.getGestorEstudiantes().cambiarNombre(estudiante, nombre);
+                 nombreField.setText("");}
+            else if (!estudiante.getEmail().equals(email)){
+                 sistema.getGestorEstudiantes().cambiarEmail(estudiante, email);
+                 emailField.setText("");}
             
         } catch(Exception e){ 
             JOptionPane.showMessageDialog(

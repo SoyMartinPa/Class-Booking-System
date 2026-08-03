@@ -3,6 +3,7 @@ package Gui.Reserva;
 import Gui.Main;
 import Logica.Enumeraciones.BloquesHorarios;
 import Logica.Enumeraciones.Materias;
+import Logica.Filtros.FiltroBloque;
 import Logica.Filtros.FiltroCompuesto;
 import Logica.Filtros.FiltroCuposMax;
 import Logica.Filtros.FiltroFecha;
@@ -12,7 +13,8 @@ import Logica.Gestores.Sistema;
 import Logica.Reservas.Reserva;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.time.format.DateTimeParseException;
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -23,28 +25,23 @@ public class ReservaPanel extends javax.swing.JPanel {
     
     public ReservaPanel() {
         initComponents();
-        Materias[] valoresMateria = Materias.values();
-        Materias[] opcionesMaterias = new Materias[valoresMateria.length + 1];
-        opcionesMaterias[0] = null;
-        System.arraycopy(valoresMateria, 0, opcionesMaterias, 1, valoresMateria.length);
-
-        BloquesHorarios[] valoresBloque = BloquesHorarios.values();
-        BloquesHorarios[] opcionesBloque = new BloquesHorarios[valoresBloque.length + 1];
-        opcionesBloque[0] = null;
-        System.arraycopy(valoresBloque, 0, opcionesBloque, 1, valoresBloque.length);
+        materiaCombo.setModel(crearModeloCombo(Materias.values()));
+        bloqueCombo.setModel(crearModeloCombo(BloquesHorarios.values()));
         
-        materiaCombo.setModel(new DefaultComboBoxModel<>(opcionesMaterias));
-        bloqueCombo.setModel(new DefaultComboBoxModel<>(opcionesBloque));
-        
-        modelo  = (DefaultTableModel) tabla.getModel();
     }
     
-    public void actualizar() {                                           
+    private <T extends Enum<T>> DefaultComboBoxModel<T> crearModeloCombo(T[] valores) {
+        T[] opciones = java.util.Arrays.copyOf(valores, valores.length + 1);
+        System.arraycopy(opciones, 0, opciones, 1, valores.length);
+        opciones[0] = null;
 
+        return new DefaultComboBoxModel<>(opciones);
+    }
+
+    public void actualizar() {                                           
+    DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
     modelo.setRowCount(0);
-    ArrayList<Reserva> lista = new ArrayList<>(sistema.getGestorReservas().getListaReservasPendientes());
-    lista.addAll(sistema.getGestorReservas().getListaReservasCompletadas());
-    lista.addAll(sistema.getGestorReservas().getListaReservasCanceladas());
+    List<Reserva> lista = sistema.getGestorReservas().getListaReservas();
     
     for (Reserva reserva : lista){
         String id = reserva.getId();
@@ -54,8 +51,9 @@ public class ReservaPanel extends javax.swing.JPanel {
         int cupos = reserva.getCuposMax() - reserva.getListaEstudiantes().size();
         LocalDate fecha = reserva.getHorario().getFecha();
         BloquesHorarios bloque = reserva.getHorario().getBloqueHorario();
+        String estado = reserva.getEstado().toString();
 
-        Object[] list = {id,nombre,materia,tarifa,cupos,fecha,bloque};
+        Object[] list = {id,nombre,materia,tarifa,cupos,fecha,bloque,estado};
         modelo.addRow(list);
             }
     tabla.setModel(modelo);
@@ -84,11 +82,11 @@ public class ReservaPanel extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         materiaCombo = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        fechaField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         tarifaSpinner = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
         bloqueCombo = new javax.swing.JComboBox<>();
+        fechaField = new javax.swing.JFormattedTextField();
 
         BotonEstudiantes.setBackground(new java.awt.Color(0, 153, 255));
         BotonEstudiantes.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
@@ -124,11 +122,11 @@ public class ReservaPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Tutor", "Materia", "Tarifa", "Cupos", "Fecha", "Bloque"
+                "ID", "Tutor", "Materia", "Tarifa", "Cupos", "Fecha", "Bloque", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -195,6 +193,8 @@ public class ReservaPanel extends javax.swing.JPanel {
         jLabel2.setText("Fecha");
         jLabel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 40, -1, -1));
+
+        cuposSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         add(cuposSpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, -1, -1));
 
         jLabel3.setText("Bloque");
@@ -208,13 +208,11 @@ public class ReservaPanel extends javax.swing.JPanel {
         jLabel4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, -1));
 
-        fechaField.setText("##/##/####");
-        fechaField.addActionListener(this::fechaFieldActionPerformed);
-        add(fechaField, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, -1, -1));
-
         jLabel5.setText("Tarifa");
         jLabel5.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+
+        tarifaSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 50));
         add(tarifaSpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, -1, -1));
 
         jLabel6.setText("CuposMax");
@@ -222,6 +220,14 @@ public class ReservaPanel extends javax.swing.JPanel {
         add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, -1, -1));
 
         add(bloqueCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, -1, -1));
+
+        try {
+            fechaField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        fechaField.addActionListener(this::fechaFieldActionPerformed);
+        add(fechaField, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, 100, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonEstudiantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEstudiantesActionPerformed
@@ -258,42 +264,55 @@ public class ReservaPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_registrarActionPerformed
 
     private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
+        LocalDate fechaFiltro;
         int cuposFiltro = (int) cuposSpinner.getValue();
         int tarifaFiltro = (int) tarifaSpinner.getValue();
         Materias materiaFiltro = (Materias) materiaCombo.getSelectedItem();
+        BloquesHorarios bloqueFiltro = (BloquesHorarios) bloqueCombo.getSelectedItem();
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
         
         try{
-            
             FiltroCompuesto filtros = new FiltroCompuesto();
             
-            if (!fechaField.getText().equals("")){
-            LocalDate fecha = LocalDate.parse(fechaField.getText().trim(), formato);
-            filtros.agregarFiltro(new FiltroFecha(fecha));
-            }
-            if (tarifaFiltro > 0) {filtros.agregarFiltro(new FiltroTarifaMax(tarifaFiltro));}
-            if (bloqueCombo.getSelectedItem() != null) {filtros.agregarFiltro(new FiltroMateria(materiaFiltro));}
-            if (cuposFiltro > 0){filtros.agregarFiltro(new FiltroCuposMax(cuposFiltro));}
+            if (!fechaField.getText().trim().equals( "/  /") && !fechaField.getText().trim().equals( "00/00/0000")){
+               fechaFiltro = LocalDate.parse(fechaField.getText().trim(), formato);
+            } else {fechaFiltro = LocalDate.now().minusDays(1);}
             
-            ArrayList<Reserva> lista = new ArrayList<>(sistema.getGestorReservas().getListaReservasPendientes());
-            lista.addAll(sistema.getGestorReservas().getListaReservasCompletadas());
-            lista.addAll(sistema.getGestorReservas().getListaReservasCanceladas());
+            
+            
+            filtros.agregarFiltro(new FiltroFecha(fechaFiltro));
+            filtros.agregarFiltro(new FiltroTarifaMax(tarifaFiltro));
+            filtros.agregarFiltro(new FiltroMateria(materiaFiltro));
+            filtros.agregarFiltro(new FiltroCuposMax(cuposFiltro));
+            filtros.agregarFiltro(new FiltroBloque(bloqueFiltro));
+            
+            List<Reserva> lista = sistema.getGestorReservas().getListaReservas();
+            List<Reserva> listaFiltrada = sistema.getGestorReservas().filtrador(lista, filtros);
             modelo.setRowCount(0);
-            for (Reserva reserva : lista){
-                if (filtros.pasaElFiltro(reserva)){
-                    String id = reserva.getId();
-                    String nombre = reserva.getTutorAsociado().getNombre();
-                    Materias materia = reserva.getMateria();
-                    int tarifa = reserva.getTarifa();
-                    int cupos = reserva.getCuposMax() - reserva.getListaEstudiantes().size();
-                    LocalDate fecha = reserva.getHorario().getFecha();
-                    BloquesHorarios bloque = reserva.getHorario().getBloqueHorario();
-                    Object[] list = {id,nombre,materia,tarifa,cupos,fecha,bloque};
-                    modelo.addRow(list);
-                }
+            
+            for (Reserva reserva : listaFiltrada){
+                String id = reserva.getId();
+                String nombre = reserva.getTutorAsociado().getNombre();
+                Materias materia = reserva.getMateria();
+                int tarifa = reserva.getTarifa();
+                int cupos = reserva.getCuposMax() - reserva.getListaEstudiantes().size();
+                LocalDate fecha = reserva.getHorario().getFecha();
+                BloquesHorarios bloque = reserva.getHorario().getBloqueHorario();
+                String estado = reserva.getEstado().toString();
+                Object[] list = {id,nombre,materia,tarifa,cupos,fecha,bloque,estado};
+                modelo.addRow(list);
+                
             }
             tabla.setModel(modelo);
             
+        } catch (DateTimeParseException dateE) {
+            JOptionPane.showMessageDialog(this,
+                "Fecha inválida.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+            fechaField.setText("00/00/0000");
+                
         } catch (Exception e){
             JOptionPane.showMessageDialog(this,
                     "Fecha ingresada incorrectamente",
@@ -330,7 +349,7 @@ public class ReservaPanel extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JSpinner cuposSpinner;
     private javax.swing.JButton eliminar;
-    private javax.swing.JTextField fechaField;
+    private javax.swing.JFormattedTextField fechaField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -348,5 +367,5 @@ public class ReservaPanel extends javax.swing.JPanel {
     private javax.swing.JSpinner tarifaSpinner;
     private javax.swing.JButton ver;
     // End of variables declaration//GEN-END:variables
-    DefaultTableModel modelo;
+
 }

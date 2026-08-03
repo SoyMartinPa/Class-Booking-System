@@ -38,4 +38,9 @@ public class ReservaPendiente implements EstadoReserva{
     public void quitarListaEstudiantes(Reserva reserva, Estudiante estudiante){
         reserva.getListaEstudiantes().remove(estudiante);
     }
+    
+    @Override
+    public String toString(){
+        return "Pendiente";
+    }
 }

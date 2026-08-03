@@ -12,6 +12,7 @@ public class FiltroNombre implements FiltroInterface<Reserva> {
 
     @Override
     public boolean pasaElFiltro(Reserva reserva) {
+        if (nombreAFiltrar.equals("")){return true;}
         return (reserva.getTutorAsociado().getNombre().equals(nombreAFiltrar));
     }
 }

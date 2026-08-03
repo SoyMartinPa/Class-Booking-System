@@ -14,6 +14,7 @@ public class FiltroCuposMax implements FiltroInterface<Reserva> {
 
     @Override
     public boolean pasaElFiltro(Reserva reserva) {
+        if (cuposAFiltrar <= 0 ) {return true;}
         return (reserva.getCuposMax() <= (cuposAFiltrar));
     }
 }

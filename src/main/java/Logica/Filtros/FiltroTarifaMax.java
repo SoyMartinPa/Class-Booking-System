@@ -13,6 +13,7 @@ public class FiltroTarifaMax implements FiltroInterface<Reserva>{
 
     @Override
     public boolean pasaElFiltro(Reserva reserva) {
+        if (tarifaAFiltrar <= 0 ) {return true;}
         return (reserva.getTarifa() <= tarifaAFiltrar);
     }
 }

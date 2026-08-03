@@ -41,5 +41,9 @@ public class ReservaCancelada implements EstadoReserva{
     public EstadoReserva getEstado(Reserva reserva){
         return reserva.getEstado();
     }
+    @Override
+    public String toString(){
+        return "Cancelada";
+    }
 }
 

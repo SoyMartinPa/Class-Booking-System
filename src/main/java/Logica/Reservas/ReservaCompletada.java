@@ -42,5 +42,9 @@ public class ReservaCompletada implements EstadoReserva{
     public EstadoReserva getEstado(Reserva reserva){
         return reserva.getEstado();
     }
+    @Override
+    public String toString(){
+        return "Completada";
+    }
 }
 
