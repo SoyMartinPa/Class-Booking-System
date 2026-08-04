@@ -20,6 +20,7 @@ package "Logica.Enumeraciones" {
     BLOQUE12
     - horaInicio: LocalTime
     - horaFin: LocalTime
+    + BloquesHorarios(horaInicio : LocalTime , horaFin : LocalTime)
     + getHoraInicio(): LocalTime
     + getHoraFin(): LocalTime
   }
@@ -55,6 +56,7 @@ package "Logica.Reservas" {
     + setHorario(otroHorario: Horario): void
     + equals(obj: Object): boolean
     + hashCode(): int
+    + toString() : String
   }
 
   interface EstadoReserva {
@@ -76,7 +78,6 @@ package "Logica.Reservas" {
     + Reserva(tutor: Tutor, materia: Materias, horario: Horario)
     + getId(): String
     + getCuposMax(): int
-    + estaLlena(): Boolean
     + getTarifa(): int
     + getTutorAsociado(): Tutor
     + setTutorAsociado(tutorAsociado: Tutor): void
@@ -161,22 +162,20 @@ package "Logica.Perfiles" {
       - disponibilidad: Map<Dias, Set<BloquesHorarios>>
       + Tutor(nombre: String, email: String)
       + getOferta(materia: Materias): OfertaMateria
+      + getOfertaTotal() : Map<Materias, OfertaMateria>
+      + getDisponibilidad() : Map<Dias, Set<BloquesHorarios>>
       + dictaMateria(materia: Materias): boolean
       + ofrecerMateria(materia: Materias, tarifa: int, cuposMax: int): void
       + dejarDeOfrecer(materia: Materias): void
       + agregarDisponibilidad(dia: Dias, bloque: BloquesHorarios): void
       - diasDesdeFecha(fecha: LocalDate): Dias
       + estaDisponible(fecha: LocalDate, bloque: BloquesHorarios): boolean
+      + estaDisponible(dia : Dia , BloquesHorarios : bloque)
     }
 
-    class OfertaMateria {
+    class OfertaMateria <<record>>{
       - tarifa: int
       - cuposMax: int
-      + OfertaMateria(tarifa: int, cuposMax: int)
-      + getTarifa(): int
-      + setTarifa(tarifa: int): void
-      + getCuposMax(): int
-      + setCuposMax(cuposMax: int): void
     }
 
     Tutor "1" *-- "many" OfertaMateria : oferta
@@ -221,6 +220,11 @@ package "Logica.Filtros" {
     + FiltroTarifaMax(tarifa: int)
     + pasaElFiltro(reserva: Reserva): boolean
   }
+  class FiltroCuposMax {
+    - cuposAFiltrar: int
+    + FiltroCuposMax(cupos: int)
+    + pasaElFiltro(reserva: Reserva): boolean
+  }
 
   class FiltroCompuesto {
     - listaFiltros: List<FiltroInterface<Reserva>>
@@ -247,12 +251,14 @@ package "Logica.Gestores" {
     # verificarNombre(nombre: String): void
     # verificarEmail(email: String): void
     + cambiarEmail(usuario: T, email: String): void
+    + cambiarNombre(usuario : T , nombre : String)
     + {abstract} registrar(nombre: String, email: String): void
     + getLista(): List<T>
+    + getListaCompleta() : List<PerfilBasico>
   }
 
   class GestorEstudiante {
-    + GestorEstudiante()
+    # GestorEstudiante()
     + registrar(nombre: String, email: String): void
   }
 
@@ -265,7 +271,7 @@ package "Logica.Gestores" {
     - listaReservasPendientes: List<Reserva>
     - listaReservasCompletadas: List<Reserva>
     - listaReservasCanceladas: List<Reserva>
-    + GestorReserva()
+    # GestorReserva()
     + reservaValidar(tutor: Tutor, materia: Materias, horario: Horario): Boolean
     + registrarReserva(tutor: Tutor, materia: Materias, horario: Horario): Reserva
     + cancelarReserva(reserva: Reserva): void
@@ -277,6 +283,7 @@ package "Logica.Gestores" {
     + getListaReservasPendientes(): List<Reserva>
     + getListaReservasCompletadas(): List<Reserva>
     + getListaReservasCanceladas(): List<Reserva>
+    + getListaReservas() : List<Reserva>
   }
 
   class Sistema <<Singleton>> <<Facade>> {
@@ -290,14 +297,17 @@ package "Logica.Gestores" {
     + eliminarTutor(tutor: Tutor): void
     + eliminarEstudiante(estudiante: Estudiante): void
     + buscarTutorPorEmail(email: String): Tutor
+    + buscarTutorPorNombre(nombre: String): Tutor
+    + buscarTutorPorId(id: String): Tutor
     + buscarEstudiantePorNombre(nombre: String): Estudiante
     + buscarEstudiantePorEmail(email: String): Estudiante
-    + buscarTutoresCompatibles(materia: Materias, fecha: LocalDate, bloque: BloquesHorarios, tarifaMax: int): List<Tutor>
-    + buscarTutoresCompatibles(materia: Materias, fecha: LocalDate, bloque: BloquesHorarios): List<Tutor>
-    + verCalendarioTutor(tutor: Tutor, pendientes: boolean): List<Reserva>
-    + verCalendarioEstudiante(estudiante: Estudiante, pendientes: boolean): List<Reserva>
-    + filtrarReservas(filtro: FiltroCompuesto, incluirPendientes: boolean, incluirCompletadas: boolean, incluirCanceladas: boolean): List<Reserva>
+    + buscarEstudiantePorId(id: String): Estudiante
+    + verCalendarioTutor(tutor: Tutor): List<Reserva>
+    + verCalendarioEstudiante(estudiante: Estudiante): List<Reserva>
     + buscarReservaPorId(id: String): Reserva
+    + getGestorTutores(): GestorTutor
+    + getGestorEstudiante(): GestorEstudiante
+    + getGestorReserva(): GestorReserva
     + toString(): String
   }
 
@@ -311,10 +321,6 @@ package "Logica.Gestores" {
   GestorReserva "1" ..> "many" Reserva
   GestorReserva ..> FiltroInterface
   Sistema ..> FiltroCompuesto
-}
-
-class Main {
-  + {static} main(args: String[]): void
 }
 
 @enduml

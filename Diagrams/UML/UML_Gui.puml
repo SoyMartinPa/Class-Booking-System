@@ -1,0 +1,210 @@
+@startuml ClassBookingSystem_Gui
+package "Gui" {
+
+  class Main <<JFrame>> {
+    
+    - cardLayout: CardLayout
+    - instance: Main {static}
+    --
+    + getInstance(): Main {static}
+    + cambiarPantalla(String): void
+    + getEstudiantePanel(): EstudiantePanel
+    + getTutorPanel(): TutorPanel
+    + getReservaPanel(): ReservaPanel
+    + getEstudianteModificarPanel(): EstudianteModificarPanel
+    + getEstudiantePerfilPanel(): EstudiantePerfilPanel
+    + getTutorModificarPanel(): TutorModificarPanel
+    + getTutorPerfilPanel(): TutorPerfilPanel
+    + getReservaModificarPanel(): ReservaModificarPanel
+    + getReservaPerfilPanel(): ReservaPerfilPanel
+    - initPanelDinamico(): void
+    - initComponents(): void
+  }
+
+  class InformacionPanel <<JPanel>> {
+    + InformacionPanel()
+    - initComponents(): void
+  }
+
+  package "Gui.Estudiantes" {
+    class EstudiantePanel <<JPanel>> {
+      - sistema: Sistema
+      - modelo: DefaultTableModel
+      --
+      + EstudiantePanel()
+      + actualizar(): void
+      - buscarActionPerformed(ActionEvent): void
+      - eliminarActionPerformed(ActionEvent): void
+      - modificarActionPerformed(ActionEvent): void
+      - registrarActionPerformed(ActionEvent): void
+      - verActionPerformed(ActionEvent): void
+      - initComponents(): void
+    }
+
+    class EstudianteRegistrarPanel <<JPanel>> {
+      - sistema: Sistema
+      --
+      + EstudianteRegistrarPanel()
+      - registrarActionPerformed(ActionEvent): void
+      - initComponents(): void
+    }
+
+    class EstudianteModificarPanel <<JPanel>> {
+      - sistema: Sistema
+      --
+      + EstudianteModificarPanel()
+      + getIdField(): JTextField
+      + getEmailField(): JTextField
+      + getNombreField(): JTextField
+      - modificarBotonActionPerformed(ActionEvent): void
+      - initComponents(): void
+    }
+
+    class EstudiantePerfilPanel <<JPanel>> {
+      - sistema: Sistema
+      - estudiante: Estudiante
+      --
+      + EstudiantePerfilPanel()
+      + getEstudiante(): Estudiante
+      + setEstudiante(Estudiante): void
+      + actualizar(): void
+      - initComponents(): void
+    }
+  }
+
+  package "Gui.Tutor" {
+    class TutorPanel <<JPanel>> {
+      - sistema: Sistema
+      - modelo: DefaultTableModel
+      --
+      + TutorPanel()
+      + actualizar(): void
+      - buscarActionPerformed(ActionEvent): void
+      - eliminarActionPerformed(ActionEvent): void
+      - modificarActionPerformed(ActionEvent): void
+      - registrarActionPerformed(ActionEvent): void
+      - verActionPerformed(ActionEvent): void
+      - initComponents(): void
+    }
+
+    class TutorRegistrarPanel <<JPanel>> {
+      - sistema: Sistema
+      --
+      + TutorRegistrarPanel()
+      - registrarActionPerformed(ActionEvent): void
+      - initComponents(): void
+    }
+
+    class TutorModificarPanel <<JPanel>> {
+      - sistema: Sistema
+      --
+      + TutorModificarPanel()
+      + getIdField(): JTextField
+      + getEmailField(): JTextField
+      + getNombreField(): JTextField
+      - modificarBotonActionPerformed(ActionEvent): void
+      - Agregar1ActionPerformed(ActionEvent): void
+      - Quitar1ActionPerformed(ActionEvent): void
+      - Agregar2ActionPerformed(ActionEvent): void
+      - Quitar2ActionPerformed(ActionEvent): void
+      - initComponents(): void
+    }
+
+    class TutorPerfilPanel <<JPanel>> {
+      - sistema: Sistema
+      - tutor: Tutor
+      --
+      + TutorPerfilPanel()
+      + getTutor(): Tutor
+      + setTutor(Tutor): void
+      + actualizarReservas(): void
+      + actualizarMateria(): void
+      + actualizarDisponibilidad(): void
+      - initComponents(): void
+    }
+  }
+
+  package "Gui.Reserva" {
+    class ReservaPanel <<JPanel>> {
+      - sistema: Sistema
+      --
+      + ReservaPanel()
+      + actualizar(): void
+      - buscarActionPerformed(ActionEvent): void
+      - eliminarActionPerformed(ActionEvent): void
+      - modificarActionPerformed(ActionEvent): void
+      - registrarActionPerformed(ActionEvent): void
+      - verActionPerformed(ActionEvent): void
+      - initComponents(): void
+    }
+
+    class ReservaRegistrarPanel <<JPanel>> {
+      - sistema: Sistema
+      --
+      + ReservaRegistrarPanel()
+      - registrarActionPerformed(ActionEvent): void
+      - initComponents(): void
+    }
+
+    class ReservaModificarPanel <<JPanel>> {
+      - sistema: Sistema
+      --
+      + ReservaModificarPanel()
+      + getIdField(): JTextField
+      + getNombreField(): JTextField
+      + getFechaField(): JFormattedTextField
+      - modificarBotonActionPerformed(ActionEvent): void
+      - agregarEstudianteBotonActionPerformed(ActionEvent): void
+      - quitarEstudianteBotonActionPerformed(ActionEvent): void
+      - initComponents(): void
+    }
+
+    class ReservaPerfilPanel <<JPanel>> {
+      - reserva: Reserva
+      --
+      + ReservaPerfilPanel()
+      + getReserva(): Reserva
+      + setReserva(Reserva): void
+      + actualizar(): void
+      - initComponents(): void
+    }
+  }
+}
+
+
+Main "1" *-- "1" EstudiantePanel
+Main "1" *-- "1" TutorPanel
+Main "1" *-- "1" ReservaPanel
+Main "1" *-- "1" InformacionPanel
+Main "1" *-- "1" EstudianteRegistrarPanel
+Main "1" *-- "1" EstudianteModificarPanel
+Main "1" *-- "1" EstudiantePerfilPanel
+Main "1" *-- "1" TutorRegistrarPanel
+Main "1" *-- "1" TutorModificarPanel
+Main "1" *-- "1" TutorPerfilPanel
+Main "1" *-- "1" ReservaRegistrarPanel
+Main "1" *-- "1" ReservaModificarPanel
+Main "1" *-- "1" ReservaPerfilPanel
+
+EstudiantePanel --> EstudianteRegistrarPanel : navega
+EstudiantePanel --> EstudianteModificarPanel : navega
+EstudiantePanel --> EstudiantePerfilPanel : navega
+TutorPanel --> TutorRegistrarPanel : navega
+TutorPanel --> TutorModificarPanel : navega
+TutorPanel --> TutorPerfilPanel : navega
+ReservaPanel --> ReservaRegistrarPanel : navega
+ReservaPanel --> ReservaModificarPanel : navega
+ReservaPanel --> ReservaPerfilPanel : navega
+
+EstudiantePanel ..> Sistema
+EstudianteRegistrarPanel ..> Sistema
+EstudianteModificarPanel ..> Sistema
+EstudiantePerfilPanel ..> Sistema
+TutorPanel ..> Sistema
+TutorRegistrarPanel ..> Sistema
+TutorModificarPanel ..> Sistema
+TutorPerfilPanel ..> Sistema
+ReservaPanel ..> Sistema
+ReservaRegistrarPanel ..> Sistema
+ReservaModificarPanel ..> Sistema
+@enduml

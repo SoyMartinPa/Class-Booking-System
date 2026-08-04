@@ -14,7 +14,7 @@ import Logica.Perfiles.Estudiante;
 
 public class GestorEstudiante extends GestorBasico<Estudiante> {
 
-    public GestorEstudiante() {
+    protected GestorEstudiante() {
         super();
     }
 

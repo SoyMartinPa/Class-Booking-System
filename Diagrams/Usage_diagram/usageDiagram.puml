@@ -1,92 +1,74 @@
-@startuml
+@startuml Diagrama de Uso
 left to right direction
 
-skinparam packageStyle rectangle
+actor Administrador as admin
 
-skinparam usecase {
-    BackgroundColor LightBlue
-    BorderColor DarkBlue
+rectangle "Sistema Gestion de Reservas" {
+    
+    usecase "Ver Reservas" as GR
+    usecase "Ver Tutores" as GT
+    usecase "Ver Estudiantes" as GE
+    usecase "Informacion" as informacion
+
+    usecase "Registrar Estudiante" as GER
+    usecase "Modificar Estudiante" as GEM
+    usecase "Eliminar Estudiante" as GEE
+    usecase "Información Estudiante" as GEV
+    usecase "Buscar Estudiante" as GEB
+
+    usecase "Registrar Tutor" as GTR
+    usecase "Modificar Tutor" as GTM
+    usecase "Eliminar Tutor" as GTE
+    usecase "Información Tutor" as GTV
+    usecase "Buscar Tutor" as GTB
+
+    usecase "Registrar Reserva" as GRR
+    usecase "Modificar Reserva" as GRM
+    usecase "Eliminar Reserva" as GRE
+    usecase "Información Reserva" as GRV
+    usecase "Filtrar Reserva" as GRF
+
+    usecase "Ver Calendario Reservas Tutor" as CT
+    usecase "Ver calendario Reservas Estudiante" as CE
+    usecase "Calendario Reservas" as CR
+
+    usecase "Agregar/Quitar Materia" as TAQM
+    usecase "Agregar/Quitar Disponibilidad" as TAQD
+
+    usecase "Agregar/Quitar Estudiantes" as RAQE
 }
 
-skinparam actor {
-    BackgroundColor LightYellow
-    BorderColor DarkBlue
-}
 
-actor "Administrador" as Admin
+admin --> GE
+admin --> GT
+admin --> GR
+admin --> informacion
 
-rectangle "Sistema de Gestión de Tutorías" {
+GE <.. GER : <<extend>>
+GE <.. GEM : <<extend>>
+GE <.. GEE : <<extend>>
+GE <.. GEV : <<extend>>
+GE <.right. GEB : <<extend>>
 
-    '----------------------------
-    ' Funciones Base
-    '----------------------------
-    usecase "Gestionar Tutores" as UC_GestTutores
-    usecase "Gestionar Estudiantes" as UC_GestEstudiantes
-    usecase "Agendar Clase" as UC_Agendar
-    usecase "Ver Calendario" as UC_Calendario
+GT <.. GTR : <<extend>>
+GT <.. GTM : <<extend>>
+GT <.. GTE : <<extend>>
+GT <.. GTV : <<extend>>
+GT <.right. GTB : <<extend>>
 
-    '----------------------------
-    ' Gestión de Tutores
-    '----------------------------
-    usecase "Registrar Tutor" as UC_RegTutor
-    usecase "Modificar Tutor" as UC_ModTutor
-    usecase "Eliminar Tutor" as UC_ElimTutor
-    usecase "Consultar Lista Tutores" as UC_ListTutores
+GR <.. GRR : <<extend>>
+GR <.. GRM : <<extend>>
+GR <.. GRE : <<extend>>
+GR <.. GRV : <<extend>>
+GR <.right. GRF : <<extend>>
 
-    UC_RegTutor    .up.> UC_GestTutores : <<extend>>
-    UC_ModTutor    .up.> UC_GestTutores : <<extend>>
-    UC_ElimTutor   .up.> UC_GestTutores : <<extend>>
-    UC_ListTutores .up.> UC_GestTutores : <<extend>>
+GTV ..> CT : <<include>>
+GEV ..> CE : <<include>>
+GRV ..> CR : <<include>>
 
-    usecase "Validar Dependencias Tutor\n(RemoveException)" as UC_ValElimTutor
+GTM <.. TAQM : <<extend>>
+GTM <.. TAQD : <<extend>>
 
-    UC_ElimTutor ..> UC_ValElimTutor : <<include>>
-
-    '----------------------------
-    ' Gestión de Estudiantes
-    '----------------------------
-    usecase "Registrar Estudiante" as UC_RegEst
-    usecase "Modificar Estudiante" as UC_ModEst
-    usecase "Eliminar Estudiante" as UC_ElimEst
-    usecase "Consultar Lista Estudiantes" as UC_ListEst
-
-    UC_RegEst   .up.> UC_GestEstudiantes : <<extend>>
-    UC_ModEst   .up.> UC_GestEstudiantes : <<extend>>
-    UC_ElimEst  .up.> UC_GestEstudiantes : <<extend>>
-    UC_ListEst  .up.> UC_GestEstudiantes : <<extend>>
-
-    usecase "Validar Dependencias Estudiante\n(RemoveException)" as UC_ValElimEst
-
-    UC_ElimEst ..> UC_ValElimEst : <<include>>
-
-    '----------------------------
-    ' Agendamiento
-    '----------------------------
-    usecase "Cancelar Reserva" as UC_CancelarRes
-    usecase "Modificar Estado Reserva" as UC_ModRes
-
-    UC_CancelarRes .up.> UC_Agendar : <<extend>>
-    UC_ModRes      .up.> UC_Agendar : <<extend>>
-
-    usecase "Validar Cupos Máximos\n(MaxCapacityReached)" as UC_ValCap
-    usecase "Validar Duplicidad de Horario\n(NoRepeatException)" as UC_ValDup
-
-    UC_Agendar ..> UC_ValCap : <<include>>
-    UC_Agendar ..> UC_ValDup : <<include>>
-
-    '----------------------------
-    ' Calendario
-    '----------------------------
-    usecase "Filtrar por Tutor" as UC_FiltroTutor
-    usecase "Filtrar por Fecha" as UC_FiltroFecha
-
-    UC_FiltroTutor .up.> UC_Calendario : <<extend>>
-    UC_FiltroFecha .up.> UC_Calendario : <<extend>>
-}
-
-Admin --> UC_GestTutores
-Admin --> UC_GestEstudiantes
-Admin --> UC_Agendar
-Admin --> UC_Calendario
+GRM <.. RAQE : <<extend>>
 
 @enduml

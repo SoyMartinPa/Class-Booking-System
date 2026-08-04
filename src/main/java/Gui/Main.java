@@ -262,16 +262,6 @@ public class Main extends javax.swing.JFrame {
         cambiarPantalla("Tutor");
     }//GEN-LAST:event_informacionBotonActionPerformed
 
-    public static void main(String args[]) {
-        try {
-                FlatLightLaf.setup();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                }
-        java.awt.EventQueue.invokeLater(() -> Main.getInstance().setVisible(true));
-    }
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelDinamico;
     private javax.swing.JButton estudianteBoton;

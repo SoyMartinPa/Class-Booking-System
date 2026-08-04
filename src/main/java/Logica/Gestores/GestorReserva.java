@@ -27,7 +27,7 @@ public class GestorReserva {
     private final List<Reserva> listaReservasCanceladas = new ArrayList<>();
 
 
-    public GestorReserva() {
+    protected GestorReserva() {
     }
 
     /**
