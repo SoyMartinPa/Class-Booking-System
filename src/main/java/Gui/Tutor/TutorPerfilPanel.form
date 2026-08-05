@@ -96,11 +96,11 @@
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="modificar" min="-2" pref="90" max="-2" attributes="0"/>
+              <Component id="verReservas" min="-2" pref="90" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="modificar2" min="-2" pref="90" max="-2" attributes="0"/>
+              <Component id="verDisponible" min="-2" pref="90" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="modificar1" min="-2" pref="90" max="-2" attributes="0"/>
+              <Component id="verMaterias" min="-2" pref="90" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -119,9 +119,9 @@
               <Component id="jScrollPane1" pref="198" max="32767" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="modificar" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
-                  <Component id="modificar1" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
-                  <Component id="modificar2" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
+                  <Component id="verReservas" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
+                  <Component id="verMaterias" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
+                  <Component id="verDisponible" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -189,7 +189,7 @@
         <Property name="text" type="java.lang.String" value="Email: "/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="modificar">
+    <Component class="javax.swing.JButton" name="verReservas">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="99" red="0" type="rgb"/>
@@ -210,10 +210,10 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modificarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verReservasActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="modificar1">
+    <Component class="javax.swing.JButton" name="verMaterias">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="99" red="0" type="rgb"/>
@@ -234,10 +234,10 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modificar1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verMateriasActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="modificar2">
+    <Component class="javax.swing.JButton" name="verDisponible">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="99" red="0" type="rgb"/>
@@ -258,7 +258,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modificar2ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verDisponibleActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

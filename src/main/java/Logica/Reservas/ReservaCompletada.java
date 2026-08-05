@@ -25,9 +25,7 @@ public class ReservaCompletada implements EstadoReserva{
         throw new IllegalStateException("No se puede modificar una reserva ya realizada");
     }
     @Override
-    public void completar(Reserva reserva)
-            throws IllegalStateException{
-        throw new IllegalStateException("No se puede completar una reserva ya realizada");
+    public void completar(Reserva reserva){
     }
     @Override
     public void cancelar(Reserva reserva)

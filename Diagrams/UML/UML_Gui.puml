@@ -1,4 +1,5 @@
 @startuml ClassBookingSystem_Gui
+skinparam classAttributeIconSize 0
 package "Gui" {
 
   class Main <<JFrame>> {
@@ -102,11 +103,12 @@ package "Gui" {
       + getIdField(): JTextField
       + getEmailField(): JTextField
       + getNombreField(): JTextField
+      - crearModeloCombo : DefaultComboBoxModel<T>
       - modificarBotonActionPerformed(ActionEvent): void
-      - Agregar1ActionPerformed(ActionEvent): void
-      - Quitar1ActionPerformed(ActionEvent): void
-      - Agregar2ActionPerformed(ActionEvent): void
-      - Quitar2ActionPerformed(ActionEvent): void
+      - agregarOfertaActionPerformed(ActionEvent): void
+      - quitarOfertaActionPerformed(ActionEvent): void
+      - agregarHorarioActionPerformed(ActionEvent): void
+      - quitarHorarioActionPerformed(ActionEvent): void
       - initComponents(): void
     }
 
@@ -120,6 +122,9 @@ package "Gui" {
       + actualizarReservas(): void
       + actualizarMateria(): void
       + actualizarDisponibilidad(): void
+      - verReservasActionPerformed() : void
+      - verMateriasActionPerformed() : void
+      - verDisponibleActionPerformed() : void
       - initComponents(): void
     }
   }
@@ -130,6 +135,7 @@ package "Gui" {
       --
       + ReservaPanel()
       + actualizar(): void
+      - crearModeloCombo : DefaultComboBoxModel<T>
       - buscarActionPerformed(ActionEvent): void
       - eliminarActionPerformed(ActionEvent): void
       - modificarActionPerformed(ActionEvent): void

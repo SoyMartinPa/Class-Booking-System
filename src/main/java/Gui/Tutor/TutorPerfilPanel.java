@@ -112,9 +112,9 @@ public class TutorPerfilPanel extends javax.swing.JPanel {
         nombreLabel = new javax.swing.JLabel();
         idLabel = new javax.swing.JLabel();
         emailLabel = new javax.swing.JLabel();
-        modificar = new javax.swing.JButton();
-        modificar1 = new javax.swing.JButton();
-        modificar2 = new javax.swing.JButton();
+        verReservas = new javax.swing.JButton();
+        verMaterias = new javax.swing.JButton();
+        verDisponible = new javax.swing.JButton();
 
         BotonEstudiantes.setBackground(new java.awt.Color(0, 153, 255));
         BotonEstudiantes.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
@@ -169,32 +169,32 @@ public class TutorPerfilPanel extends javax.swing.JPanel {
 
         emailLabel.setText("Email: ");
 
-        modificar.setBackground(new java.awt.Color(0, 153, 255));
-        modificar.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
-        modificar.setForeground(new java.awt.Color(255, 255, 255));
-        modificar.setText("Reservas");
-        modificar.setBorder(null);
-        modificar.setBorderPainted(false);
-        modificar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        modificar.addActionListener(this::modificarActionPerformed);
+        verReservas.setBackground(new java.awt.Color(0, 153, 255));
+        verReservas.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
+        verReservas.setForeground(new java.awt.Color(255, 255, 255));
+        verReservas.setText("Reservas");
+        verReservas.setBorder(null);
+        verReservas.setBorderPainted(false);
+        verReservas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        verReservas.addActionListener(this::verReservasActionPerformed);
 
-        modificar1.setBackground(new java.awt.Color(0, 153, 255));
-        modificar1.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
-        modificar1.setForeground(new java.awt.Color(255, 255, 255));
-        modificar1.setText("Materias");
-        modificar1.setBorder(null);
-        modificar1.setBorderPainted(false);
-        modificar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        modificar1.addActionListener(this::modificar1ActionPerformed);
+        verMaterias.setBackground(new java.awt.Color(0, 153, 255));
+        verMaterias.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
+        verMaterias.setForeground(new java.awt.Color(255, 255, 255));
+        verMaterias.setText("Materias");
+        verMaterias.setBorder(null);
+        verMaterias.setBorderPainted(false);
+        verMaterias.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        verMaterias.addActionListener(this::verMateriasActionPerformed);
 
-        modificar2.setBackground(new java.awt.Color(0, 153, 255));
-        modificar2.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
-        modificar2.setForeground(new java.awt.Color(255, 255, 255));
-        modificar2.setText("Disponible");
-        modificar2.setBorder(null);
-        modificar2.setBorderPainted(false);
-        modificar2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        modificar2.addActionListener(this::modificar2ActionPerformed);
+        verDisponible.setBackground(new java.awt.Color(0, 153, 255));
+        verDisponible.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
+        verDisponible.setForeground(new java.awt.Color(255, 255, 255));
+        verDisponible.setText("Disponible");
+        verDisponible.setBorder(null);
+        verDisponible.setBorderPainted(false);
+        verDisponible.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        verDisponible.addActionListener(this::verDisponibleActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -216,11 +216,11 @@ public class TutorPerfilPanel extends javax.swing.JPanel {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(verReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(modificar2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(verDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(modificar1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(verMaterias, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(90, 90, 90))
         );
         layout.setVerticalGroup(
@@ -236,9 +236,9 @@ public class TutorPerfilPanel extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(modificar1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(modificar2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(verReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(verMaterias, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(verDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -247,17 +247,17 @@ public class TutorPerfilPanel extends javax.swing.JPanel {
        
     }//GEN-LAST:event_BotonEstudiantesActionPerformed
 
-    private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
+    private void verReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verReservasActionPerformed
         actualizarReservas();
-    }//GEN-LAST:event_modificarActionPerformed
+    }//GEN-LAST:event_verReservasActionPerformed
 
-    private void modificar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificar1ActionPerformed
+    private void verMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verMateriasActionPerformed
         actualizarMateria();
-    }//GEN-LAST:event_modificar1ActionPerformed
+    }//GEN-LAST:event_verMateriasActionPerformed
 
-    private void modificar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificar2ActionPerformed
+    private void verDisponibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verDisponibleActionPerformed
         actualizarDisponibilidad();
-    }//GEN-LAST:event_modificar2ActionPerformed
+    }//GEN-LAST:event_verDisponibleActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -269,10 +269,10 @@ public class TutorPerfilPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JButton modificar;
-    private javax.swing.JButton modificar1;
-    private javax.swing.JButton modificar2;
     private javax.swing.JLabel nombreLabel;
     private javax.swing.JTable tabla;
+    private javax.swing.JButton verDisponible;
+    private javax.swing.JButton verMaterias;
+    private javax.swing.JButton verReservas;
     // End of variables declaration//GEN-END:variables
 }

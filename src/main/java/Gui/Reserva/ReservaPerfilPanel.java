@@ -29,21 +29,19 @@ public class ReservaPerfilPanel extends javax.swing.JPanel {
     for (Estudiante estudiante : reserva.getListaEstudiantes()){
         String id = estudiante.getId();
         String email = estudiante.getEmail();
+        String nombre = estudiante.getNombre();
 
-        Object[] lista = {id,email};
+        Object[] lista = {id,nombre,email};
         modelo.addRow(lista);
     }
     
-    nombreLabel.setText("Nombre: " + reserva.getTutorAsociado().getNombre());
+    nombreLabel.setText("Nombre Tutor: " + reserva.getTutorAsociado().getNombre());
     idLabel.setText("ID: " + reserva.getId());
     materiaLabel.setText("Materia: " + reserva.getMateria().name());
     fechaLabel.setText(
-            "Fecha :" + reserva.getHorario().getFecha().toString() 
+            "Horario: " + reserva.getHorario().getFecha().toString() 
                     + " {" + reserva.getHorario().getBloqueHorario() + "}");
-        }                                          
-
-    
-    
+        }                                              
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -86,6 +84,7 @@ public class ReservaPerfilPanel extends javax.swing.JPanel {
         jTextField1.setText("Buscador");
 
         setPreferredSize(new java.awt.Dimension(502, 340));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -108,50 +107,19 @@ public class ReservaPerfilPanel extends javax.swing.JPanel {
         tabla.setSurrendersFocusOnKeystroke(true);
         jScrollPane1.setViewportView(tabla);
 
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 80, -1, 254));
+
         nombreLabel.setText("Nombre:");
+        add(nombreLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 6, -1, -1));
 
         idLabel.setText("ID: ");
+        add(idLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, -1, -1));
 
         fechaLabel.setText("Fecha:");
+        add(fechaLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 49, -1, -1));
 
         materiaLabel.setText("Materia");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(26, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(nombreLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(idLabel)
-                        .addGap(154, 154, 154))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(fechaLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(materiaLabel)
-                        .addGap(127, 127, 127))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nombreLabel)
-                    .addComponent(idLabel))
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fechaLabel)
-                    .addComponent(materiaLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        add(materiaLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonEstudiantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEstudiantesActionPerformed

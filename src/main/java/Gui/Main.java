@@ -12,7 +12,6 @@ import Gui.Tutor.TutorRegistrarPanel;
 import Gui.Tutor.TutorPanel;
 import Gui.Tutor.TutorModificarPanel;
 import Gui.Tutor.TutorPerfilPanel;
-import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.CardLayout;
 
 public class Main extends javax.swing.JFrame {

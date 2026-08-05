@@ -1,6 +1,7 @@
 package Gui.Estudiantes;
 
 import Excepciones.IncompatibilityException;
+import Excepciones.NotFoundException;
 import Gui.Main;
 import Logica.Gestores.Sistema;
 import Logica.Perfiles.Estudiante;
@@ -222,32 +223,37 @@ public class EstudiantePanel extends javax.swing.JPanel {
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
         
         int fila = tabla.getSelectedRow();
-        if (fila != -1) {
-            String id = tabla.getValueAt(fila, 0).toString();
-            try {
+        try{
+            
+            if (fila != -1) {
+                String id = tabla.getValueAt(fila, 0).toString();
+
+
+                    Estudiante estudiante = sistema.buscarEstudiantePorId(id);
+
+                    int opcion = JOptionPane.showConfirmDialog(
+                            this,
+                            "¿Seguro que deseas eliminar este estudiante?",
+                            "Confirmar eliminación",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.WARNING_MESSAGE
+                        );
+                    if (opcion == JOptionPane.YES_OPTION) {
+                         sistema.eliminarEstudiante(estudiante);
+                         actualizar();
+                        }
+            } else{throw new NotFoundException("No se ha seleccionado un estudiante");}
                 
-                Estudiante estudiante = sistema.buscarEstudiantePorId(id);
                 
-                int opcion = JOptionPane.showConfirmDialog(
-                        this,
-                        "¿Seguro que deseas eliminar este estudiante?",
-                        "Confirmar eliminación",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.WARNING_MESSAGE
-                    );
-                if (opcion == JOptionPane.YES_OPTION) {
-                     sistema.eliminarEstudiante(estudiante);
-                     actualizar();
-                    }
+                
             } catch(Exception e) {
                 JOptionPane.showMessageDialog(
                 this,
                 e.getMessage(),
                 e.getClass().getSimpleName(),
                 JOptionPane.ERROR_MESSAGE
-            );
-            };
-        }
+                    );
+            }
     }//GEN-LAST:event_eliminarActionPerformed
 
     private void registrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarActionPerformed
@@ -292,14 +298,15 @@ public class EstudiantePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_buscarActionPerformed
 
     private void verActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verActionPerformed
-           int fila = tabla.getSelectedRow();
-           if (fila != -1) {
-            String id = tabla.getValueAt(fila, 0).toString();
-            Estudiante estudiante = sistema.buscarEstudiantePorId(id);
-            
-            Main.getInstance().cambiarPantalla("EstudiantePerfil");
-            Main.getInstance().getEstudiantePerfilPanel().setEstudiante(estudiante);
-            Main.getInstance().getEstudiantePerfilPanel().actualizar();
+        
+    int fila = tabla.getSelectedRow();
+    if (fila != -1) {
+     String id = tabla.getValueAt(fila, 0).toString();
+     Estudiante estudiante = sistema.buscarEstudiantePorId(id);
+
+     Main.getInstance().cambiarPantalla("EstudiantePerfil");
+     Main.getInstance().getEstudiantePerfilPanel().setEstudiante(estudiante);
+     Main.getInstance().getEstudiantePerfilPanel().actualizar();
            } 
         }//GEN-LAST:event_verActionPerformed
 

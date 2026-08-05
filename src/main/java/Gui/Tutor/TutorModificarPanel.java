@@ -66,14 +66,14 @@ public class TutorModificarPanel extends javax.swing.JPanel {
         materiaLabel = new javax.swing.JLabel();
         tarifaLabel = new javax.swing.JLabel();
         materiaCombo = new javax.swing.JComboBox<>();
-        Agregar1 = new javax.swing.JButton();
-        Quitar1 = new javax.swing.JButton();
-        Agregar2 = new javax.swing.JButton();
+        agregarOferta = new javax.swing.JButton();
+        quitarOferta = new javax.swing.JButton();
+        agregarHorario = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         diaCombo = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         bloqueCombo = new javax.swing.JComboBox<>();
-        Quitar2 = new javax.swing.JButton();
+        quitarHorario = new javax.swing.JButton();
         tarifaSpiner = new javax.swing.JSpinner();
         cuposLabel = new javax.swing.JLabel();
         cuposSpiner = new javax.swing.JSpinner();
@@ -193,17 +193,17 @@ public class TutorModificarPanel extends javax.swing.JPanel {
         materiaCombo.addActionListener(this::materiaComboActionPerformed);
         jPanel2.add(materiaCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(58, 6, -1, -1));
 
-        Agregar1.setText("Agregar");
-        Agregar1.addActionListener(this::Agregar1ActionPerformed);
-        jPanel2.add(Agregar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, -1, -1));
+        agregarOferta.setText("Agregar");
+        agregarOferta.addActionListener(this::agregarOfertaActionPerformed);
+        jPanel2.add(agregarOferta, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, -1, -1));
 
-        Quitar1.setText("Quitar");
-        Quitar1.addActionListener(this::Quitar1ActionPerformed);
-        jPanel2.add(Quitar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 70, 78, -1));
+        quitarOferta.setText("Quitar");
+        quitarOferta.addActionListener(this::quitarOfertaActionPerformed);
+        jPanel2.add(quitarOferta, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 70, 78, -1));
 
-        Agregar2.setText("Agregar");
-        Agregar2.addActionListener(this::Agregar2ActionPerformed);
-        jPanel2.add(Agregar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(138, 138, -1, -1));
+        agregarHorario.setText("Agregar");
+        agregarHorario.addActionListener(this::agregarHorarioActionPerformed);
+        jPanel2.add(agregarHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(138, 138, -1, -1));
 
         jLabel6.setText("Dia");
         jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 141, -1, -1));
@@ -216,9 +216,9 @@ public class TutorModificarPanel extends javax.swing.JPanel {
         bloqueCombo.addActionListener(this::bloqueComboActionPerformed);
         jPanel2.add(bloqueCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 174, -1, -1));
 
-        Quitar2.setText("Quitar");
-        Quitar2.addActionListener(this::Quitar2ActionPerformed);
-        jPanel2.add(Quitar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(138, 174, 76, -1));
+        quitarHorario.setText("Quitar");
+        quitarHorario.addActionListener(this::quitarHorarioActionPerformed);
+        jPanel2.add(quitarHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(138, 174, 76, -1));
 
         tarifaSpiner.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 50));
         jPanel2.add(tarifaSpiner, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 42, 75, -1));
@@ -289,7 +289,7 @@ public class TutorModificarPanel extends javax.swing.JPanel {
         //borrable
     }//GEN-LAST:event_registrar1ActionPerformed
 
-    private void Agregar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Agregar1ActionPerformed
+    private void agregarOfertaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarOfertaActionPerformed
         Materias materia = (Materias)materiaCombo.getSelectedItem();
         int tarifa = (int) tarifaSpiner.getValue();
         int cupos  = (int) cuposSpiner.getValue();
@@ -333,7 +333,7 @@ public class TutorModificarPanel extends javax.swing.JPanel {
                 JOptionPane.ERROR_MESSAGE);
         }; 
         
-    }//GEN-LAST:event_Agregar1ActionPerformed
+    }//GEN-LAST:event_agregarOfertaActionPerformed
 
     private void modificarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarBotonActionPerformed
         String email = emailField.getText();
@@ -377,7 +377,7 @@ public class TutorModificarPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_idFieldActionPerformed
 
-    private void Quitar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Quitar1ActionPerformed
+    private void quitarOfertaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitarOfertaActionPerformed
         Materias materia = (Materias)materiaCombo.getSelectedItem();
         String id = idField.getText();
         int opcion;
@@ -411,9 +411,9 @@ public class TutorModificarPanel extends javax.swing.JPanel {
                 e.getClass().getSimpleName(),
                 JOptionPane.ERROR_MESSAGE);
         }; 
-    }//GEN-LAST:event_Quitar1ActionPerformed
+    }//GEN-LAST:event_quitarOfertaActionPerformed
 
-    private void Agregar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Agregar2ActionPerformed
+    private void agregarHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarHorarioActionPerformed
         Dias dia = (Dias) diaCombo.getSelectedItem();
         BloquesHorarios bloque = (BloquesHorarios) bloqueCombo.getSelectedItem();
         String id = idField.getText();
@@ -440,9 +440,9 @@ public class TutorModificarPanel extends javax.swing.JPanel {
                 e.getClass().getSimpleName(),
                 JOptionPane.ERROR_MESSAGE);
         }; 
-    }//GEN-LAST:event_Agregar2ActionPerformed
+    }//GEN-LAST:event_agregarHorarioActionPerformed
 
-    private void Quitar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Quitar2ActionPerformed
+    private void quitarHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitarHorarioActionPerformed
         Dias dia = (Dias) diaCombo.getSelectedItem();
         BloquesHorarios bloque = (BloquesHorarios) bloqueCombo.getSelectedItem();
         String id = idField.getText();
@@ -476,15 +476,13 @@ public class TutorModificarPanel extends javax.swing.JPanel {
                 e.getClass().getSimpleName(),
                 JOptionPane.ERROR_MESSAGE);
         }; 
-    }//GEN-LAST:event_Quitar2ActionPerformed
+    }//GEN-LAST:event_quitarHorarioActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Agregar1;
-    private javax.swing.JButton Agregar2;
     private javax.swing.JButton BotonEstudiantes;
-    private javax.swing.JButton Quitar1;
-    private javax.swing.JButton Quitar2;
+    private javax.swing.JButton agregarHorario;
+    private javax.swing.JButton agregarOferta;
     private javax.swing.JComboBox<BloquesHorarios> bloqueCombo;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel cuposLabel;
@@ -506,6 +504,8 @@ public class TutorModificarPanel extends javax.swing.JPanel {
     private javax.swing.JLabel materiaLabel;
     private javax.swing.JButton modificarBoton;
     private javax.swing.JTextField nombreField;
+    private javax.swing.JButton quitarHorario;
+    private javax.swing.JButton quitarOferta;
     private javax.swing.JButton registrar;
     private javax.swing.JButton registrar1;
     private javax.swing.JLabel registrarEstudianteLabel;

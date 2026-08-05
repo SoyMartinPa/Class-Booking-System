@@ -1,5 +1,6 @@
 package Gui.Reserva;
 
+import Excepciones.NotFoundException;
 import Gui.Main;
 import Logica.Enumeraciones.BloquesHorarios;
 import Logica.Enumeraciones.Materias;
@@ -44,6 +45,7 @@ public class ReservaPanel extends javax.swing.JPanel {
     List<Reserva> lista = sistema.getGestorReservas().getListaReservas();
     
     for (Reserva reserva : lista){
+        if (!reserva.getHorario().horarioVigente()){reserva.completar();}
         String id = reserva.getId();
         String nombre = reserva.getTutorAsociado().getNombre();
         Materias materia = reserva.getMateria();
@@ -73,7 +75,7 @@ public class ReservaPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         modificar = new javax.swing.JButton();
-        eliminar = new javax.swing.JButton();
+        cancelar = new javax.swing.JButton();
         registrar = new javax.swing.JButton();
         buscar = new javax.swing.JButton();
         ver = new javax.swing.JButton();
@@ -150,15 +152,15 @@ public class ReservaPanel extends javax.swing.JPanel {
         modificar.addActionListener(this::modificarActionPerformed);
         add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(257, 304, 90, 30));
 
-        eliminar.setBackground(new java.awt.Color(0, 153, 255));
-        eliminar.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
-        eliminar.setForeground(new java.awt.Color(255, 255, 255));
-        eliminar.setText("Eliminar");
-        eliminar.setBorder(null);
-        eliminar.setBorderPainted(false);
-        eliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        eliminar.addActionListener(this::eliminarActionPerformed);
-        add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(365, 304, 90, 30));
+        cancelar.setBackground(new java.awt.Color(0, 153, 255));
+        cancelar.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
+        cancelar.setForeground(new java.awt.Color(255, 255, 255));
+        cancelar.setText("Cancelar");
+        cancelar.setBorder(null);
+        cancelar.setBorderPainted(false);
+        cancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cancelar.addActionListener(this::cancelarActionPerformed);
+        add(cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(365, 304, 90, 30));
 
         registrar.setBackground(new java.awt.Color(0, 153, 255));
         registrar.setFont(new java.awt.Font("Noto Serif CJK SC SemiBold", 0, 14)); // NOI18N
@@ -255,9 +257,33 @@ public class ReservaPanel extends javax.swing.JPanel {
         
     }//GEN-LAST:event_modificarActionPerformed
 
-    private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-
-    }//GEN-LAST:event_eliminarActionPerformed
+    private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
+        int fila = tabla.getSelectedRow();
+        
+        try{
+        if (fila != -1){
+            String id = tabla.getValueAt(fila, 0).toString();
+            Reserva reserva = sistema.buscarReservaPorId(id);
+            int opcion = JOptionPane.showConfirmDialog(
+                    this,
+                    "¿Desea cancelar la reserva seleccionada?",
+                    "Cancelación de reserva",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.WARNING_MESSAGE
+                    );
+            if (opcion == JOptionPane.YES_OPTION){reserva.cancelar();}             
+            
+            
+        }else {throw new NotFoundException("No se ha seleccionado una reserva");}
+        
+        } catch (Exception e){JOptionPane.showMessageDialog(
+                this,
+                e.getMessage(),
+                e.getClass().getSimpleName(),
+                JOptionPane.ERROR_MESSAGE);}
+        
+        
+    }//GEN-LAST:event_cancelarActionPerformed
 
     private void registrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarActionPerformed
         Main.getInstance().cambiarPantalla("ReservaRegistrar");
@@ -347,8 +373,8 @@ public class ReservaPanel extends javax.swing.JPanel {
     private javax.swing.JComboBox<BloquesHorarios> bloqueCombo;
     private javax.swing.JButton buscar;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton cancelar;
     private javax.swing.JSpinner cuposSpinner;
-    private javax.swing.JButton eliminar;
     private javax.swing.JFormattedTextField fechaField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

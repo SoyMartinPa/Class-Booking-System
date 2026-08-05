@@ -28,9 +28,7 @@ public class ReservaCancelada implements EstadoReserva{
         throw new IllegalStateException("No se puede completar una reserva ya cancelada");
     }
     @Override
-    public void cancelar(Reserva reserva)
-            throws IllegalStateException{
-        throw new IllegalStateException("No se puede cancelar una clase ya cancelada");
+    public void cancelar(Reserva reserva){
     }
     @Override
     public void agregarListaEstudiantes(Reserva reserva, Estudiante estudiante)

@@ -96,8 +96,9 @@ package "Logica.Reservas" {
   }
 
   class ReservaPendiente {
-    + {static} INSTANCIA: ReservaPendiente
-    + ReservaPendiente()
+    - {static} INSTANCIA: ReservaPendiente
+    - ReservaPendiente()
+    + {static} getInstancia() : ReservaPendiente
     + modificar(reserva: Reserva, tutor: Tutor, materia: Materias, horario: Horario): void
     + completar(reserva: Reserva): void
     + cancelar(reserva: Reserva): void
@@ -107,8 +108,9 @@ package "Logica.Reservas" {
   }
 
   class ReservaCompletada {
-    + {static} INSTANCIA: ReservaCompletada
-    + ReservaCompletada()
+    - {static} INSTANCIA: ReservaCompletada
+    - ReservaCompletada()
+    + {static} getInstancia() : ReservaCompletada
     + modificar(reserva: Reserva, tutor: Tutor, materia: Materias, horario: Horario): void
     + completar(reserva: Reserva): void
     + cancelar(reserva: Reserva): void
@@ -118,8 +120,9 @@ package "Logica.Reservas" {
   }
 
   class ReservaCancelada {
-    + {static} INSTANCIA: ReservaCancelada
-    + ReservaCancelada()
+    - {static} INSTANCIA: ReservaCancelada
+    - ReservaCancelada()
+    + {static} getInstancia() : ReservaCancelada
     + modificar(reserva: Reserva, tutor: Tutor, materia: Materias, horario: Horario): void
     + completar(reserva: Reserva): void
     + cancelar(reserva: Reserva): void
@@ -239,7 +242,7 @@ package "Logica.Filtros" {
   FiltroMateria ..|> FiltroInterface
   FiltroNombre ..|> FiltroInterface
   FiltroTarifaMax ..|> FiltroInterface
-  FiltroCompuesto ..|> FiltroInterface
+  FiltroCuposMax ..|> FiltroInterface
   FiltroCompuesto "1" o-- "many" FiltroInterface : listaFiltros
 }
 
