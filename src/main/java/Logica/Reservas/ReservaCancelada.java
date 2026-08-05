@@ -8,9 +8,14 @@ import Logica.Perfiles.Tutor.Tutor;
  * <p>Lanza IllegalStateException cuando se intenta modificar de alguna manera</p>
  */
 public class ReservaCancelada implements EstadoReserva{
-    public static final ReservaCancelada INSTANCIA = new ReservaCancelada();
+    private static ReservaCancelada INSTANCIA;
 
-    public ReservaCancelada(){}
+    private ReservaCancelada(){}
+
+    public static ReservaCancelada getInstancia(){
+        if (INSTANCIA == null){ INSTANCIA = new ReservaCancelada();}
+        return INSTANCIA;
+    }
 
     @Override
     public void modificar(Reserva reserva, Tutor tutor, Materias materia, Horario horario)

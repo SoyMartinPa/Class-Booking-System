@@ -26,7 +26,7 @@ public class Reserva {
         this.tutorAsociado = tutor;
         this.materia = materia;
         this.horario = horario;
-        this.estado = new ReservaPendiente();
+        this.estado = ReservaPendiente.getInstancia();
     }
 
     public String getId() {

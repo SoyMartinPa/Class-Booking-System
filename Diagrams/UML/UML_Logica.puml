@@ -59,7 +59,7 @@ package "Logica.Reservas" {
     + toString() : String
   }
 
-  interface EstadoReserva {
+  interface EstadoReserva <<state>> {
     + modificar(reserva: Reserva, tutor: Tutor, materia: Materias, horario: Horario): void
     + completar(reserva: Reserva): void
     + cancelar(reserva: Reserva): void

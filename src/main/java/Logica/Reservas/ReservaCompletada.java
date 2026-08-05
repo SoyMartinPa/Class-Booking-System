@@ -9,9 +9,15 @@ import Logica.Perfiles.Tutor.Tutor;
  */
 
 public class ReservaCompletada implements EstadoReserva{
-    public static final ReservaCompletada INSTANCIA = new ReservaCompletada();
+    private static ReservaCompletada INSTANCIA;
 
-    public ReservaCompletada(){}
+    private ReservaCompletada(){}
+
+    public static ReservaCompletada getInstancia(){
+
+        if (INSTANCIA == null){ INSTANCIA = new ReservaCompletada();}
+        return INSTANCIA;
+    }
 
     @Override
     public void modificar(Reserva reserva, Tutor tutor, Materias materia, Horario horario)
