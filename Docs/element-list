@@ -1,9 +1,8 @@
-Logica
+unnamed package
+Excepciones
 Logica.Enumeraciones
 Logica.Filtros
 Logica.Gestores
-Logica.GestorHorarios
 Logica.Perfiles
-Logica.Perfiles.Estudiante
 Logica.Perfiles.Tutor
 Logica.Reservas
