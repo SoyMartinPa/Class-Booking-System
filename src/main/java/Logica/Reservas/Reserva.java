@@ -58,7 +58,7 @@ public class Reserva {
     }
 
     public List<Estudiante> getListaEstudiantes() {
-        return listaEstudiantes;
+        return new ArrayList<>(listaEstudiantes);
     }
 
     public void agregarListaEstudiantes(Estudiante estudiante) {
@@ -68,6 +68,14 @@ public class Reserva {
     public void quitarListaEstudiantes(Estudiante estudiante) {
         estado.quitarListaEstudiantes(this, estudiante);
     }
+
+    void agregarListaEstudiantesInterno(Estudiante estudiante){
+        listaEstudiantes.add(estudiante);
+    }
+    void quitarListaEstudiantesInterno(Estudiante estudiante){
+        listaEstudiantes.remove(estudiante);
+    }
+
 
     public Horario getHorario() {
         return horario;

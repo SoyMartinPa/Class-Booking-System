@@ -38,11 +38,11 @@ public class ReservaPendiente implements EstadoReserva{
 
     @Override
     public void agregarListaEstudiantes(Reserva reserva, Estudiante estudiante) {
-        reserva.getListaEstudiantes().add(estudiante);
+        reserva.agregarListaEstudiantesInterno(estudiante);
     }
     @Override
     public void quitarListaEstudiantes(Reserva reserva, Estudiante estudiante){
-        reserva.getListaEstudiantes().remove(estudiante);
+        reserva.quitarListaEstudiantesInterno(estudiante);
     }
     
     @Override

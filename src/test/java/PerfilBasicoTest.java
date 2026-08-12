@@ -16,7 +16,7 @@ public class PerfilBasicoTest {
 
     @BeforeEach
     void setUp(){
-        Sistema.resetInstancia();
+        Sistema.getInstancia().resetInstancia();
         gestor = Sistema.getInstancia().getGestorTutores();
     }
     @Test

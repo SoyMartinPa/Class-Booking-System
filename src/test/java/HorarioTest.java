@@ -13,7 +13,7 @@ public class HorarioTest {
 
     @BeforeEach
     void setUp() {
-        Sistema.resetInstancia();
+        Sistema.getInstancia().resetInstancia();
     }
     @Test
     void verificarHorarioVigenteConFechaPasada() {

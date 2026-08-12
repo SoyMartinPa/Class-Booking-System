@@ -6,6 +6,7 @@ import Logica.Reservas.EstadoReserva;
 import Logica.Reservas.Horario;
 import Logica.Reservas.Reserva;
 import javax.swing.table.DefaultTableModel;
+import java.time.LocalDate;
 
 public class EstudiantePerfilPanel extends javax.swing.JPanel {
     Sistema sistema = Sistema.getInstancia();
@@ -33,7 +34,7 @@ public class EstudiantePerfilPanel extends javax.swing.JPanel {
 
                 for (Reserva reserva : sistema.verCalendarioEstudiante(estudiante)){
                     String id = reserva.getId();
-                    Horario horario = reserva.getHorario();
+                    LocalDate horario = reserva.getHorario().getFecha();
                     EstadoReserva estado = reserva.getEstado();
 
                     Object[] lista = {id,horario,estado};

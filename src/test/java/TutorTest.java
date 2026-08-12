@@ -36,16 +36,10 @@ public class TutorTest {
 
     @BeforeEach
     void setUp(){
-        Sistema.resetInstancia();
+        Sistema.getInstancia().resetInstancia();
         this.gestorReserva = Sistema.getInstancia().getGestorReservas();
         this.gestorTutor = Sistema.getInstancia().getGestorTutores();
         this.horarioPorDefecto = new Horario(BloquesHorarios.BLOQUE8_9, LocalDate.of(3000,12,12));
-        gestorTutor.getLista().clear();
-        gestorReserva.getListaReservasPendientes().clear();
-        gestorReserva.getListaReservasCanceladas().clear();
-        gestorReserva.getListaReservasCompletadas().clear();
-        gestorTutor.getListaCompleta().clear();
-
     }
     @Test
     void verificarTarifaNegativa(){

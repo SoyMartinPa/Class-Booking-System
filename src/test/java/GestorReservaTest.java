@@ -28,7 +28,7 @@ public class GestorReservaTest {
 
     @BeforeEach
     void setUp() {
-        Sistema.resetInstancia();
+        Sistema.getInstancia().resetInstancia();
         gestorTutor = Sistema.getInstancia().getGestorTutores();
         gestorEstudiante = Sistema.getInstancia().getGestorEstudiantes();
         gestorReserva = Sistema.getInstancia().getGestorReservas();

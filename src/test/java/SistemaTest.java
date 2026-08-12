@@ -23,7 +23,7 @@ public class SistemaTest {
 
     @BeforeEach
     void setUp() {
-        Sistema.resetInstancia();
+        Sistema.getInstancia().resetInstancia();
         sistema = Sistema.getInstancia();
         horarioFuturo = new Horario(BloquesHorarios.BLOQUE8_9, LocalDate.of(3000, 12, 12));
         horarioFuturo2 = new Horario(BloquesHorarios.BLOQUE8_9, LocalDate.of(3000, 12, 15));

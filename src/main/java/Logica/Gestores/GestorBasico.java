@@ -21,14 +21,14 @@ import java.util.List;
 
 public abstract class GestorBasico<T extends PerfilBasico> {
 
-    protected List<T> lista;
+    private final List<T> lista;
     /**
      * Lista global de usuarios registrados en el sistema.
      *
      * <p>Permite verificar información que debe ser única entre todos los
      * tipos de perfiles, como el correo electrónico.</p>
      */
-    protected static List<PerfilBasico> listaUsuarios = new ArrayList<>();
+    private static final List<PerfilBasico> listaUsuarios = new ArrayList<>();
 
     public GestorBasico(){
         this.lista = new ArrayList<>();
@@ -69,7 +69,7 @@ public abstract class GestorBasico<T extends PerfilBasico> {
             }
         }
 
-        for (PerfilBasico objeto : listaUsuarios) {
+        for (PerfilBasico objeto : getListaCompleta()) {
             if (objeto.getNombre().equalsIgnoreCase(nombre)) {
                 throw new NoRepeatException("Nombre ya registrado");
             }
@@ -94,7 +94,7 @@ public abstract class GestorBasico<T extends PerfilBasico> {
         if (!email.matches("^[\\w.+-]+@gmail\\.com$")) {
             throw new EmailException("Solo se permiten correos Gmail");
         }
-        for (PerfilBasico objeto : listaUsuarios){
+        for (PerfilBasico objeto : getListaCompleta()){
             if(objeto.getEmail().equals(email)){
                 throw new NoRepeatException("Email ya registrado");
             }
@@ -113,7 +113,7 @@ public abstract class GestorBasico<T extends PerfilBasico> {
         verificarEmail(email);
         usuario.setEmail(email);
     }
-    
+
     /**
      * Actualiza el nombre de un usuario verificando previamente
      * que el nuevo nombre sea válido y no esté ocupado.
@@ -139,12 +139,23 @@ public abstract class GestorBasico<T extends PerfilBasico> {
      * @throws NoRepeatException si se detecta un nombre o email ya registrado.
      */
     public abstract void registrar(String nombre, String email) throws NoRepeatException, NullPointerException, EmailException, NameException;
-    
-    
-    public List<T> getLista() {
+
+
+    List<T> getListaInterna() {
         return this.lista;
     }
-    public List<PerfilBasico> getListaCompleta() {
+
+    public List<T> getLista(){
+        return new ArrayList<>(this.lista);
+    }
+
+     public List<PerfilBasico> getListaCompleta() {
+        return new ArrayList<>(listaUsuarios);
+    }
+
+    List<PerfilBasico> getListaCompletaInterna() {
         return listaUsuarios;
     }
+
+
 }

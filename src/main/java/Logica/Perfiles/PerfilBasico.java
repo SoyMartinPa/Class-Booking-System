@@ -56,7 +56,7 @@ public abstract class PerfilBasico {
     }
 
     public List<Reserva> getReservasActivas(){
-        return this.reservasActivas;
+        return new ArrayList<>(reservasActivas);
     }
 
     /**
@@ -79,5 +79,6 @@ public abstract class PerfilBasico {
 
         return false;
     }
-
+    public void agregarReserva(Reserva reserva){reservasActivas.add(reserva);}
+    public void quitarReserva(Reserva reserva){reservasActivas.remove(reserva);}
 }

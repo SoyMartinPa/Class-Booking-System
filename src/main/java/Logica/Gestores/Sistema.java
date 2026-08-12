@@ -7,7 +7,6 @@ import Logica.Perfiles.Tutor.Tutor;
 import java.util.ArrayList;
 import java.util.List;
 
-import static Logica.Gestores.GestorBasico.listaUsuarios;
 /**
  * Clase principal de acceso al sistema de gestión de tutorías.
  *
@@ -34,9 +33,9 @@ public class Sistema {
         }
         return instancia;
     }
-    public static void resetInstancia() { //principalmente para los Test Unitarios
+    public void resetInstancia() { //principalmente para los Test Unitarios
         instancia = null;
-        GestorBasico.listaUsuarios.clear();
+        getGestorEstudiantes().getListaCompletaInterna().clear();
         
     }
 
@@ -65,17 +64,17 @@ public class Sistema {
 
         for (Reserva reserva : listaTemporal) {
 
-            for (Estudiante estudiante : new ArrayList<>(reserva.getListaEstudiantes())) {
+            for (Estudiante estudiante : reserva.getListaEstudiantes()) {
                 reserva.quitarListaEstudiantes(estudiante);
-                estudiante.getReservasActivas().remove(reserva);
+                estudiante.quitarReserva(reserva);
             }
-            tutor.getReservasActivas().remove(reserva);
+            tutor.quitarReserva(reserva);
             reserva.cancelar();
-            gestorReservas.getListaReservasPendientes().remove(reserva);
-            gestorReservas.getListaReservasCanceladas().add(reserva);
+            gestorReservas.quitarListaPendiente(reserva);
+            gestorReservas.agregarListaCancelada(reserva);
         }
-        gestorTutores.getLista().remove(tutor);
-        listaUsuarios.remove(tutor);
+        gestorTutores.quitarDeLista(tutor);
+        getGestorTutores().getListaCompletaInterna().remove(tutor);
     }
     /**
      * Elimina un estudiante del sistema.
@@ -94,10 +93,10 @@ public class Sistema {
         List<Reserva> listaTemporal = new ArrayList<>(estudiante.getReservasActivas());
         for (Reserva reserva : listaTemporal) {
             reserva.quitarListaEstudiantes(estudiante);
-            estudiante.getReservasActivas().remove(reserva);
+            estudiante.quitarReserva(reserva);
         }
-        gestorEstudiantes.getLista().remove(estudiante);
-        listaUsuarios.remove(estudiante);
+        gestorEstudiantes.quitarDeLista(estudiante);
+        getGestorEstudiantes().getListaCompletaInterna().remove(estudiante);
     }
     /**
      * Busca un tutor mediante su correo electrónico.

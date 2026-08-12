@@ -20,8 +20,10 @@ public class GestorTutor extends GestorBasico<Tutor> {
         verificarNombre(nombre);
         verificarEmail(email);
         Tutor nuevoTutor = new Tutor(nombre, email);
-        lista.add(nuevoTutor);
-        listaUsuarios.add(nuevoTutor);
+        getListaInterna().add(nuevoTutor);
+        getListaCompletaInterna().add(nuevoTutor);
     }
-
+    public void quitarDeLista(Tutor tutor){
+        getListaInterna().remove(tutor);
+    }
 }

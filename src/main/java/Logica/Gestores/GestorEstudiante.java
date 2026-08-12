@@ -23,7 +23,10 @@ public class GestorEstudiante extends GestorBasico<Estudiante> {
         verificarNombre(nombre);
         verificarEmail(email);
         Estudiante nuevoEstudiante = new Estudiante(nombre,email);
-        lista.add(nuevoEstudiante);
-        listaUsuarios.add(nuevoEstudiante);
+        getListaInterna().add(nuevoEstudiante);
+        getListaCompletaInterna().add(nuevoEstudiante);
+    }
+    public void quitarDeLista(Estudiante estudiante){
+        getListaInterna().remove(estudiante);
     }
 }

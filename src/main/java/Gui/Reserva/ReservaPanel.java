@@ -1,5 +1,6 @@
 package Gui.Reserva;
 
+import Excepciones.IncompatibilityException;
 import Excepciones.NotFoundException;
 import Gui.Main;
 import Logica.Enumeraciones.BloquesHorarios;
@@ -39,26 +40,32 @@ public class ReservaPanel extends javax.swing.JPanel {
         return new DefaultComboBoxModel<>(opciones);
     }
 
-    public void actualizar() {                                           
+    public void actualizar(){
     DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
     modelo.setRowCount(0);
     List<Reserva> lista = sistema.getGestorReservas().getListaReservas();
     
     for (Reserva reserva : lista){
-        if (!reserva.getHorario().horarioVigente()){reserva.completar();}
-        String id = reserva.getId();
-        String nombre = reserva.getTutorAsociado().getNombre();
-        Materias materia = reserva.getMateria();
-        int tarifa = reserva.getTarifa();
-        int cupos = reserva.getCuposMax() - reserva.getListaEstudiantes().size();
-        LocalDate fecha = reserva.getHorario().getFecha();
-        BloquesHorarios bloque = reserva.getHorario().getBloqueHorario();
-        String estado = reserva.getEstado().toString();
-
-        Object[] list = {id,nombre,materia,tarifa,cupos,fecha,bloque,estado};
-        modelo.addRow(list);
+        try{
+            if (!reserva.getHorario().horarioVigente()){
+                sistema.getGestorReservas().completarReserva(reserva);
             }
-    tabla.setModel(modelo);
+            String id = reserva.getId();
+            String nombre = reserva.getTutorAsociado().getNombre();
+            Materias materia = reserva.getMateria();
+            int tarifa = reserva.getTarifa();
+            int cupos = reserva.getCuposMax() - reserva.getListaEstudiantes().size();
+            LocalDate fecha = reserva.getHorario().getFecha();
+            BloquesHorarios bloque = reserva.getHorario().getBloqueHorario();
+            String estado = reserva.getEstado().toString();
+
+            Object[] list = {id,nombre,materia,tarifa,cupos,fecha,bloque,estado};
+            modelo.addRow(list);
+        } catch (Exception e){} // No se hará nada con el error, solo se evita que se ejecute el bloque
+
+        tabla.setModel(modelo);
+        }
+
         }                                          
 
     
@@ -271,7 +278,10 @@ public class ReservaPanel extends javax.swing.JPanel {
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.WARNING_MESSAGE
                     );
-            if (opcion == JOptionPane.YES_OPTION){reserva.cancelar();}             
+            if (opcion == JOptionPane.YES_OPTION){
+                sistema.getGestorReservas().cancelarReserva(reserva);
+                actualizar();
+            }
             
             
         }else {throw new NotFoundException("No se ha seleccionado una reserva");}

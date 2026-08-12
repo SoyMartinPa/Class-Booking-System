@@ -80,8 +80,8 @@ public class GestorReserva {
         }
 
         Reserva nuevaReserva = new Reserva(tutor, materia, horario);
-        listaReservasPendientes.add(nuevaReserva);
-        tutor.getReservasActivas().add(nuevaReserva);
+        agregarListaPendiente(nuevaReserva);
+        tutor.agregarReserva(nuevaReserva);
         return nuevaReserva;
     }
     /**
@@ -101,11 +101,11 @@ public class GestorReserva {
             throw new IncompatibilityException("La reserva no existe o ya no puede ser cancelada");
         }
 
-        listaReservasPendientes.remove(reserva);
-        listaReservasCanceladas.add(reserva);
-        reserva.getTutorAsociado().getReservasActivas().remove(reserva);
+        quitarListaPendiente(reserva);
+        agregarListaCancelada(reserva);
+        reserva.getTutorAsociado().quitarReserva(reserva);
         for (Estudiante estudiante : reserva.getListaEstudiantes()){
-            estudiante.getReservasActivas().remove(reserva);
+            estudiante.quitarReserva(reserva);
         }
 
         reserva.cancelar();
@@ -126,11 +126,11 @@ public class GestorReserva {
             throw new IncompatibilityException("La reserva no existe o ya no puede ser completada");
         }
 
-        this.listaReservasPendientes.remove(reserva);
-        this.listaReservasCompletadas.add(reserva);
-        reserva.getTutorAsociado().getReservasActivas().remove(reserva);
+        this.quitarListaPendiente(reserva);
+        this.agregarListaCompletada(reserva);
+        reserva.getTutorAsociado().quitarReserva(reserva);
         for (Estudiante estudiante : reserva.getListaEstudiantes()){
-            estudiante.getReservasActivas().remove(reserva);
+            estudiante.quitarReserva(reserva);
         }
         reserva.completar();
     }
@@ -166,8 +166,8 @@ public class GestorReserva {
             }
         }
         if (reserva.getTutorAsociado() != (tutor)) {
-            reserva.getTutorAsociado().getReservasActivas().remove(reserva);
-            tutor.getReservasActivas().add(reserva);
+            reserva.getTutorAsociado().quitarReserva(reserva);
+            tutor.agregarReserva(reserva);
         }
         reserva.modificar(tutor, materia, horario);
     }
@@ -199,7 +199,7 @@ public class GestorReserva {
             }
 
         reserva.agregarListaEstudiantes(estudiante);
-        estudiante.getReservasActivas().add(reserva);
+        estudiante.agregarReserva(reserva);
     }
     /**
      * Elimina un estudiante de una reserva.
@@ -216,7 +216,7 @@ public class GestorReserva {
             throw new RemoveException("Se intenta quitar un alumno que no pertenece a la reserva");
         }
         reserva.quitarListaEstudiantes(estudiante);
-        estudiante.getReservasActivas().remove(reserva);
+        estudiante.quitarReserva(reserva);
     }
     /**
      * Filtra una lista de reservas utilizando una estrategia de filtrado.
@@ -240,22 +240,31 @@ public class GestorReserva {
     }
 
     public List<Reserva> getListaReservasPendientes() {
-        return listaReservasPendientes;
+        return new ArrayList<>(listaReservasPendientes);
     }
 
     public List<Reserva> getListaReservasCompletadas() {
-        return listaReservasCompletadas;
+        return new ArrayList<>(listaReservasCompletadas);
     }
 
     public List<Reserva> getListaReservasCanceladas() {
-        return listaReservasCanceladas;
+        return new ArrayList<>(listaReservasCanceladas);
     }
+
+    public void agregarListaPendiente(Reserva reserva){listaReservasPendientes.add(reserva);}
+    public void agregarListaCancelada(Reserva reserva){listaReservasCanceladas.add(reserva);}
+    public void agregarListaCompletada(Reserva reserva){listaReservasCompletadas.add(reserva);}
+
+    public void quitarListaPendiente(Reserva reserva){listaReservasPendientes.remove(reserva);}
+    public void quitarListaCancelada(Reserva reserva){listaReservasCanceladas.remove(reserva);}
+    public void quitarListaCompletada(Reserva reserva){listaReservasCompletadas.remove(reserva);}
+
 
     public List<Reserva> getListaReservas(){
         List<Reserva> listaTotal = new ArrayList<>();
         listaTotal.addAll(getListaReservasPendientes());
         listaTotal.addAll(getListaReservasCanceladas());
         listaTotal.addAll(getListaReservasCompletadas());
-        return listaTotal;
+        return new ArrayList<>(listaTotal);
     }
 }

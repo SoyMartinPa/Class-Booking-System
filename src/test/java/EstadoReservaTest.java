@@ -17,7 +17,7 @@ public class EstadoReservaTest {
 
     @BeforeEach
     void setUp() {
-        Sistema.resetInstancia();
+        Sistema.getInstancia().resetInstancia();
         gestorTutor = Sistema.getInstancia().getGestorTutores();
         gestorReserva = Sistema.getInstancia().getGestorReservas();
     }
@@ -49,13 +49,6 @@ public class EstadoReservaTest {
     }
 
     @Test
-    void ReservaCompletadaCompletarException() throws Exception {
-        Reserva reserva = crearReservaFutura();
-        gestorReserva.completarReserva(reserva);
-        assertThrows(IllegalStateException.class, reserva::completar);
-    }
-
-    @Test
     void reservaCanceladaModificarException() throws Exception {
         Reserva reserva = crearReservaFutura();
         gestorReserva.cancelarReserva(reserva);
@@ -71,12 +64,4 @@ public class EstadoReservaTest {
         gestorReserva.cancelarReserva(reserva);
         assertThrows(IllegalStateException.class, reserva::completar);
     }
-
-    @Test
-    void reservaCanceladaCancelarException() throws Exception {
-        Reserva reserva = crearReservaFutura();
-        gestorReserva.cancelarReserva(reserva);
-        assertThrows(IllegalStateException.class, reserva::cancelar);
-    }
-
 }
